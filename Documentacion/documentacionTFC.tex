@@ -1,0 +1,220 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{minted}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+\usepackage{wrapfig}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\addbibresource{bibliografia.bib}
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc}
+\geometry{margin=2.5cm}
+\usepackage{tocloft}
+\hypersetup{
+    pdfborder={0 0 0}
+}
+\setlength{\cftbeforesecskip}{12pt}
+\setlength{\cftbeforesubsecskip}{3pt}
+\renewcommand{\contentsname}{Índice}
+
+\title{Kivaa: Aplicación Móvil Para Celíacos}
+\author{Andrea Sofía Pais Dos Santos}
+\date{\today}
+
+\begin{document}
+\setlength{\droptitle}{0.4\textheight} 
+\maketitle
+\thispagestyle{empty}
+\newpage 
+
+\tableofcontents
+\vspace{5cm}
+\newpage
+
+\section{Introducción}
+\subsection{Contexto Actual y Problema}
+
+Actualmente, la sociedad empieza a entender el verdadero problema
+que le supone a un celíaco o a una persona intolerante buscar sitios
+para comer o comprar productos sin gluten. Ser celíaco o intolerante
+no es una elección, sino una necesidad de salud que afecta al \textbf{1\% de
+la población aproximadamente} más otro porcentaje que ni está
+diagnosticado. \cite{1}
+
+Por una parte, aunque la industria alimentaria haya aumentado la
+producción de productos sin gluten siguen manteniendo un coste un
+300\% más caro que un producto convencional y aún así sigue
+siendo limitados y poco variados.
+
+\begin{center}
+    \includegraphics[height=7cm]{images/foto1_.png}
+\end{center}
+
+
+Por otra, la búsqueda de establecimientos que sean seguros para
+evitar contaminaciones cruzadas son pocos y difícil de encontrar.
+Normalmente, las personas que padecen de esta enfermedad, \textbf{suelen conocer nuevos sitios gracias a su círculo cercano o por lo
+que vemos en redes}. Pero los propios establecimientos no actualizan
+sus cartas ni sus protocolos sanitarios para evitar las
+contaminaciones cruzadas.
+
+Esto aumenta al viajar a otras zonas, que acaba limitando los sitios a
+los que puede ir por falta de conocimiento al no ser capaz de
+encontrar un lugar de manera intuitiva.
+
+Para un celíaco es muy complicado poder ir a comer fuera por miedo
+a que se equivoquen de alimentos, o ya no dispongan de una
+alternativa para ellos. \textbf{La sociedad cada vez más empatiza con este
+colectivo pero falta que a nivel tecnológico se pueda crear un puente
+entre los establecimientos que ofrecen opciones seguras y los
+usuarios} que las necesita para poder vivir algo más tranquilo.
+
+\vspace{4cm}
+\subsection{Definición de la Propuesta}
+
+La propuesta del proyecto se basa en intentar \textbf{satisfacer una necesidad que se puede cubrir creando una aplicación para móvil} donde los usuarios puedan buscar establecimientos cerca de su ubicación o en otros lugares que dispongan de menú alternativo sin gluten.
+
+Para confirmar la veracidad de los establecimientos, otros usuarios que padecen de la misma enfermedad comentarán su experiencia y le dará más credibilidad a los lugares a los que otros usuarios no hayan ido.
+
+\subsection{Objetivos del Proyecto}
+\subsubsection{Objetivo General}
+El objetivo principal del proyecto es \textbf{diseñar y desarrollar una solución al problema plantado anteriormente mediante una aplicación móvil que garantice a los usuarios que están buscando sitios sin gluten} recomendados por otras personas que también son celiacas o intolerantes. 
+
+\subsubsection{Objetivos Específicos}
+
+\begin{itemize}
+    \item Conseguir que ya no sea necesario ese círculo cercano para obtener información y haya un inventario digital muy completo actualizando los locales que vayan apareciendo sin gluten. 
+    \item Conseguir esa fiabilidad mediante las experiencias reales de los usuarios con las valoraciones y comentarios. 
+    \item Intentar facilitar la búsqueda de los establecimientos en tiempo real mediante el uso de mapas interactivos.
+    \item Desarrollar una única base con React Native y Expo para asegurar la compatibilidad en Android/iOS.
+    \item Diseñar una arquitectura de base de datos no relacional en MongoDB que vaya a almacenar información escalable y flexible para futuras mejoras.
+    \item Implementar el SDK de Google Maps para la visualización y filtrado por ubicación del usuario.
+    \item Diseñar una interfaz intuitiva y accesible en la que puedas encontrar un establecimiento en 5 minutos.
+\end{itemize}
+
+\vspace{2cm}
+\section{Análisis de Requisitos}
+\subsection{Requisitos Funcionales}
+Los usuarios van a poder realizar las siguientes acciones dependiendo de que quiera hacer:
+\subsubsection{Gestionar el Perfil y Usuario}
+\textbf{RF1 - Inicio de Sesión y Registo:} el usuario tiene que poder crear una cuenta de forma intuitiva y poder iniciar sesión con la misma enseñado validaciones para que el usuario pueda ver si tiene un error o está todo correcto.
+
+\textbf{RF2 - Gestionar su Perfil:} el usuario tiene que pode reditar sus datos personales si le interesa o cerrar cesión.
+
+\subsubsection{Buscar Establecimientos y Localización}
+\textbf{RF3 - Localización en tiempo real:} la aplicación tiene que cargar la ubicación del usuario a través del GPS del móvil.
+
+\textbf{RF4 - Ver en Mapa:} poder ver los establecimientos cercanos sin gluten a través de Google Maps.
+
+\textbf{RF5 - Buscador con Filtros:} el buscador tiene que poder filtar por nombre del establecimiento, lugar y valoraciones.
+
+\subsubsection{Información Adicional de los Establecimientos}
+\textbf{RF6 - Fichas de establecimientos:} El usuario al darle a un establecimiento puede ver la Información detallada del mismo, con sus fotos, dirección, teléfono y comentarios de otros usuarios.
+
+\textbf{RF7 - Creación de Reseñas y Valoraciones:} los usuarios pueden valorar los establecimientos a través de una puntuación de 1 a 5 estrellas y añadir un comentario.
+
+\subsubsection{Administración de lugares}
+\textbf{RF8 - Creación de los establecimientos:} un administrador tiene que poder añadir neuvos establecimientos a la base de datos de MOngoDB.
+
+\subsection{Requisitos No Funcionales}
+Estos requisitos son los que definen la calidad del sitema:
+
+\textbf{RNF1 - Seguridad:} las contraseñas en la base de datos deberían estar encriptadas.
+
+\textbf{RNF2 - Usabilidad:} la interfaz tiene que ser intuitiva para que el usuario se sienta cómodo al usar la aplicación siguiendo unas bases de diseño funcional.
+
+\textbf{RNF3 - Rendimiento:} las consultas que realicen los usuarios a la API Express no puede superar un tiempo de respuesta considerado largo.
+
+\subsection{Historias de Usuario}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{1.5cm}|p{5cm}|p{9cm}|}
+    \hline
+    ID & Historias de Uso & Criterios de Aceptación \\ \hline
+    HU-01 & Como usuario celíaco, quiero ver un mapa con locales cercanos para encontrar dónde comer sin desplazarme mucho. & 1. El mapa muestra la ubicación actual del usuario. 2. Se ven marcadores de los locales "sin gluten". 3. Al pulsar un marcador, se ve el nombre del local.\\ \hline
+    HU-02 & Como administrador, quiero validar un nuevo establecimiento para asegurar que la información de la app es verídica.  & 1. El admin recibe una notificación de nuevo local. 2. Puede editar los datos del local antes de subir. 3. Al confirmar, el local aparece para todos. \\ \hline
+    HU-03 & hghg   & Phgjgh. \\ \hline
+    HU-04 & hjh  & hgy \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Diagrama de Casos de Uso}
+
+\section{Tecnologías Utilizadas}
+
+Para la realización del proyecto en este apartado se definen las herramientas y lenguajes que se van a necesitar dividiendo en 3 capas: Frontend (Móvil), Backend (API) y Persistencia (Base de Datos). 
+
+\subsection{Frontend : Móvil}
+Para el desarrollo del Frontend se va a utilizar React Native + Expo. 
+\begin{itemize}
+    \item \textbf{React Native} va a permitir crear la aplicación móvil usando JavaScript y React. Que a diferencia de las aplicaciones web, React Native renderiza componentes nativos por lo que ofrece una experiencia de usuario más fluida. 
+    \item \textbf{Expo}  se compone por un conjunto de herramientas y servicios construidos alrededor de React Native. Esto facilita el acceso al GPS, la cámara y el despliegue. Expo Go o Android Studio para ir viendo en tiempo real los cambios que se van realizando y para los testeos. 
+\end{itemize}
+
+\subsection{Backend}
+
+Para el desarrollo de Backend se va a implementar Node.js + Express. 
+
+\subsection{Base de Datos}
+Parar su desarrollo se utilizará un modelo de base de datos no relacional por si en algún comento se quiere añadir más atributos, se puedan añadir fácilmente, en este caso se usará MongoDB. 
+
+\subsection{Herramientas Auxiliares}
+
+Por lo que en resumen el stack tecnológico será el siguente:
+\begin{itemize}
+    \item Frontend: React Native + Expo
+    \item Backend: Node.js + Express
+    \item Base de Datos: MongoDB
+\end{itemize}
+
+\section{Diseño del Sistema}
+\subsection{Arquitectura de la App Cliente-Servidor}
+\subsection{Diseño de la Base de Datos}
+\subsection{Diseño de la API REST}
+\subsubsection{Seguridad (JWT)}
+\subsection{Prototipado de Interfaz (UX/UI)}
+
+\section{Desarrollo de la Aplicación Móvil}
+\subsection{Implementación del Frontend}
+\subsection{Integración con la API y Base de Datos}
+
+\section{Pruebas y Validación}
+\subsection{Pruebas Unitarias y de Integración}
+\subsection{Pruebas de Usuario}
+
+\section{Manual de Instalación y Configuración}
+Cómo levantar el servidor Node, cómo conectar MongoDB y cómo ejecutar Expo
+
+
+\section{Conclusiones}
+
+
+\section{Bibliografía}
+
+
+\renewcommand{\refname}{Fuentes consultadas}
+\begin{thebibliography}{9}
+
+    \bibitem{1}
+    Información sobre la enfermedad Celíaca
+
+    \url{https://celicidad.net/las-cifras-la-celiaquia/#:~:text=%2DEntre%20un%201%20y%20un,los%20celiacos%20no%20est%C3%A1n%20diagnosticados.}
+    
+    
+\end{thebibliography}
+
+
+\end{document}
