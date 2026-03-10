@@ -138,16 +138,51 @@ Estos requisitos son los que definen la calidad del sitema:
 \textbf{RNF3 - Rendimiento:} las consultas que realicen los usuarios a la API Express no puede superar un tiempo de respuesta considerado largo.
 
 \subsection{Historias de Usuario}
+\textbf{Bloque Usuarios}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{1.5cm}|p{5cm}|p{8cm}|}
+    \hline
+    ID & Historias de Uso & Criterios de Aceptación \\ \hline
+    HU-01 & Como usuario necesito crear una cuenta para acceder a la aplicación. & 1. Usuario rellena formulario de registro. 2. Crear la cuenta. 3. Ahora puede iniciar sesión.\\ \hline
+    HU-02 & Como usuario tengo que poder entrar con la cuenta que he creado.  & 1. El usuario rellena le formulario con el correo y contraseña. 2. Accedea la app si las credenciales son correctas. \\ \hline
+    \end{tabular}
+\end{table}
+
+\textbf{Bloque Búsqueda}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{1.5cm}|p{5cm}|p{8cm}|}
+    \hline
+    ID & Historias de Uso & Criterios de Aceptación \\ \hline
+    HU-03 & Como usuario celíaco, quiero ver un mapa con locales cercanos para encontrar dónde comer sin desplazarme mucho. & 1. El mapa muestra la ubicación actual del usuario. 2. Se ven marcadores de los locales "sin gluten". 3. Al pulsar un marcador, se ve el nombre del local.\\ \hline
+    HU-04 & Como usuario quiero filtrar un establecimiento por el nombre. & 1. En el buscador del mapa, escribir el nombre del local. 2. Darle al botón de buscar. 3. Marcadores de los sitios con ese mismo nombre. \\ \hline
+    HU-05 & Como usuario quiero ver una ficha detallada de un local para contactar con él.  & 1. Buscar un local. 2. Seleccionarlo y se muestra la ficha del local. \\ \hline
+    \end{tabular}
+\end{table}
+
+\textbf{Bloque Administrador}
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{|p{1.5cm}|p{5cm}|p{9cm}|}
+    \begin{tabular}{|p{1.5cm}|p{5cm}|p{8cm}|}
     \hline
     ID & Historias de Uso & Criterios de Aceptación \\ \hline
-    HU-01 & Como usuario celíaco, quiero ver un mapa con locales cercanos para encontrar dónde comer sin desplazarme mucho. & 1. El mapa muestra la ubicación actual del usuario. 2. Se ven marcadores de los locales "sin gluten". 3. Al pulsar un marcador, se ve el nombre del local.\\ \hline
-    HU-02 & Como administrador, quiero validar un nuevo establecimiento para asegurar que la información de la app es verídica.  & 1. El admin recibe una notificación de nuevo local. 2. Puede editar los datos del local antes de subir. 3. Al confirmar, el local aparece para todos. \\ \hline
-    HU-03 & hghg   & Phgjgh. \\ \hline
-    HU-04 & hjh  & hgy \\ \hline
+    HU-06 & Como administrador tengo que borrar un establecimiento porque ya no posee una alternativa sin gluten. & 1. Seleccionar el local. 2. Borrar a través del botón y doble confirmación.\\ \hline
+    HU-07 & Como administrador, quiero validar un nuevo establecimiento para asegurar que la información de la app es verídica.  & 1. El admin recibe una notificación de nuevo local. 2. Puede editar los datos del local antes de subir. 3. Al confirmar, el local aparece para todos. \\ \hline
+    HU-08 & Como administrador tengo que borrar los comentarios innapropiados. & 1. Seleccionar el local. 2. Seleccionar la reseña innapropiada. 3. Borrar a través del botón y la doble confirmación. \\ \hline
+    \end{tabular}
+\end{table}
+
+\vspace{3cm}
+\textbf{Bloque Reseñas}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{1.5cm}|p{5cm}|p{8cm}|}
+    \hline
+    ID & Historias de Uso & Criterios de Aceptación \\ \hline
+    HU-09 & Como usuario quiero ver las reseñas de un local en específico. & 1. Se busca un local y se selecciona. 2. Se obtiene la información del local más las reseñas publicadas.\\ \hline
+    HU-10 & Como usuario quiero subir una reseña de un local en el que estuve.  & 1. Se busca un local y se selecciona. 2. Dar al botón de añadir reseña. 3. Rellenar formulario y enviar. \\ \hline
     \end{tabular}
 \end{table}
 
@@ -166,12 +201,9 @@ Para el desarrollo del Frontend se va a utilizar React Native + Expo.
 
 \subsection{Backend}
 
-Para el desarrollo de Backend se va a implementar Node.js + Express. 
-
+Para el desarrollo de Backend se va a implementar Node.js + Express. Esta combinación va a permiter crear una API REST eficiente y robusta. Se escogieron porque así se unifica el lenguaje usando solamente JAvaScript tanto en el Frontend como en el Backend por lo que es más fácil int4ercambiar modelo de datos mediante JSON.
 \subsection{Base de Datos}
 Parar su desarrollo se utilizará un modelo de base de datos no relacional por si en algún comento se quiere añadir más atributos, se puedan añadir fácilmente, en este caso se usará MongoDB. 
-
-\subsection{Herramientas Auxiliares}
 
 Por lo que en resumen el stack tecnológico será el siguente:
 \begin{itemize}
@@ -179,6 +211,26 @@ Por lo que en resumen el stack tecnológico será el siguente:
     \item Backend: Node.js + Express
     \item Base de Datos: MongoDB
 \end{itemize}
+
+\subsection{Herramientas Auxiliares}
+Para dar soporte al desarrollo y asegurar la calidad del proyecto se han utilizado otras herramientas implementadas en otros proyectos:
+\begin{enumerate}
+    \item \textbf{Git y GitHub} para control de versiones, que permite tener un historial de cambios, trabajar en diferentes ramas y asegurar de tener el código en la nube como respaldo.
+    \item \textbf{Postman} para pruebas de la API antes de conectar con React Native para probar los endpoints de la API Express, verificando si las rutas devuelven el JSON correcto.
+    \item \textbf{MongoDB Atlas y Compass}:
+    \begin{itemize}
+        \item MongoDB Atlas es un servicio en la nube donde se aloja la base de datos real y que permite que la app sea accesible desde cualquier lugar no solo a nivel local.
+        \item MongoDB Compass es una app de escritorio que permite visualizar los documentos y ver consultas de forma visual.
+    \end{itemize}
+    \item \textbf{Visual Studio Code} es el IDE que principal que tiene extensiones para JavaScript y React Native que centraliza todo el desarrollo de la aplicación.
+    \item \textbf{Figma} es una herramienta de diseño de interfaces que será la base del diseño del prototipado de la aplicación, definiendo una línea gráfica con colores, botones, iconos además de la identidad de la aplicación.
+    \item \textbf{Bcrypt} es una librería de cifrado y "haseo" de contraseñas, que al usuario registrarse la librería convierte la contraseña en una cadena de caracteres aleatorios. Por lo que no puede saber las contraseñas ni siendo administrador.
+    \item \textbf{Dotenv} carga variables de configuración desde el archivo externo .env donde se guardará en este proyecto la URL de la base de datos MongoDB Atlas, las claves o la clave de los tokens JWT.
+\end{enumerate}
+
+\begin{center}
+    \includegraphics[height=2cm]{images/herramientas.png}
+\end{center}
 
 \section{Diseño del Sistema}
 \subsection{Arquitectura de la App Cliente-Servidor}
