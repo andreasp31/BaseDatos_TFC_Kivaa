@@ -23,13 +23,13 @@
 \contentsline {subsection}{\numberline {4.2}Diseño de la Base de Datos}{10}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Diseño de la API REST}{10}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}Seguridad (JWT)}{10}{subsubsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.4}Prototipado de Interfaz (UX/UI)}{10}{subsection.4.4}%
-\contentsline {section}{\numberline {5}Desarrollo de la Aplicación Móvil}{10}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Implementación del Frontend}{10}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Integración con la API y Base de Datos}{10}{subsection.5.2}%
-\contentsline {section}{\numberline {6}Pruebas y Validación}{10}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Pruebas Unitarias y de Integración}{10}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Pruebas de Usuario}{10}{subsection.6.2}%
-\contentsline {section}{\numberline {7}Manual de Instalación y Configuración}{10}{section.7}%
-\contentsline {section}{\numberline {8}Conclusiones}{10}{section.8}%
-\contentsline {section}{\numberline {9}Bibliografía}{10}{section.9}%
+\contentsline {subsection}{\numberline {4.4}Creación de la Marca y Prototipado de la Interfaz (UX/UI)}{10}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Desarrollo de la Aplicación Móvil}{13}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Implementación del Frontend}{13}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Integración con la API y Base de Datos}{13}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Pruebas y Validación}{13}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Pruebas Unitarias y de Integración}{13}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Pruebas de Usuario}{13}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Manual de Instalación y Configuración}{13}{section.7}%
+\contentsline {section}{\numberline {8}Conclusiones}{14}{section.8}%
+\contentsline {section}{\numberline {9}Bibliografía}{14}{section.9}%
