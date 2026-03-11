@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -17,8 +17,7 @@
 \usepackage{wrapfig}
 \usepackage[backend=biber,style=numeric]{biblatex}
 \addbibresource{bibliografia.bib}
-\usepackage[scaled]{helvet}
-\renewcommand{\familydefault}{\sfdefault}
+\usepackage[scaled]{newtxmath,newtxtext}
 \usepackage[T1]{fontenc}
 \geometry{margin=2.5cm}
 \usepackage{tocloft}
@@ -103,29 +102,32 @@ El objetivo principal del proyecto es \textbf{diseñar y desarrollar una soluci�
     \item Implementar el SDK de Google Maps para la visualización y filtrado por ubicación del usuario.
     \item Diseñar una interfaz intuitiva y accesible en la que puedas encontrar un establecimiento en 5 minutos.
 \end{itemize}
-
 \vspace{2cm}
 \section{Análisis de Requisitos}
 \subsection{Requisitos Funcionales}
 Los usuarios van a poder realizar las siguientes acciones dependiendo de que quiera hacer:
-\subsubsection{Gestionar el Perfil y Usuario}
-\textbf{RF1 - Inicio de Sesión y Registo:} el usuario tiene que poder crear una cuenta de forma intuitiva y poder iniciar sesión con la misma enseñado validaciones para que el usuario pueda ver si tiene un error o está todo correcto.
 
-\textbf{RF2 - Gestionar su Perfil:} el usuario tiene que pode reditar sus datos personales si le interesa o cerrar cesión.
+\textbf{Gestionar el Perfil y Usuario}
+\begin{itemize}
+    \item \textbf{RF1 - Inicio de Sesión y Registo:} el usuario tiene que poder crear una cuenta de forma intuitiva y poder iniciar sesión con la misma enseñado validaciones para que el usuario pueda ver si tiene un error o está todo correcto.
+    \item \textbf{RF2 - Gestionar su Perfil:} el usuario tiene que pode reditar sus datos personales si le interesa o cerrar cesión.
+\end{itemize}
 
-\subsubsection{Buscar Establecimientos y Localización}
-\textbf{RF3 - Localización en tiempo real:} la aplicación tiene que cargar la ubicación del usuario a través del GPS del móvil.
+\textbf{Buscar Establecimientos y Localización}
+\begin{itemize}
+    \item \textbf{RF3 - Localización en tiempo real:} la aplicación tiene que cargar la ubicación del usuario a través del GPS del móvil.
+    \item \textbf{RF4 - Ver en Mapa:} poder ver los establecimientos cercanos sin gluten a través de Google Maps.
+    \item \textbf{RF5 - Buscador con Filtros:} el buscador tiene que poder filtar por nombre del establecimiento, lugar y valoraciones.
+\end{itemize}
 
-\textbf{RF4 - Ver en Mapa:} poder ver los establecimientos cercanos sin gluten a través de Google Maps.
+\textbf{Información Adicional de los Establecimientos}
+\begin{itemize}
+    \item \textbf{RF6 - Fichas de establecimientos:} El usuario al darle a un establecimiento puede ver la Información detallada del mismo, con sus fotos, dirección, teléfono y comentarios de otros usuarios.
+    \item \textbf{RF7 - Creación de Reseñas y Valoraciones:} los usuarios pueden valorar los establecimientos a través de una puntuación de 1 a 5 estrellas y añadir un comentario.
+\end{itemize}
 
-\textbf{RF5 - Buscador con Filtros:} el buscador tiene que poder filtar por nombre del establecimiento, lugar y valoraciones.
+\textbf{Administración de lugares}
 
-\subsubsection{Información Adicional de los Establecimientos}
-\textbf{RF6 - Fichas de establecimientos:} El usuario al darle a un establecimiento puede ver la Información detallada del mismo, con sus fotos, dirección, teléfono y comentarios de otros usuarios.
-
-\textbf{RF7 - Creación de Reseñas y Valoraciones:} los usuarios pueden valorar los establecimientos a través de una puntuación de 1 a 5 estrellas y añadir un comentario.
-
-\subsubsection{Administración de lugares}
 \textbf{RF8 - Creación de los establecimientos:} un administrador tiene que poder añadir neuvos establecimientos a la base de datos de MOngoDB.
 
 \subsection{Requisitos No Funcionales}
@@ -190,10 +192,15 @@ Estos requisitos son los que definen la calidad del sitema:
 
 El diagrama representa las interacciones principales del Usuario con la aplicación y el Administrador gestionado la aplicación. Por un lado, hay Actores en este caso el Usuario y el Administrador están representando los "stickman" a la izquierda. A continueación se describen las relaciones clave para explicar el flujo y las dependencias de las acciones. Las acciones que necesitan realizar necesitan iniciar sesión con una cuenta. 
 
-
 \begin{center}
     \includegraphics[height=15cm]{images/diagramaCaso.png}
 \end{center}
+
+\subsection{Diagrama de Clases}
+
+\subsection{Esquema Entidad - Relación}
+
+\subsection{Utilización Empresarial}
 
 \section{Tecnologías Utilizadas}
 
@@ -280,13 +287,26 @@ Ahora a partir del diseño de las vistas se van a implementar en el frontend de 
 \subsection{Implementación del Frontend}
 \subsection{Integración con la API y Base de Datos}
 
+
+\section{Estudio de Viabilidad}
+
+Tras desarrollar la aplicación se describe la inversión necesaria para que sea un producto mínimo vaible (MVP). Hay que tener en cuenta los costes de personal, la inversión tecnológica y licencias necesarias. 
+
+\begin{enumerate}
+    \item \textbf{Costes de Personal}: en este caso la mayor parte del coste es el tiempo de desarrollo al ser un trabajo de fin de ciclo pero para calcular la viabilidad se aplica tarifas de mercado teniendo en cuenta que sería partiendo de un desarrollador de grado superior (Junior). Por lo que aproximadamente se han dedicado \textbf{300 horas distribuidas en 4 meses}. Por lo que por esta parte serían unos \textbf{6.100€}.
+    \item \textbf{Inversión en Tecnología}: la ventaja e que el stack tecnológico escogido (Node.js, Expo y MongoDB) es que permite iniciar el proyecto con sus versiones gratuitas.
+    \item \textbf{Licencias}: para mantener el hosting del backend serían unos \textbf{7€ al mes unos 84€ al año}. La licencia de Google Play se realizar un pago único de \textbf{25€} y la posibilidad de subirlo a Apple Store siendo unos \textbf{99€ al años}.
+    \item \textbf{Costes de Hardware}: pensando en un equipo informático de gama media para el desarrollo de dispositivos físicos para las pruebas reales, por lo que por un lado el equipo en el que se desarrolla tiene un valor estimado de 1200€ el coste de amortización por unos 3 meses serían de \textbf{75€}.
+\end{enumerate}
+
+Por lo que le coste total del primer año para el desarrollo y mantenimiento del proyecto es de: \textbf{6.383€}. El proyecto es muy viable al apoyarse en tecnologías de código abierto y servicios en la nube. A parte Google al implementar en el proyecto Google Maps, la aplicación para que empiece da unos 200 euros de crédito cada mes. 
+
 \section{Pruebas y Validación}
 \subsection{Pruebas Unitarias y de Integración}
 \subsection{Pruebas de Usuario}
 
 \section{Manual de Instalación y Configuración}
 Cómo levantar el servidor Node, cómo conectar MongoDB y cómo ejecutar Expo
-
 
 \section{Conclusiones}
 

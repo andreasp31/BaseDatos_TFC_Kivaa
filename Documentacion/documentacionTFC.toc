@@ -4,32 +4,32 @@
 \contentsline {subsection}{\numberline {1.3}Objetivos del Proyecto}{4}{subsection.1.3}%
 \contentsline {subsubsection}{\numberline {1.3.1}Objetivo General}{4}{subsubsection.1.3.1}%
 \contentsline {subsubsection}{\numberline {1.3.2}Objetivos Específicos}{4}{subsubsection.1.3.2}%
-\contentsline {section}{\numberline {2}Análisis de Requisitos}{5}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Requisitos Funcionales}{5}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Gestionar el Perfil y Usuario}{5}{subsubsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.2}Buscar Establecimientos y Localización}{5}{subsubsection.2.1.2}%
-\contentsline {subsubsection}{\numberline {2.1.3}Información Adicional de los Establecimientos}{5}{subsubsection.2.1.3}%
-\contentsline {subsubsection}{\numberline {2.1.4}Administración de lugares}{5}{subsubsection.2.1.4}%
+\contentsline {section}{\numberline {2}Análisis de Requisitos}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Requisitos Funcionales}{4}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Requisitos No Funcionales}{5}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Historias de Usuario}{6}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Diagrama de Casos de Uso}{7}{subsection.2.4}%
-\contentsline {section}{\numberline {3}Tecnologías Utilizadas}{8}{section.3}%
+\contentsline {subsection}{\numberline {2.3}Historias de Usuario}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Diagrama de Casos de Uso}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Diagrama de Clases}{7}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Esquema Entidad - Relación}{7}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Utilización Empresarial}{7}{subsection.2.7}%
+\contentsline {section}{\numberline {3}Tecnologías Utilizadas}{7}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Frontend : Móvil}{8}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Backend}{8}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Base de Datos}{8}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Herramientas Auxiliares}{9}{subsection.3.4}%
-\contentsline {section}{\numberline {4}Diseño del Sistema}{10}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Arquitectura de la App Cliente-Servidor}{10}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Diseño de la Base de Datos}{10}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Diseño de la API REST}{10}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1}Seguridad (JWT)}{10}{subsubsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.4}Creación de la Marca y Prototipado de la Interfaz (UX/UI)}{10}{subsection.4.4}%
-\contentsline {section}{\numberline {5}Desarrollo de la Aplicación Móvil}{13}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Implementación del Frontend}{13}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Integración con la API y Base de Datos}{13}{subsection.5.2}%
-\contentsline {section}{\numberline {6}Pruebas y Validación}{13}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Pruebas Unitarias y de Integración}{13}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Pruebas de Usuario}{13}{subsection.6.2}%
-\contentsline {section}{\numberline {7}Manual de Instalación y Configuración}{13}{section.7}%
-\contentsline {section}{\numberline {8}Conclusiones}{14}{section.8}%
-\contentsline {section}{\numberline {9}Bibliografía}{14}{section.9}%
+\contentsline {subsection}{\numberline {3.4}Herramientas Auxiliares}{8}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Diseño del Sistema}{9}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Arquitectura de la App Cliente-Servidor}{9}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Diseño de la Base de Datos}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Diseño de la API REST}{9}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Seguridad (JWT)}{9}{subsubsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.4}Creación de la Marca y Prototipado de la Interfaz (UX/UI)}{9}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Desarrollo de la Aplicación Móvil}{12}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Implementación del Frontend}{12}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Integración con la API y Base de Datos}{12}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Estudio de Viabilidad}{12}{section.6}%
+\contentsline {section}{\numberline {7}Pruebas y Validación}{13}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Pruebas Unitarias y de Integración}{13}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Pruebas de Usuario}{13}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Manual de Instalación y Configuración}{13}{section.8}%
+\contentsline {section}{\numberline {9}Conclusiones}{13}{section.9}%
+\contentsline {section}{\numberline {10}Bibliografía}{13}{section.10}%
