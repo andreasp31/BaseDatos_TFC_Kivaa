@@ -23,7 +23,12 @@ const usuarioEsquema = new mongoose.Schema({
     apellidos: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     role: { type: String, enum: ["user", "admin"], default: "user" },
-    clave: { type: String, required: true }
+    clave: { type: String, required: true },
+    //añadir lista para los locales favoritos
+    favoritos: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Locales"
+    }]
 });
 
 //Esquemas de validacion
@@ -45,16 +50,35 @@ const LoginSchema = z.object({
 
 const localesEsquema = new mongoose.Schema({
     nombre: { type:String, required: true},
-    tipo: { type:String, required: true},
-    ubicacion: { type:String, required: true},
-    cualificacion: { type:Number, required: true},
-    horario:{},
-    enlace:{},
-    foto:{}
-})
+    tipo: { type:String, enum: ["Restaurante","Cafetería","Panadería","Supermercado"]},
+    //como tiene que ser el campo ubicación para Google maps
+    ubicacion: { 
+        direccion: String,
+        posicion:{
+            //Siempre tiene que ser Point
+            type:{type: String, default:"Point"},
+            coordinates: {type:[Number], required:true}
+        }
+    },
+    cualificacion: { type:Number, default: 0},
+    horario: [String],
+    enlace: String,
+    foto: String
+});
+
+localesEsquema.index({"ubicacion.posicion":"2dsphere"});
 
 const Usuario = mongoose.model("Usuario", usuarioEsquema);
 const Locales = mongoose.model("Actividades",localesEsquema);
+
+const localesCercanos = await localesEsquema.find({
+    "ubicacion.posicion":{
+        $near: {
+            $geometry:{type: "Point", coordinates: [longitudUsuario, latidudUsuario]},
+            $maxDistancia: 2000
+        }
+    }
+})
 
 // Función de conexión mejorada
 async function connectarBd() {
@@ -150,160 +174,79 @@ app.post("/api/registro", async (req, res) => {
         res.status(500).json({ message: "Error interno" });
     }
 });
-//Inscribirse a una de las actividades seleccionado la hora que nos interese
-app.post("/api/actividades/inscribir", async(req,res)=>{
-    const { actividadId, email, fechaHora } = req.body;
-    try{
-        //Buscar actividad y ver si hay plazas
-        const actividad = await Actividades.findById(actividadId);
-        let personaApuntada = false;
 
-        for (let i = 0; i < actividad.personasApuntadas.length; i++) {
-            if (actividad.personasApuntadas[i].usuarioEmail === email) {
-                yaEstaApuntado = true;
-                break;
-            }
-        }
-        if (personaApuntada) {
-            return res.status(400).json({ message: "Ya estás inscrito en esta actividad" });
-        }
-        if(actividad.plazas <= 0){
-            return res.status(400).json({messahe:"No quedan plazas para esta actividad"});
-        }
-        await Actividades.findByIdAndUpdate(actividadId,
-            {
-                $push: { 
-                    personasApuntadas: { 
-                        usuarioEmail: email,
-                        hora: fechaHora } 
-                },
-                //Borrar una plaza 
-                $inc: { plazas: -1 }
-            },
-            //Tener documento actualizado
-            {new: true});
-            res.json({message:"Te has inscrito correctamente"});
-    }
-    catch(error){
-        res.status(500).json({ message: "Error al inscribirse" });
-    }
-})
-
-//Cancelar la activadad que nos interese
-app.delete("/api/actividades/cancelar",async(req,res)=>{
-    const {actividadId, email} = req.body;
-    try{
-        const actividad = await Actividades.findById(actividadId);
-        const hoy = new Date();
-        const limite = new Date(actividad.fechaHora);
-        limite.setHours(0, 0, 0, 0);
-
-        if (hoy < limite) {
-            // Antes de las 12 se borra usuario y se suma plaza
-            await Actividades.findByIdAndUpdate(actividadId, {
-                $pull: { personasApuntadas: { usuarioEmail: email } },
-                $inc: { plazas: 1 } 
-            });
-        } else {
-            // Después de las 12 se cambia a cancelado y no se recupera plaza
-            await Actividades.findOneAndUpdate(
-                { _id: actividadId, "personasApuntadas.usuarioEmail": email },
-                { $set: { "personasApuntadas.$.estado": "cancelado_tarde" } });
-            res.json({ message: "Cancelado tarde. La plaza no se libera." });
-        }
-    }
-    catch(error){
-        res.status(500).json({ message: "Error al cancelar la reserva" });
-    }
-})
-
-//Cambiarle la hora a una de las reservas inscritas
-app.put("/api/actividades/actualizarHora",async(req,res)=>{
-    const {actividadId, email, nuevaHora} = req.body;
-    try{
-        const resultado = await Actividades.findOneAndUpdate(
-            {
-                _id: actividadId, 
-                "personasApuntadas.usuarioEmail": email
-            },
-            {
-                $set: { "personasApuntadas.$.hora": nuevaHora }
-            },
-            {new:true}
-        );
-        res.json({ message: "Hora actualizada con éxito", actividad: resultado });
-    }
-    catch(error){
-        res.status(500).json({ message: "Error al actualizar la hora" });
-    }
-})
-
-//Como crear una nueva actividad
-app.post("/api/actividades/crear", async (req, res) => {
-    const { nombre, descripcion, plazas, fechaHora, fecha } = req.body;
+//Como crear una nueva locales
+app.post("/api/locales/crear", async (req, res) => {
+    const { nombre, tipo, ubicacion, cualificacion, horario, enlace, foto } = req.body;
     try {
-        const nuevaActividad = new Actividades({
+        const nuevolocal = new Locales({
             nombre,
-            descripcion,
-            plazas,
-            fechaHora: fecha || fechaHora,
-            personasApuntadas: []
+            tipo,
+            ubicacion,
+            cualificacion,
+            horario,
+            enlace,
+            foto
         });
         await nuevaActividad.save();
-        res.status(201).json({ message: "Actividad creada", actividad: nuevaActividad });
+        res.status(201).json({ message: "Establecimiento añadido", local: nuevolocal });
     } catch (error) {
-        res.status(500).json({ message: "Error al crear actividad" });
+        res.status(500).json({ message: "Error al crear el establecimiento" });
     }
 });
 
-//Permite al administrador cambiar los datos de las actividades
-app.put("/api/actividades/actualizar/:id", async (req, res) => {
-    const { nombre, descripcion, plazas, fecha } = req.body;
+//Permite al administrador cambiar los datos de las locales
+app.put("/api/locales/actualizar/:id", async (req, res) => {
+    const { nombre, tipo, ubicacion, cualificacion, horario, enlace, foto } = req.body;
     try {
-        const actualizado = await Actividades.findByIdAndUpdate(
+        const actualizado = await Locales.findByIdAndUpdate(
             req.params.id,
             { 
                 nombre, 
-                descripcion, 
-                plazas, 
-                fechaHora: fecha 
+                tipo, 
+                ubicacion, 
+                cualificacion,
+                horario,
+                enlace,
+                foto 
             },
             { new: true }
         );
         res.json(actualizado);
     } catch (error) {
-        res.status(500).json({ message: "Error al actualizar" });
+        res.status(500).json({ message: "Error al actualizar el establecimiento" });
     }
 });
-//Permite al administrador eliminar los datos de las actividades
-app.delete("/api/actividades/eliminar/:id", async (req, res) => {
+//Permite al administrador eliminar los datos de las locales
+app.delete("/api/locales/eliminar/:id", async (req, res) => {
     try {
-        await Actividades.findByIdAndDelete(req.params.id);
+        await Locales.findByIdAndDelete(req.params.id);
         res.json({ message: "Actividad borrada" });
     } catch (error) {
-        res.status(500).json({ message: "Error al borrar" });
+        res.status(500).json({ message: "Error al borrar el establecimiento" });
     }
 });
 
-//Consultar la lista de todas las actividades
-app.get("/api/actividades", async (req, res) => {
+//Consultar la lista de todas las locales
+app.get("/api/locales", async (req, res) => {
     try {
-        const lista = await Actividades.find();
+        const lista = await Locales.find();
         res.json(lista);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener actividades" });
+        res.status(500).json({ message: "Error al obtener locales" });
     }
 });
 
-//Concultar las actividades al que se está inscritas
-app.get("/api/mis-actividades/:email", async (req, res) => {
+//Concultar las locales que están en los favoritos del usuario
+app.get("/api/mis-locales/:email", async (req, res) => {
     try {
-        const misActividades = await Actividades.find({
-            "personasApuntadas.usuarioEmail": req.params.email
+        const misLocales = await Usuario.find({
+            //Cambiar
+            "favoritos.idLocal": req.params.email
         });
-        res.json(misActividades);
+        res.json(misLocales);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener mis actividades" });
+        res.status(500).json({ message: "Error al obtener mis locales" });
     }
 });
 
