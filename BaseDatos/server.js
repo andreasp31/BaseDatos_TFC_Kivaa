@@ -23,7 +23,8 @@ const usuarioEsquema = new mongoose.Schema({
     apellidos: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     role: { type: String, enum: ["user", "admin"], default: "user" },
-    clave: { type: String, required: true }
+    clave: { type: String, required: true },
+    foto: { type:String}
 });
 
 //Esquemas de validacion
@@ -44,17 +45,31 @@ const LoginSchema = z.object({
 });
 
 const localesEsquema = new mongoose.Schema({
-    nombre: { type:String, required: true},
-    tipo: { type:String, required: true},
-    ubicacion: { type:String, required: true},
-    cualificacion: { type:Number, required: true},
-    horario:{},
-    enlace:{},
-    foto:{}
-})
+    nombre: { type: String, required: true },
+    tipo: { type: String, required: true, enum: ["Restaurante", "Cafetería", "Supermercado", "Panadería"] },
+    direccion: { type: String, required: true }, // La dirección escrita
+    // Cordenadas para el mapa
+    latitud: { type: Number, required: true },
+    longitud: { type: Number, required: true },
+    cualificacion: { type: Number, default: 0 },
+    horario: { type: String, required: true },
+    enlace: { type: String },
+    foto: { type: String },
+    // Para favorito una lista de IDs de usuarios que dan like 
+    favoritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' }]
+});
+
+const reseñaEsquema = new mongoose.Schema({
+    localId: { type: mongoose.Schema.Types.ObjectId, ref: 'Locales' },
+    usuarioNombre: { type: String },
+    comentario: { type: String },
+    estrellas: { type: Number },
+    fecha: { type: Date, default: Date.now }
+});
 
 const Usuario = mongoose.model("Usuario", usuarioEsquema);
-const Locales = mongoose.model("Actividades",localesEsquema);
+const Locales = mongoose.model("Locales", localesEsquema);
+const Reseña = mongoose.model("Reseña", reseñaEsquema);
 
 // Función de conexión mejorada
 async function connectarBd() {
@@ -62,13 +77,8 @@ async function connectarBd() {
         console.log("Iniciando conexión a MongoDB...");
         
         // Usamos la URI directamente o desde el env
-        const uri = process.env.MONGODB_URI;
-
-        await mongoose.connect(uri, {
-            serverSelectionTimeoutMS: 8000,
-            family: 4,
-        });
-
+        await mongoose.connect(process.env.MONGO_DB);
+    insertarDatosPrueba();
         console.log("¡Conectado a MongoDB con éxito!");
 
     } catch(error) {
@@ -150,27 +160,15 @@ app.post("/api/registro", async (req, res) => {
         res.status(500).json({ message: "Error interno" });
     }
 });
-//Inscribirse a una de las actividades seleccionado la hora que nos interese
-app.post("/api/actividades/inscribir", async(req,res)=>{
-    const { actividadId, email, fechaHora } = req.body;
-    try{
-        //Buscar actividad y ver si hay plazas
-        const actividad = await Actividades.findById(actividadId);
-        let personaApuntada = false;
 
-        for (let i = 0; i < actividad.personasApuntadas.length; i++) {
-            if (actividad.personasApuntadas[i].usuarioEmail === email) {
-                yaEstaApuntado = true;
-                break;
-            }
-        }
-        if (personaApuntada) {
-            return res.status(400).json({ message: "Ya estás inscrito en esta actividad" });
-        }
-        if(actividad.plazas <= 0){
-            return res.status(400).json({messahe:"No quedan plazas para esta actividad"});
-        }
-        await Actividades.findByIdAndUpdate(actividadId,
+//Inscribirse a una de las actividades seleccionado la hora que nos interese
+app.post("/api/locales/comentario", async(req,res)=>{
+    const { localId, email, fechaHora } = req.body;
+    try{
+        //Buscar locales
+        const local = await Locales.findById(localId);
+
+        await Locales.findByIdAndUpdate(actividadId,
             {
                 $push: { 
                     personasApuntadas: { 
@@ -182,77 +180,36 @@ app.post("/api/actividades/inscribir", async(req,res)=>{
             },
             //Tener documento actualizado
             {new: true});
-            res.json({message:"Te has inscrito correctamente"});
+            res.json({message:"Has añadido un comentario correctamente"});
     }
     catch(error){
-        res.status(500).json({ message: "Error al inscribirse" });
+        res.status(500).json({ message: "Error al comentar" });
     }
 })
 
-//Cancelar la activadad que nos interese
-app.delete("/api/actividades/cancelar",async(req,res)=>{
-    const {actividadId, email} = req.body;
-    try{
-        const actividad = await Actividades.findById(actividadId);
-        const hoy = new Date();
-        const limite = new Date(actividad.fechaHora);
-        limite.setHours(0, 0, 0, 0);
+//Crear una reseña
+app.post("/api/locales/resena", async (req, res) => {
+    try {
+        const nuevaReseña = new Reseña(req.body);
+        await nuevaReseña.save();
+        res.status(201).json({ message: "Reseña añadida" });
+    } catch (error) {
+        res.status(500).json({ message: "Error al comentar" });
+    }
+});
 
-        if (hoy < limite) {
-            // Antes de las 12 se borra usuario y se suma plaza
-            await Actividades.findByIdAndUpdate(actividadId, {
-                $pull: { personasApuntadas: { usuarioEmail: email } },
-                $inc: { plazas: 1 } 
-            });
-        } else {
-            // Después de las 12 se cambia a cancelado y no se recupera plaza
-            await Actividades.findOneAndUpdate(
-                { _id: actividadId, "personasApuntadas.usuarioEmail": email },
-                { $set: { "personasApuntadas.$.estado": "cancelado_tarde" } });
-            res.json({ message: "Cancelado tarde. La plaza no se libera." });
-        }
-    }
-    catch(error){
-        res.status(500).json({ message: "Error al cancelar la reserva" });
-    }
-})
-
-//Cambiarle la hora a una de las reservas inscritas
-app.put("/api/actividades/actualizarHora",async(req,res)=>{
-    const {actividadId, email, nuevaHora} = req.body;
-    try{
-        const resultado = await Actividades.findOneAndUpdate(
-            {
-                _id: actividadId, 
-                "personasApuntadas.usuarioEmail": email
-            },
-            {
-                $set: { "personasApuntadas.$.hora": nuevaHora }
-            },
-            {new:true}
-        );
-        res.json({ message: "Hora actualizada con éxito", actividad: resultado });
-    }
-    catch(error){
-        res.status(500).json({ message: "Error al actualizar la hora" });
-    }
-})
-
-//Como crear una nueva actividad
-app.post("/api/actividades/crear", async (req, res) => {
+//Como crear un nuevo local
+app.post("/api/locales/crear", async (req, res) => {
     const { nombre, descripcion, plazas, fechaHora, fecha } = req.body;
     try {
-        const nuevaActividad = new Actividades({
-            nombre,
-            descripcion,
-            plazas,
-            fechaHora: fecha || fechaHora,
-            personasApuntadas: []
-        });
-        await nuevaActividad.save();
-        res.status(201).json({ message: "Actividad creada", actividad: nuevaActividad });
+        const actualizado = await Locales.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+        res.json(actualizado);
     } catch (error) {
-        res.status(500).json({ message: "Error al crear actividad" });
+        res.status(500).json({ message: "Error al actualizar" });
     }
 });
 
@@ -275,35 +232,70 @@ app.put("/api/actividades/actualizar/:id", async (req, res) => {
         res.status(500).json({ message: "Error al actualizar" });
     }
 });
-//Permite al administrador eliminar los datos de las actividades
-app.delete("/api/actividades/eliminar/:id", async (req, res) => {
+
+//Permite al administrador eliminar los datos de los locales
+app.delete("/api/locales/eliminar/:id", async (req, res) => {
     try {
-        await Actividades.findByIdAndDelete(req.params.id);
-        res.json({ message: "Actividad borrada" });
+        await Locales.findByIdAndDelete(req.params.id);
+        res.json({ message: "Local borrado" });
     } catch (error) {
         res.status(500).json({ message: "Error al borrar" });
     }
 });
 
-//Consultar la lista de todas las actividades
-app.get("/api/actividades", async (req, res) => {
+// Obtener todos los locales
+app.get("/api/locales", async (req, res) => {
     try {
-        const lista = await Actividades.find();
+        const lista = await Locales.find();
         res.json(lista);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener actividades" });
+        res.status(500).json({ message: "Error al obtener locales" });
     }
 });
 
-//Concultar las actividades al que se está inscritas
-app.get("/api/mis-actividades/:email", async (req, res) => {
+//Consultar la lista de busqueda de los locales
+app.get("/api/locales/buscar", async (req, res) => {
+    const { nombre } = req.query;
     try {
-        const misActividades = await Actividades.find({
-            "personasApuntadas.usuarioEmail": req.params.email
+        const resultados = await Locales.find({
+            // Busca sin importar mayúsculas
+            nombre: { $regex: nombre, $options: "i" } 
         });
-        res.json(misActividades);
+        res.json(resultados);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener mis actividades" });
+        res.status(500).json({ message: "Error en la búsqueda" });
+    }
+});
+
+//Concultar las actividades al que en favoritos
+app.get("/api/mis-locales/:usuarioId", async (req, res) => {
+    try {
+        // Buscamos locales donde el ID del usuario esté en el array de favoritos
+        const misFavoritos = await Locales.find({ favoritos: req.params.usuarioId });
+        res.json(misFavoritos);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener favoritos" });
+    }
+});
+
+// Dar o quitar Like como Favoritos
+app.post("/api/locales/favorito", async (req, res) => {
+    const { localId, usuarioId } = req.body;
+    try {
+        const local = await Locales.findById(localId);
+        const yaEsFavorito = local.favoritos.includes(usuarioId);
+
+        if (yaEsFavorito) {
+            // Si ya está se quita
+            await Locales.findByIdAndUpdate(localId, { $pull: { favoritos: usuarioId } });
+            res.json({ message: "Quitado de favoritos" });
+        } else {
+            // Si no está se le añade
+            await Locales.findByIdAndUpdate(localId, { $push: { favoritos: usuarioId } });
+            res.json({ message: "Añadido a favoritos" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error al gestionar favorito" });
     }
 });
 
@@ -312,3 +304,59 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
     connectarBd(); // Conectamos a la BD después de levantar el servidor
 });
+
+//Datos de prueba
+const insertarDatosPrueba = async () => {
+    const localesPrueba = [
+        {
+            nombre: "Celicioso Ourense",
+            tipo: "Cafetería",
+            direccion: "Rúa do Paseo, Ourense",
+            latitud: 42.3414,
+            longitud: -7.8638,
+            horario: "09:00 - 21:00",
+            enlace: "https://kivaa.app",
+            foto: "https://images.unsplash.com/photo-1509042239860-f550ce710b93"
+        },
+        {
+            nombre: "O Fogón de Vigo",
+            tipo: "Restaurante",
+            direccion: "Rúa de Rosalía de Castro, Vigo",
+            latitud: 42.2365,
+            longitud: -8.7145,
+            horario: "13:00 - 23:00",
+            enlace: "https://kivaa.app",
+            foto: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
+        },
+        {
+            nombre: "Panadería Sano y Salvo",
+            tipo: "Panadería",
+            direccion: "Praza de España, Pontevedra",
+            latitud: 42.4310,
+            longitud: -8.6444,
+            horario: "08:00 - 15:00",
+            enlace: "https://kivaa.app",
+            foto: "https://images.unsplash.com/photo-1555507036-ab1f4038808a"
+        },
+        {
+            nombre: "Vigo BioMarket",
+            tipo: "Supermercado",
+            direccion: "Rúa do Príncipe, Vigo",
+            latitud: 42.2380,
+            longitud: -8.7210,
+            horario: "09:00 - 21:30",
+            enlace: "https://kivaa.app",
+            foto: "https://images.unsplash.com/photo-1542838132-92c53300491e"
+        }
+    ];
+
+    try {
+        // Borramos lo que haya antes para no duplicar cada vez que reinicies
+        await Locales.deleteMany({}); 
+        // Insertamos los nuevos
+        await Locales.insertMany(localesPrueba);
+        console.log("Locales insertados correctamente");
+    } catch (error) {
+        console.error("Error insertando datos:", error);
+    }
+};
