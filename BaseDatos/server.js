@@ -23,8 +23,7 @@ const usuarioEsquema = new mongoose.Schema({
     apellidos: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     role: { type: String, enum: ["user", "admin"], default: "user" },
-    clave: { type: String, required: true },
-    foto: { type:String}
+    clave: { type: String, required: true }
 });
 
 //Esquemas de validacion
@@ -47,28 +46,28 @@ const LoginSchema = z.object({
 const localesEsquema = new mongoose.Schema({
     nombre: { type: String, required: true },
     tipo: { type: String, required: true, enum: ["Restaurante", "Cafetería", "Supermercado", "Panadería"] },
-    direccion: { type: String, required: true }, // La dirección escrita
-    // Cordenadas para el mapa
+    direccion: { type: String, required: true },
+    // coordenadas mapa
     latitud: { type: Number, required: true },
     longitud: { type: Number, required: true },
     cualificacion: { type: Number, default: 0 },
     horario: { type: String, required: true },
     enlace: { type: String },
     foto: { type: String },
-    // Para favorito una lista de IDs de usuarios que dan like 
+    // una lista de ids de usuarios que le dieron "like"
     favoritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' }]
 });
 
 const reseñaEsquema = new mongoose.Schema({
     localId: { type: mongoose.Schema.Types.ObjectId, ref: 'Locales' },
-    usuarioNombre: { type: String },
-    comentario: { type: String },
-    estrellas: { type: Number },
+    usuarioNombre: String,
+    comentario: String,
+    estrellas: Number,
     fecha: { type: Date, default: Date.now }
 });
 
 const Usuario = mongoose.model("Usuario", usuarioEsquema);
-const Locales = mongoose.model("Locales", localesEsquema);
+const Locales = mongoose.model("Locales",localesEsquema);
 const Reseña = mongoose.model("Reseña", reseñaEsquema);
 
 // Función de conexión mejorada
@@ -78,7 +77,7 @@ async function connectarBd() {
         
         // Usamos la URI directamente o desde el env
         await mongoose.connect(process.env.MONGO_DB);
-    insertarDatosPrueba();
+        insertarDatosPrueba();
         console.log("¡Conectado a MongoDB con éxito!");
 
     } catch(error) {
@@ -161,33 +160,40 @@ app.post("/api/registro", async (req, res) => {
     }
 });
 
-//Inscribirse a una de las actividades seleccionado la hora que nos interese
-app.post("/api/locales/comentario", async(req,res)=>{
-    const { localId, email, fechaHora } = req.body;
-    try{
-        //Buscar locales
-        const local = await Locales.findById(localId);
+//Como crear una nueva actividad
+app.post("/api/locales/crear", async (req, res) => {
+    try {
+        const nuevoLocal = new Locales(req.body);
+        await nuevoLocal.save();
+        res.status(201).json({ message: "Local creado con éxito", local: nuevoLocal });
+    } catch (error) {
+        res.status(500).json({ message: "Error al crear el local", detalles: error.message });
+    }
+});
 
-        await Locales.findByIdAndUpdate(actividadId,
-            {
-                $push: { 
-                    personasApuntadas: { 
-                        usuarioEmail: email,
-                        hora: fechaHora } 
-                },
-                //Borrar una plaza 
-                $inc: { plazas: -1 }
+//Permite al administrador cambiar los datos de las locales
+app.put("/api/locales/actualizar/:id", async (req, res) => {
+    const { nombre, tipo, ubicacion, cualificacion, horario, enlace, foto } = req.body;
+    try {
+        const actualizado = await Locales.findByIdAndUpdate(
+            req.params.id,
+            { 
+                nombre, 
+                tipo, 
+                ubicacion, 
+                cualificacion,
+                horario,
+                enlace,
+                foto 
             },
-            //Tener documento actualizado
-            {new: true});
-            res.json({message:"Has añadido un comentario correctamente"});
+            { new: true }
+        );
+        res.json(actualizado);
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar el establecimiento" });
     }
-    catch(error){
-        res.status(500).json({ message: "Error al comentar" });
-    }
-})
+});
 
-//Crear una reseña
 app.post("/api/locales/resena", async (req, res) => {
     try {
         const nuevaReseña = new Reseña(req.body);
@@ -198,67 +204,10 @@ app.post("/api/locales/resena", async (req, res) => {
     }
 });
 
-//Como crear un nuevo local
-app.post("/api/locales/crear", async (req, res) => {
-    const { nombre, descripcion, plazas, fechaHora, fecha } = req.body;
-    try {
-        const actualizado = await Locales.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
-        res.json(actualizado);
-    } catch (error) {
-        res.status(500).json({ message: "Error al actualizar" });
-    }
-});
-
-//Permite al administrador cambiar los datos de las actividades
-app.put("/api/actividades/actualizar/:id", async (req, res) => {
-    const { nombre, descripcion, plazas, fecha } = req.body;
-    try {
-        const actualizado = await Actividades.findByIdAndUpdate(
-            req.params.id,
-            { 
-                nombre, 
-                descripcion, 
-                plazas, 
-                fechaHora: fecha 
-            },
-            { new: true }
-        );
-        res.json(actualizado);
-    } catch (error) {
-        res.status(500).json({ message: "Error al actualizar" });
-    }
-});
-
-//Permite al administrador eliminar los datos de los locales
-app.delete("/api/locales/eliminar/:id", async (req, res) => {
-    try {
-        await Locales.findByIdAndDelete(req.params.id);
-        res.json({ message: "Local borrado" });
-    } catch (error) {
-        res.status(500).json({ message: "Error al borrar" });
-    }
-});
-
-// Obtener todos los locales
-app.get("/api/locales", async (req, res) => {
-    try {
-        const lista = await Locales.find();
-        res.json(lista);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener locales" });
-    }
-});
-
-//Consultar la lista de busqueda de los locales
 app.get("/api/locales/buscar", async (req, res) => {
     const { nombre } = req.query;
     try {
         const resultados = await Locales.find({
-            // Busca sin importar mayúsculas
             nombre: { $regex: nombre, $options: "i" } 
         });
         res.json(resultados);
@@ -267,35 +216,23 @@ app.get("/api/locales/buscar", async (req, res) => {
     }
 });
 
-//Concultar las actividades al que en favoritos
-app.get("/api/mis-locales/:usuarioId", async (req, res) => {
+//Permite al administrador eliminar los datos de las actividades
+app.delete("/api/actividades/eliminar/:id", async (req, res) => {
     try {
-        // Buscamos locales donde el ID del usuario esté en el array de favoritos
-        const misFavoritos = await Locales.find({ favoritos: req.params.usuarioId });
-        res.json(misFavoritos);
+        await Actividades.findByIdAndDelete(req.params.id);
+        res.json({ message: "Actividad borrada" });
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener favoritos" });
+        res.status(500).json({ message: "Error al borrar el establecimiento" });
     }
 });
 
-// Dar o quitar Like como Favoritos
-app.post("/api/locales/favorito", async (req, res) => {
-    const { localId, usuarioId } = req.body;
+//Consultar la lista de todas los locales
+app.get("/api/locales", async (req, res) => {
     try {
-        const local = await Locales.findById(localId);
-        const yaEsFavorito = local.favoritos.includes(usuarioId);
-
-        if (yaEsFavorito) {
-            // Si ya está se quita
-            await Locales.findByIdAndUpdate(localId, { $pull: { favoritos: usuarioId } });
-            res.json({ message: "Quitado de favoritos" });
-        } else {
-            // Si no está se le añade
-            await Locales.findByIdAndUpdate(localId, { $push: { favoritos: usuarioId } });
-            res.json({ message: "Añadido a favoritos" });
-        }
+        const lista = await Locales.find();
+        res.json(lista);
     } catch (error) {
-        res.status(500).json({ message: "Error al gestionar favorito" });
+        res.status(500).json({ message: "Error al obtener locales" });
     }
 });
 

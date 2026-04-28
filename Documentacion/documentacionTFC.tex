@@ -58,7 +58,7 @@ producción de productos sin gluten siguen manteniendo un coste un
 siendo limitados y poco variados.
 
 \begin{center}
-    \includegraphics[height=7cm]{images/foto1_.png}
+    \includegraphics[height=5cm]{images/foto1_.png}
 \end{center}
 
 
@@ -80,6 +80,15 @@ colectivo pero falta que a nivel tecnológico se pueda crear un puente
 entre los establecimientos que ofrecen opciones seguras y los
 usuarios} que las necesita para poder vivir algo más tranquilo.
 
+Al buscar en Google Maps para comprobar la incertidumbre que tienen los celíacos, en el buscador al poner "sin gluten" lo que hace es una 
+búsqueda en las reseñas y coge a veces solo la palabra "sin" pero no hay nada que demuestre que ese sitio tiene opción si gluten. Está muy bien que en las cartas pongan 
+el icono que contiene gluten pero si no aportan una alternativa sigue sin solucionar nada.
+
+\vspace{0.4cm}
+\begin{center}
+    \includegraphics[height=5cm]{images/lugaresPrueba.png}
+\end{center}
+
 \vspace{4cm}
 \subsection{Definición de la Propuesta}
 
@@ -87,6 +96,7 @@ La propuesta del proyecto se basa en intentar \textbf{satisfacer una necesidad q
 
 Para confirmar la veracidad de los establecimientos, otros usuarios que padecen de la misma enfermedad comentarán su experiencia y le dará más credibilidad a los lugares a los que otros usuarios no hayan ido.
 
+\vspace{0.5cm}
 \subsection{Objetivos del Proyecto}
 \subsubsection{Objetivo General}
 El objetivo principal del proyecto es \textbf{diseñar y desarrollar una solución al problema plantado anteriormente mediante una aplicación móvil que garantice a los usuarios que están buscando sitios sin gluten} recomendados por otras personas que también son celiacas o intolerantes. 
@@ -102,7 +112,8 @@ El objetivo principal del proyecto es \textbf{diseñar y desarrollar una soluci�
     \item Implementar el SDK de Google Maps para la visualización y filtrado por ubicación del usuario.
     \item Diseñar una interfaz intuitiva y accesible en la que puedas encontrar un establecimiento en 5 minutos.
 \end{itemize}
-\vspace{2cm}
+
+\vspace{1cm}
 \section{Análisis de Requisitos}
 \subsection{Requisitos Funcionales}
 Los usuarios van a poder realizar las siguientes acciones dependiendo de que quiera hacer:
@@ -113,6 +124,7 @@ Los usuarios van a poder realizar las siguientes acciones dependiendo de que qui
     \item \textbf{RF2 - Gestionar su Perfil:} el usuario tiene que pode reditar sus datos personales si le interesa o cerrar cesión.
 \end{itemize}
 
+\vspace{0.5cm}
 \textbf{Buscar Establecimientos y Localización}
 \begin{itemize}
     \item \textbf{RF3 - Localización en tiempo real:} la aplicación tiene que cargar la ubicación del usuario a través del GPS del móvil.
@@ -130,6 +142,7 @@ Los usuarios van a poder realizar las siguientes acciones dependiendo de que qui
 
 \textbf{RF8 - Creación de los establecimientos:} un administrador tiene que poder añadir neuvos establecimientos a la base de datos de MOngoDB.
 
+\vspace{0.5cm}
 \subsection{Requisitos No Funcionales}
 Estos requisitos son los que definen la calidad del sitema:
 
@@ -139,29 +152,8 @@ Estos requisitos son los que definen la calidad del sitema:
 
 \textbf{RNF3 - Rendimiento:} las consultas que realicen los usuarios a la API Express no puede superar un tiempo de respuesta considerado largo.
 
+\vspace{0.5cm}
 \subsection{Historias de Usuario}
-\textbf{Bloque Usuarios}
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|p{1.5cm}|p{5cm}|p{8cm}|}
-    \hline
-    ID & Historias de Uso & Criterios de Aceptación \\ \hline
-    HU-01 & Como usuario necesito crear una cuenta para acceder a la aplicación. & 1. Usuario rellena formulario de registro. 2. Crear la cuenta. 3. Ahora puede iniciar sesión.\\ \hline
-    HU-02 & Como usuario tengo que poder entrar con la cuenta que he creado.  & 1. El usuario rellena le formulario con el correo y contraseña. 2. Accedea la app si las credenciales son correctas. \\ \hline
-    \end{tabular}
-\end{table}
-
-\textbf{Bloque Búsqueda}
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|p{1.5cm}|p{5cm}|p{8cm}|}
-    \hline
-    ID & Historias de Uso & Criterios de Aceptación \\ \hline
-    HU-03 & Como usuario celíaco, quiero ver un mapa con locales cercanos para encontrar dónde comer sin desplazarme mucho. & 1. El mapa muestra la ubicación actual del usuario. 2. Se ven marcadores de los locales "sin gluten". 3. Al pulsar un marcador, se ve el nombre del local.\\ \hline
-    HU-04 & Como usuario quiero filtrar un establecimiento por el nombre. & 1. En el buscador del mapa, escribir el nombre del local. 2. Darle al botón de buscar. 3. Marcadores de los sitios con ese mismo nombre. \\ \hline
-    HU-05 & Como usuario quiero ver una ficha detallada de un local para contactar con él.  & 1. Buscar un local. 2. Seleccionarlo y se muestra la ficha del local. \\ \hline
-    \end{tabular}
-\end{table}
 
 \textbf{Bloque Administrador}
 
@@ -177,6 +169,29 @@ Estos requisitos son los que definen la calidad del sitema:
 \end{table}
 
 \vspace{3cm}
+\textbf{Bloque Búsqueda}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{1.5cm}|p{5cm}|p{8cm}|}
+    \hline
+    ID & Historias de Uso & Criterios de Aceptación \\ \hline
+    HU-03 & Como usuario celíaco, quiero ver un mapa con locales cercanos para encontrar dónde comer sin desplazarme mucho. & 1. El mapa muestra la ubicación actual del usuario. 2. Se ven marcadores de los locales "sin gluten". 3. Al pulsar un marcador, se ve el nombre del local.\\ \hline
+    HU-04 & Como usuario quiero filtrar un establecimiento por el nombre. & 1. En el buscador del mapa, escribir el nombre del local. 2. Darle al botón de buscar. 3. Marcadores de los sitios con ese mismo nombre. \\ \hline
+    HU-05 & Como usuario quiero ver una ficha detallada de un local para contactar con él.  & 1. Buscar un local. 2. Seleccionarlo y se muestra la ficha del local. \\ \hline
+    \end{tabular}
+\end{table}
+
+\textbf{Bloque Usuarios}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{1.5cm}|p{5cm}|p{8cm}|}
+    \hline
+    ID & Historias de Uso & Criterios de Aceptación \\ \hline
+    HU-01 & Como usuario necesito crear una cuenta para acceder a la aplicación. & 1. Usuario rellena formulario de registro. 2. Crear la cuenta. 3. Ahora puede iniciar sesión.\\ \hline
+    HU-02 & Como usuario tengo que poder entrar con la cuenta que he creado.  & 1. El usuario rellena le formulario con el correo y contraseña. 2. Accedea la app si las credenciales son correctas. \\ \hline
+    \end{tabular}
+\end{table}
+
 \textbf{Bloque Reseñas}
 \begin{table}[h]
     \centering
@@ -188,19 +203,67 @@ Estos requisitos son los que definen la calidad del sitema:
     \end{tabular}
 \end{table}
 
+\vspace{0.5cm}
 \subsection{Diagrama de Casos de Uso}
 
 El diagrama representa las interacciones principales del Usuario con la aplicación y el Administrador gestionado la aplicación. Por un lado, hay Actores en este caso el Usuario y el Administrador están representando los "stickman" a la izquierda. A continueación se describen las relaciones clave para explicar el flujo y las dependencias de las acciones. Las acciones que necesitan realizar necesitan iniciar sesión con una cuenta. 
 
+El \textbf{Usuario} puede de primeras registrarse si no lo está y luego iniciar sesión o directamente iniciar sesión. Tras tener la cuenta iniciada puede:
+\begin{itemize}
+    \item \textbf{Buscar un local en el mapa} mediante un buscador que filtra según lo escrito y marca en el mapa el local.
+    \item \textbf{Consultar ficha local} luego de la búsqueda anterior o a través del menú de locales seleccionas el local y entras en su informaciónd detallada que permite añadir a la lista de favoritos.
+    \item \textbf{Crear Reseñas y consultarlas} dentro de la ficha del local se ve la lista de las reseñas y mediante un formulario se puede añadir un comentario junto a una puntuación. Que luego se pueden ver en el apartado del menú principal de la aplicación.
+    \item \textbf{Añadir a Favoritos y consultarlos} en al ficha puedes añadir ese local a tu lista de favoritos y verlos en un apartado del menú principal.
+\end{itemize}
+
+El \textbf{Administrador} luego de iniciar sesión con su usuario dado puede realizar las siguientes operaciones: 
+\begin{itemize}
+    \item \textbf{Añadir/Editar/Borrar un local} mediante unos formularios el administrador puede realizar esas acciones según lo que interese y guardar los cambios en ese momento.
+    \item \textbf{Borrar Comentarios} que se consideren innapropiados o fuera de lugar a través de un botón y boble confirmación.
+\end{itemize}
+
+\vspace{0.5cm}
 \begin{center}
-    \includegraphics[height=15cm]{images/diagramaCaso.png}
+    \includegraphics[height=16cm]{images/diagramaCaso.png}
 \end{center}
 
-\subsection{Diagrama de Clases}
-
+\vspace{0.5cm}
 \subsection{Esquema Entidad - Relación}
 
-\subsection{Utilización Empresarial}
+Se ha elaborado el modelo Entidad-Relación  para reprensetar la estructura lógica de los datos de la aplicación. En el modelo se identifican las entidades principales \textbf{(Usuario, Establecimiento, Reseña y Administración)} y los atributos.
+
+Este esquema sirve de base para la posterior implementación de las colecciones en el sistema de base de datos NoSQL seleccionado (MongoDB).
+
+\begin{center}
+    \includegraphics[height=12cm]{images/DiagramaEntidadRelacion.drawio.png}
+\end{center}
+
+\vspace{0.5cm}
+\subsection{Diagrama de Clases}
+
+Para organizar la información de la aplicación, se ha diseñado un diagrama de clases que muestra cómo se relacionan los datos principales. Aunque usamos \textbf{MongoDB}, este esquema nos ayuda a estructurar el código en el servidor.
+
+\textbf{Definición de las clases}
+\begin{itemize}
+    \item \textbf{Usuario}: guarda los datos de las personas que usan la app (atributos) en la que tiene una lista de \textbf{favoritos} que permite al usuario guardar sus locales preferidos en una lista y verlos todos juntos.
+    \item \textbf{Establecimiento}: tiene una ficha por cada restaurante que se añada y se guarda la \textbf{Localización exacta} usuando el tipo "Point" para que aparezcan en el mapa, además de la nota media de los usuarios que publiquen una reseña sobre ese establecimiento.
+    \item \textbf{Reseña}: es el comentario que escribe un usuario sobre un local viculando a la persona con el local obteniendo su puntuación y fecha del comentario.
+    \item \textbf{Administrador}: es el usuario especial que tiene permitido \textbf{añadir, editar o borrar locales o borrar comentarios innapropiados} para ir manteniendo la aplicación actualizada.
+\end{itemize}
+
+\textbf{Conexión entre las clases}
+\begin{itemize}
+    \item \textbf{Un usuario puede escribir muchas reseñas}, pero cada reseña es escrita por un único usuario solo.
+    \item \textbf{Un local puede recibir muchos comentarios}, pero cada reseña va a un local en específico.
+    \item \textbf{Los favoritos} es una relación libre donde muchos usuarios pueden guardar muchos locales diferentes para verlos a parte.
+\end{itemize}
+
+\vspace{0.5cm}
+\begin{center}
+    \includegraphics[height=12cm]{images/DiagramaClases.drawio.png}
+\end{center}
+
+Por lo que este diseño permite que la aplicación sea rápida y que los datos estén siempre bien organizados ayudando a que las personas puedan buscar un sitio sin gluten cerca de su ubicación de forma eficiente.
 
 \section{Tecnologías Utilizadas}
 
@@ -230,7 +293,7 @@ Por lo que en resumen el stack tecnológico será el siguente:
     \includegraphics[height=2cm]{images/herramientas0.png}
 \end{center}
 
-\vspace{3cm}
+\vspace{1cm}
 \subsection{Herramientas Auxiliares}
 Para dar soporte al desarrollo y asegurar la calidad del proyecto se han utilizado otras herramientas implementadas en otros proyectos:
 \begin{enumerate}
@@ -248,14 +311,24 @@ Para dar soporte al desarrollo y asegurar la calidad del proyecto se han utiliza
 \end{enumerate}
 
 \begin{center}
-    \includegraphics[height=2cm]{images/herramientas.png}
+    \includegraphics[height=1.8cm]{images/herramientas.png}
 \end{center}
 
 \section{Diseño del Sistema}
 \subsection{Arquitectura de la App Cliente-Servidor}
+
+En la arquitectura cliente-servidor participan dos componentes: por una parte el cliente que utiliza unos servicios y por otra parte el servidor que ofrece esos servicios. Entre ellos se tiene que establecer una comunicación mediante principalmente internet.
+
+El\textbf{ rol Cliente} va a ser la parte de la aplicación que inicia las diversas peticiones de servicios al servidor usando la red como medio de comunicación. En el cliente se encuentra toda la funcionalidad que permite al usuario interactuar mediante una interfaz que refleje la idea de la identidad de la aplicación y que sea lo más funcional posible.
+
+El\textbf{ rol Servidor} 
+
 \subsection{Diseño de la Base de Datos}
+
 \subsection{Diseño de la API REST}
+
 \subsubsection{Seguridad (JWT)}
+
 \subsection{Creación de la Marca y Prototipado de la Interfaz (UX/UI)}
 Antes de la realización del prototipado en Figma se ha diseñado una identidad básica de marca que incluye: un \textbf{logotipo, slogan, isotipo, tipografías, paleta de colores (una primaria y algunos colores secundarios) y elementos gráficos} considerados.
 
@@ -275,7 +348,7 @@ Para reflejar esa estética en la aplicación se diseñaron los primeros element
 
 Al tener la base estética se empezó a desarrollar las vistas principales en Figma. Se realizaron las siguientes propuestas de diseño: \textbf{inicio, inicio de sesión, registrarse, página principal, ficha de local, favoritos, mis reseñas y perfil}. Se intento mantener la misma línea estética en todas las vistas y siempre teniendo en cuenta la mejor usabilidad y facilidad para el usuario. 
 
-A través del enlace a figma \cite{2} se puede probar el prototipado básico de navegación y ver todas las vistas y elementos de la marca creados. Aquí vemos las vistas y que la línea estética sigue en todas ellas.
+A través del enlace a figma \cite{2} se puede probar el prototipado básico de navegación y ver todas las vistas y elementos de la marca creados. Aquí vemos las vistas y que la línea estética sigue en todas ellas. Se diseñaron las vistas del Usuario principalmente porque las vistas del Administrador son la mayoría formularios básicos por lo que al ya tener el de inicio y registro se basaran en ese estilo por lo que se enfocó en detallar el estilo de la versión del usuario.
 
 \begin{center}
     \includegraphics[height=13cm]{images/VistasApp.png}
@@ -288,7 +361,7 @@ Ahora a partir del diseño de las vistas se van a implementar en el frontend de 
 \subsection{Integración con la API y Base de Datos}
 
 
-\section{Estudio de Viabilidad}
+\section{Estudio de Viabilidad y Utilización Empresarial}
 
 Tras desarrollar la aplicación se describe la inversión necesaria para que sea un producto mínimo vaible (MVP). Hay que tener en cuenta los costes de personal, la inversión tecnológica y licencias necesarias. 
 
@@ -299,7 +372,16 @@ Tras desarrollar la aplicación se describe la inversión necesaria para que sea
     \item \textbf{Costes de Hardware}: pensando en un equipo informático de gama media para el desarrollo de dispositivos físicos para las pruebas reales, por lo que por un lado el equipo en el que se desarrolla tiene un valor estimado de 1200€ el coste de amortización por unos 3 meses serían de \textbf{75€}.
 \end{enumerate}
 
-Por lo que le coste total del primer año para el desarrollo y mantenimiento del proyecto es de: \textbf{6.383€}. El proyecto es muy viable al apoyarse en tecnologías de código abierto y servicios en la nube. A parte Google al implementar en el proyecto Google Maps, la aplicación para que empiece da unos 200 euros de crédito cada mes. 
+Por lo que le coste total del primer año para el desarrollo y mantenimiento del proyecto es de: \textbf{6.383 €}. El proyecto es muy viable al apoyarse en tecnologías de código abierto y servicios en la nube. A parte Google al implementar en el proyecto Google Maps, la aplicación para que empiece da unos 200 euros de crédito cada mes. 
+
+El proyecto no puede ser viable solo porque sea útil, \textbf{tiene que ser viable como producto} y se encontraron las siguientes vías de explotación:
+\begin{itemize}
+    \item \textbf{Modelo Gratuito y Suscripción}: la utilización básica de la aplicación sería gratuita, se puede implementar un modelo de suscripción mensual o anual muy baja para desbloquear (\textbf{Sin publicidad} (eliminando los patrocinios de marcas), \textbf{modo Offline} (para descargar el mapa para viajar sin preocuparse por tener internet o no) y alguna posibilidad de \textbf{Contenido exclusivo} (como descuentos en locales)).
+    \item \textbf{Patrocinios y Publicidad}: al ser una app centrada en un público objetivo tan pequeño las marcas interesadas sería alimentarias pudiendo aprecer: \textbf{Publicidad de marcas} (a través de anuncios específicos) y \textbf{destacar locales} (que esos locales paguen una cantidad pequeña al mes para salir entre los primeros resultados en las búsquedas).
+    \item \textbf{Acuerdos con Asociaciones}: por el ejemplo con el FACE (Federación de Asociaciones de Celíacos de España) donde los de la asociación podrían usar el panel de administador para \textbf{validar los datos de los locales} y \textbf{generar informes de datos sobre la necesidad de más demanada de locales por zonas}.
+\end{itemize}
+
+
 
 \section{Pruebas y Validación}
 \subsection{Pruebas Unitarias y de Integración}
