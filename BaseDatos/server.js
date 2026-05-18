@@ -103,7 +103,7 @@ app.post("/api/login", async (req, res) => {
 
         // JWT,generar Token
         const token = jwt.sign(
-            { id: usuario._id,nombre: usuario.nombre, role: usuario.role },
+            { id: usuario._id,nombre: usuario.nombre, role: usuario.role, apellidos: usuario.apellidos, clave: usuario.clave},
             JWT_SECRET,
             { expiresIn: '2h' }
         );
@@ -113,8 +113,10 @@ app.post("/api/login", async (req, res) => {
             usuario: {
                 id: usuario._id,
                 nombre: usuario.nombre,
+                apellidos: usuario.apellidos,
                 email: usuario.email,
-                role: usuario.role
+                role: usuario.role,
+                clave: usuario.clave
             }
         });
     } catch(error) {
@@ -160,7 +162,7 @@ app.post("/api/registro", async (req, res) => {
     }
 });
 
-//Como crear una nueva actividad
+//Como crear un nuevo local
 app.post("/api/locales/crear", async (req, res) => {
     try {
         const nuevoLocal = new Locales(req.body);
@@ -168,6 +170,20 @@ app.post("/api/locales/crear", async (req, res) => {
         res.status(201).json({ message: "Local creado con éxito", local: nuevoLocal });
     } catch (error) {
         res.status(500).json({ message: "Error al crear el local", detalles: error.message });
+    }
+});
+
+//Para buscar un local según el id
+app.get("/api/locales/:id", async (req, res) =>{
+    try{
+        const local = await Locales.findById(req.params.id);
+        if(!local) {
+            return res.status(404).json({mensaje: "Local no encontrado."})
+        }
+        res.json(local);
+    }
+    catch(error){
+        res.status(500).json({ error: "Error al encontrar local" });
     }
 });
 
@@ -216,16 +232,6 @@ app.get("/api/locales/buscar", async (req, res) => {
     }
 });
 
-//Permite al administrador eliminar los datos de las actividades
-app.delete("/api/actividades/eliminar/:id", async (req, res) => {
-    try {
-        await Actividades.findByIdAndDelete(req.params.id);
-        res.json({ message: "Actividad borrada" });
-    } catch (error) {
-        res.status(500).json({ message: "Error al borrar el establecimiento" });
-    }
-});
-
 //Consultar la lista de todas los locales
 app.get("/api/locales", async (req, res) => {
     try {
@@ -233,6 +239,47 @@ app.get("/api/locales", async (req, res) => {
         res.json(lista);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener locales" });
+    }
+});
+
+//Ruta para añadir local favoritos
+app.post("/api/locales/favorito", async(req, res)=>{
+    try{
+        const {localId, usuarioId } = req.body;
+        const local = await Locales.findById(localId);
+        if (!usuarioId || !mongoose.Types.ObjectId.isValid(usuarioId)) {
+            return res.status(400).json({ message: "Error: El ID de usuario no es válido o llegó vacío" });
+        }
+        if(!local){
+            return res.status(404).json({ message: "Local no encontrado"});
+        }
+        const estaFavorito = local.favoritos.includes(usuarioId);
+        //si ya está en favoritos se quita al dar al icono
+        if(estaFavorito){
+            await Locales.findByIdAndUpdate(localId, {$pull: { favoritos: usuarioId}});
+            res.json({favorito: false, message: "Quitando de favoritos"});
+        }
+        else{
+            //addToSet para evitar duplicados y añadirlo a favoritos
+            await Locales.findByIdAndUpdate(localId, {$addToSet: { favoritos: usuarioId}});
+            res.json({favorito: true, message: "Añadiendo de favoritos"});
+        }
+    }
+    catch(error){
+        console.error("Error en favoritos: ", error);
+        res.status(500).json({message: "Error al procesar el favorito"});
+    }
+});
+
+//Ruta para coger todos los favoritos del usuario que está iniciado
+app.get("/api/locales/favoritos/:usuarioId", async(req, res)=>{
+    try{
+        const { usuarioId } = req.params;
+        const listaFavoritos = await Locales.find({favoritos: usuarioId});
+        res.json(listaFavoritos);
+    }
+    catch(error){
+        res.status(500).json({message:"Error al obtener la lista de favoritos"})
     }
 });
 
@@ -251,6 +298,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Rúa do Paseo, Ourense",
             latitud: 42.3414,
             longitud: -7.8638,
+            cualificacion: 7,
             horario: "09:00 - 21:00",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1509042239860-f550ce710b93"
@@ -261,6 +309,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Rúa de Rosalía de Castro, Vigo",
             latitud: 42.2365,
             longitud: -8.7145,
+            cualificacion: 8,
             horario: "13:00 - 23:00",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
@@ -271,6 +320,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Praza de España, Pontevedra",
             latitud: 42.4310,
             longitud: -8.6444,
+            cualificacion: 9.5,
             horario: "08:00 - 15:00",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1555507036-ab1f4038808a"
@@ -281,6 +331,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Rúa do Príncipe, Vigo",
             latitud: 42.2380,
             longitud: -8.7210,
+            cualificacion: 7,
             horario: "09:00 - 21:30",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1542838132-92c53300491e"
