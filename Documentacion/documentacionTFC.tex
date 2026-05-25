@@ -321,13 +321,42 @@ En la arquitectura cliente-servidor participan dos componentes: por una parte el
 
 El\textbf{ rol Cliente} va a ser la parte de la aplicación que inicia las diversas peticiones de servicios al servidor usando la red como medio de comunicación. En el cliente se encuentra toda la funcionalidad que permite al usuario interactuar mediante una interfaz que refleje la idea de la identidad de la aplicación y que sea lo más funcional posible.
 
-El\textbf{ rol Servidor} 
+El\textbf{ rol Servidor} es el componente que se encarga de recibir y responder a las peticiones solicitadas desde la aplicación cliente (frontend). En este caso el servidor está desarrollado en Node.js y Express, el que actua de intermediario con la base de datos. Su función principal es gestionar la comunicación de manera segura con la base de datos MongoDB Altas y devolver las respuestas correspondientes en formado JSON. Al estar de forma externa del cliente, hace que los datos sensibles y el proceso pesado no afecten al rendimiento del móvil del usuario.
 
 \subsection{Diseño de la Base de Datos}
 
+Teniendo en cuenta que la aplicación requiere tratar con geolocalización de locales y de reseñas se optó por un diseño de base de datos no relacional utilizando MongoDB. Ya que en comparación a los modelos relacionales, la estructura se organiza en colecciones flexibles de documentos JSON por lo que optimiza las consultas.
+
+El diseño se compone de tres colecciones principales que están conectadas entre sí de manera lógica:
+\begin{itemize}
+    \item \textbf{Usuarios}: Almacena la información de los usuarios y los registros de los mismos, incluyendo los campos siguientes: (id, nombre, apellidos, foto de perfil, correo, contraseña y lista de locales favoritos).
+    \item \textbf{Locales}: Cuenta con todos los locales aptos para celíacos e intolerantes con los siguientes datos: (id, nombre, foto del local, tipo(restaurante, supermercado y cafetería), direccion, ubicacion (latitud y longitud), web y nota media del local).
+    \item \textbf{Reseñas}: Viculadas a un usuario y a un establecimiento escogido por el usuario en el que consta de los siguientes datos: (id usuario, id local, nombre local, comentario, nota (1 al 5)).
+\end{itemize}
+
 \subsection{Diseño de la API REST}
+Para la comunicación entre la aplicación móvil (cliente) y el servidor se realizar mediante el diseño de una interfaz de programación de aplicaciones basada en la arquitectura API REST. El paso de datos se realizar bajo el protocolo HTTP/HTTPS utilizando verbos estandarizados para definir las operaciones:
+\begin{itemize}
+    \item \textbf{POST /api/login}: Para acceder a la aplicación y tras crear un usuario propio a través del registro, se introduce el correo y la contraseña creada y si esos datos son validos al compararlos con los datos de la base de datos se accede a la aplicación.
+    \item \textbf{POST /api/registro}: El usuario a través de un formulario, rellena con sus datos y se guardan de forma segura creando un nuevo usuario que podrá iniciar sesión luego de que todos los datos esén bien validados.
+    \item \textbf{POST /api/locales/crear}: A través de un formulario que rellena el administrador, se cogen esos datos y se va a poder crear un nuevo local que se añadirá a la lista de los demás locales.
+    \item \textbf{POST /api/locales/resena}: Un usuario a través de un pequeño formulario que encuentra dentro de las fichas individuales de los locales, esos datos se recogen para crear una nueva reseña que se añade a la lista de comentarios que tiene ese establecimiento.
+    \item \textbf{POST /api/locales/favorito}: Dentro de la ficha de un local hay un botón de un corazón donde el usuario al pinchar sobre él. Esta ruta coge el id del usuario y lo añade a la lista de favoritos de ese local. Luego el usuario tiene su propia lista con todos los comentarios que ha creado.
+    \item \textbf{GET /api/locales/:id}: Para enseñar una ficha detallada de un local se necesita recuperar un id del local seleccionado para poder mostrar los datos que contiene.
+    \item \textbf{GET /api/locales}: Obtener todos los locales para luego enseñarlos al usuario según la cercanía, el tipo de local o el nombre. 
+    \item \textbf{GET /api/locales/buscar}: Para encontrar un local, el usuario tiene que buscarlo por el nombre del local o por palabras clave que busca por cercanía para luego enseñarlo en la lista del buscador de google maps. 
+    \item \textbf{GET /api/locales/favoritos/:usuarioId}: Para enseñar las reseñas de un local se necesita obtener el id de los usuarios para enseñar tanto el comentario como a la nota.
+    \item \textbf{POST USUARIOS AÑADEN RESEÑAS}:
+    \item \textbf{POST ADMIN AÑADEN LOCAL}:
+    \item \textbf{PUT USUARIO EDITA RESEÑA}:
+    \item \textbf{PUT USUARIO EDITA DATOS PERFIL}:
+    \item \textbf{PUT /api/locales/actualizar/:id}:
+    \item \textbf{DELETE ADMIN BORRA UN LOCAL}:
+\end{itemize}
 
 \subsubsection{Seguridad (JWT)}
+
+
 
 \subsection{Creación de la Marca y Prototipado de la Interfaz (UX/UI)}
 Antes de la realización del prototipado en Figma se ha diseñado una identidad básica de marca que incluye: un \textbf{logotipo, slogan, isotipo, tipografías, paleta de colores (una primaria y algunos colores secundarios) y elementos gráficos} considerados.
@@ -357,7 +386,10 @@ A través del enlace a figma \cite{2} se puede probar el prototipado básico de 
 Ahora a partir del diseño de las vistas se van a implementar en el frontend de la aplicación.  
 
 \section{Desarrollo de la Aplicación Móvil}
+Para la creación de la aplicación Kivaa por un lado hay que construir el lado del cliente que es el frontend y luego implementar la conexión a la base de datos a través de la API REST. El desarrollo se ha guiado bajo la reutilización de código, modularidad y optimización a través del framework React Native y las herramientas de despliegue de Expo.
+
 \subsection{Implementación del Frontend}
+
 \subsection{Integración con la API y Base de Datos}
 
 
