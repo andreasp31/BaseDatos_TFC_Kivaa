@@ -59,16 +59,17 @@ const localesEsquema = new mongoose.Schema({
 });
 
 const reseñaEsquema = new mongoose.Schema({
-    localId: { type: mongoose.Schema.Types.ObjectId, ref: 'Locales' },
-    usuarioNombre: String,
-    comentario: String,
-    estrellas: Number,
+    localId: { type: mongoose.Schema.Types.ObjectId, ref: 'Locales', required: true },
+    usuarioId: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    usuarioNombre: {type: String , required: true},
+    comentario: {type: String , required: true},
+    estrellas: {type: Number , required: true, min: 1, max: 5},
     fecha: { type: Date, default: Date.now }
 });
 
 const Usuario = mongoose.model("Usuario", usuarioEsquema);
 const Locales = mongoose.model("Locales",localesEsquema);
-const Reseña = mongoose.model("Reseña", reseñaEsquema);
+const Comentarios = mongoose.model("Comentarios", reseñaEsquema);
 
 // Función de conexión mejorada
 async function connectarBd() {
@@ -283,6 +284,66 @@ app.get("/api/locales/favoritos/:usuarioId", async(req, res)=>{
     }
 });
 
+//Ruta para crear las reseñas
+app.post("/api/locales/resena", async(req, res)=>{
+    try{
+        const { localId, usuarioId, usuarioNombre, comentario, estrellas} = req.body;
+        const nuevaResena = new Comentarios({
+            localId,
+            usuarioId,
+            usuarioNombre,
+            comentario,
+            estrellas
+        });
+        await nuevaResena.save();
+        const todasResenas = await Comentarios.find({localId: localId});
+        let sumarEstrellas = 0;
+        for (let i=0; i<todasResenas.length; i++){
+            sumarEstrellas = sumarEstrellas + todasResenas[i].estrellas;
+        }
+        const mediaNota = Number((sumarEstrellas/todasResenas.length).toFixed(1));
+        await Locales.findByIdAndUpdate(localId, {cualificacion: mediaNota})
+        res.status(201).json({ message: "Reseña añadida con éxito" });
+    }
+    catch(error){
+        res.status(500).json({message: "Error al comentar"})
+    }
+});
+
+//Obtener todos los comentarios de un local
+app.get("/api/locales/:id/resenas", async(req,res)=>{
+    try{
+        //Ordenados por fecha
+        const comentarios = await Comentarios.find({
+            localId: req.params.id
+        }).sort({fecha: -1});
+        res.json(comentarios);
+    }
+    catch(error){
+        res.status(500).json({message: "Error al obtener las reseñas del local"});
+    }
+});
+
+//Obtener los comentarios de un usuario
+app.get("/api/:usuarioId/resenas", async(req, res)=>{
+    try{
+        const misComentarios = await Comentarios.find({ usuarioId: req.params.usuarioId}).populate('localId', 'nombre').sort({ fecha: -1 });
+        res.json(misComentarios);
+    }
+    catch(error){
+        res.status(500).json({message: "Error al obtener mis reseñas"});
+    }
+});
+//Para editar las reseñas manualmente
+app.get("/api/resenas/actualizar/", async(req, res)=>{
+    try{
+       
+    }
+    catch(error){
+        res.status(500).json({message: "Error al obtener mis reseñas"});
+    }
+});
+
 // Iniciamos todo
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
@@ -342,8 +403,31 @@ const insertarDatosPrueba = async () => {
         // Borramos lo que haya antes para no duplicar cada vez que reinicies
         await Locales.deleteMany({}); 
         // Insertamos los nuevos
-        await Locales.insertMany(localesPrueba);
+        const localesAnadidos = await Locales.insertMany(localesPrueba);
         console.log("Locales insertados correctamente");
+        await Comentarios.deleteMany({});
+        const ejemploUsuario = await Usuario.findOne({ email: "andrea@gmail.com"});
+        if(ejemploUsuario){
+            const localComentar = localesAnadidos[0];
+            const comentarioPrueba = new Comentarios({
+                localId: localComentar._id,
+                usuarioId: ejemploUsuario._id,
+                usuarioNombre: ejemploUsuario.nombre,
+                comentario: "Las mejores tartas sin gluten, el trato es espectacular!",
+                estrellas: 5
+            });
+            const comentarioPrueba2 = new Comentarios({
+                localId: localComentar._id,
+                usuarioId: new mongoose.Types.ObjectId(),
+                usuarioNombre: "Claudia",
+                comentario: "Todo muy rico y el personal muy amable",
+                estrellas: 4
+            });
+            await comentarioPrueba.save();
+            await comentarioPrueba2.save();
+            const mediaInicial = Number(((5 + 4) / 2).toFixed(1));
+            await Locales.findByIdAndUpdate(localComentar._id, { cualificacion: mediaInicial });
+        }
     } catch (error) {
         console.error("Error insertando datos:", error);
     }
