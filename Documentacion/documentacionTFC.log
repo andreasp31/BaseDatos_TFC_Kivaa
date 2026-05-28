@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.11)  25 MAY 2026 17:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.11)  28 MAY 2026 11:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1082,12 +1082,12 @@ LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
 
 LaTeX Warning: Citation '1' on page 3 undefined on input line 53.
 
-<images/foto1_.png, id=184, 1752.5475pt x 744.7825pt>
+<images/foto1_.png, id=189, 1752.5475pt x 744.7825pt>
 File: images/foto1_.png Graphic file (type png)
 <use images/foto1_.png>
 Package pdftex.def Info: images/foto1_.png  used on input line 61.
 (pdftex.def)             Requested size: 334.75244pt x 142.26378pt.
-<images/lugaresPrueba.png, id=186, 855.94781pt x 386.94562pt>
+<images/lugaresPrueba.png, id=191, 855.94781pt x 386.94562pt>
 File: images/lugaresPrueba.png Graphic file (type png)
 <use images/lugaresPrueba.png>
 Package pdftex.def Info: images/lugaresPrueba.png  used on input line 89.
@@ -1107,89 +1107,89 @@ Underfull \hbox (badness 1147) in paragraph at lines 191--191
  []
 
 [6]
-<images/diagramaCaso.png, id=206, 572.1375pt x 575.90157pt>
+<images/diagramaCaso.png, id=211, 572.1375pt x 575.90157pt>
 File: images/diagramaCaso.png Graphic file (type png)
 <use images/diagramaCaso.png>
 Package pdftex.def Info: images/diagramaCaso.png  used on input line 227.
 (pdftex.def)             Requested size: 452.28049pt x 455.24408pt.
  [7 <./images/diagramaCaso.png>]
-<images/DiagramaEntidadRelacion.drawio.png, id=213, 830.10126pt x 702.625pt>
+<images/DiagramaEntidadRelacion.drawio.png, id=218, 830.10126pt x 702.625pt>
 File: images/DiagramaEntidadRelacion.drawio.png Graphic file (type png)
 <use images/DiagramaEntidadRelacion.drawio.png>
 Package pdftex.def Info: images/DiagramaEntidadRelacion.drawio.png  used on input line 238.
 (pdftex.def)             Requested size: 403.38394pt x 341.43306pt.
  [8 <./images/DiagramaEntidadRelacion.drawio.png>]
-<images/DiagramaClases.drawio.png, id=219, 830.10126pt x 702.625pt>
+<images/DiagramaClases.drawio.png, id=224, 830.10126pt x 702.625pt>
 File: images/DiagramaClases.drawio.png Graphic file (type png)
 <use images/DiagramaClases.drawio.png>
 Package pdftex.def Info: images/DiagramaClases.drawio.png  used on input line 263.
 (pdftex.def)             Requested size: 403.38394pt x 341.43306pt.
  [9 <./images/DiagramaClases.drawio.png>]
-<images/herramientas0.png, id=225, 2492.31125pt x 357.335pt>
+<images/herramientas0.png, id=230, 2492.31125pt x 357.335pt>
 File: images/herramientas0.png Graphic file (type png)
 <use images/herramientas0.png>
 Package pdftex.def Info: images/herramientas0.png  used on input line 293.
 (pdftex.def)             Requested size: 396.87646pt x 56.9055pt.
  [10 <./images/herramientas0.png>]
-<images/herramientas.png, id=236, 2986.15625pt x 357.335pt>
+<images/herramientas.png, id=241, 2986.15625pt x 357.335pt>
 File: images/herramientas.png Graphic file (type png)
 <use images/herramientas.png>
 Package pdftex.def Info: images/herramientas.png  used on input line 314.
 (pdftex.def)             Requested size: 427.9922pt x 51.21504pt.
- [11 <./images/herramientas.png>]
-<images/Branding.png, id=244, 1932.21875pt x 2919.90875pt>
+ [11 <./images/herramientas.png>] [12]
+<images/Branding.png, id=254, 1932.21875pt x 2919.90875pt>
 File: images/Branding.png Graphic file (type png)
 <use images/Branding.png>
-Package pdftex.def Info: images/Branding.png  used on input line 369.
+Package pdftex.def Info: images/Branding.png  used on input line 376.
 (pdftex.def)             Requested size: 338.90991pt x 512.1496pt.
- [12]
-<images/Iconografia.png, id=249, 2169.10374pt x 2396.955pt>
+ [13]
+<images/Iconografia.png, id=262, 2169.10374pt x 2396.955pt>
 File: images/Iconografia.png Graphic file (type png)
 <use images/Iconografia.png>
-Package pdftex.def Info: images/Iconografia.png  used on input line 375.
+Package pdftex.def Info: images/Iconografia.png  used on input line 382.
 (pdftex.def)             Requested size: 386.21841pt x 426.79134pt.
- [13 <./images/Branding.png>]
+ [14 <./images/Branding.png>]
 
-LaTeX Warning: Citation '2' on page 14 undefined on input line 380.
+LaTeX Warning: Citation '2' on page 15 undefined on input line 387.
 
-<images/VistasApp.png, id=256, 4854.135pt x 4226.79124pt>
+<images/VistasApp.png, id=268, 4854.135pt x 4226.79124pt>
 File: images/VistasApp.png Graphic file (type png)
 <use images/VistasApp.png>
-Package pdftex.def Info: images/VistasApp.png  used on input line 383.
+Package pdftex.def Info: images/VistasApp.png  used on input line 390.
 (pdftex.def)             Requested size: 424.78021pt x 369.88582pt.
-[14 <./images/Iconografia.png>]
+[15 <./images/Iconografia.png>] [16 <./images/VistasApp.png>]
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 401.
+(Font)              in TS1 encoding on input line 415.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 403.
+(Font)              in TS1 encoding on input line 417.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 403.
+(Font)              in TS1 encoding on input line 417.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 403.
+(Font)              in TS1 encoding on input line 417.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 403.
- [15 <./images/VistasApp.png>]
+(Font)              in TS1 encoding on input line 417.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 404.
+(Font)              in TS1 encoding on input line 418.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 404.
+(Font)              in TS1 encoding on input line 418.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 407.
-LaTeX Font Info:    Trying to load font information for T1+ntxtt on input line 437.
+(Font)              in TS1 encoding on input line 421.
+ [17]
+LaTeX Font Info:    Trying to load font information for T1+ntxtt on input line 450.
  (C:\Users\andrea.sofia\AppData\Local\Programs\MiKTeX\tex/latex/newtx\t1ntxtt.fd
 File: t1ntxtt.fd 2012/04/20 v3.1
 )
-Underfull \hbox (badness 10000) in paragraph at lines 437--438
+Underfull \hbox (badness 10000) in paragraph at lines 450--451
 [][]$\T1/ntxtt/m/n/10.95 https : / / celicidad . net / las-[]cifras-[]la-[]celiaquia / # : ~ : text = %2DEntre % 20un % 201 %
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 442--443
+Underfull \hbox (badness 10000) in paragraph at lines 455--456
 [][]$\T1/ntxtt/m/n/10.95 https : / / www . figma . com / design / G1i1CM2kr6SKkXYXdm5spK / IdeaTFC ? node-[]id = 60-[]478 &
  []
 
-[16] [17]
-runsystem(latexminted cleantemp  --timestamp 20260525172431 5C60F027BF9113601515E5D1E359D8C2)...disabled (restricted).
+[18]
+runsystem(latexminted cleantemp  --timestamp 20260528111121 5C60F027BF9113601515E5D1E359D8C2)...disabled (restricted).
 
  (documentacionTFC.aux)
  ***********
@@ -1201,7 +1201,7 @@ L3 programming layer <2020/03/25>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `documentacionTFC.out' has not changed.
-(rerunfilecheck)             Checksum: 7D3435F70A2E817F7A2B30C22D6AA6F6;6265.
+(rerunfilecheck)             Checksum: B11DFC7F15618CC80AEB0B1A541C3416;6426.
 
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                documentacionTFC
@@ -1212,17 +1212,17 @@ Package logreq Info: Writing requests to 'documentacionTFC.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 28183 strings out of 467871
- 522228 string characters out of 5414988
- 1451974 words of memory out of 5000000
- 56646 multiletter control sequences out of 15000+600000
+ 28189 strings out of 467871
+ 522278 string characters out of 5414988
+ 1452974 words of memory out of 5000000
+ 56647 multiletter control sequences out of 15000+600000
  675764 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,11n,81p,802b,1152s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/tex-gyre/qtmr.pfb><C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmb.pfb><C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmr.pfb>
-Output written on documentacionTFC.pdf (17 pages, 6570335 bytes).
+Output written on documentacionTFC.pdf (18 pages, 6573774 bytes).
 PDF statistics:
- 323 PDF objects out of 1000 (max. 8388607)
- 66 named destinations out of 1000 (max. 500000)
- 323 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 336 PDF objects out of 1000 (max. 8388607)
+ 71 named destinations out of 1000 (max. 500000)
+ 331 words of extra memory for PDF output out of 10000 (max. 10000000)
 

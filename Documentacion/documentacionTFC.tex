@@ -356,7 +356,14 @@ Para la comunicación entre la aplicación móvil (cliente) y el servidor se rea
 
 \subsubsection{Seguridad (JWT)}
 
+La arquitectura de la API REST se ha diseñado de manera híbrida en la que los endpoints orientados a la consulta de los locales e información general son públicos para optimizar el rendimiento, mientras que los endpoints que manejan los datos sensibles del usuario se encuentran protegidos mediante Tokens JWT. Lo que garantiza al usuario poder acceder a sus propios datos de manera segura sin riesgos a tener filtaciones de ids.
 
+En Kivaa el ciclo de vida del token es el siguiente: 
+\begin{enumerate}
+    \item \textbf{Inicio de Sesión y almacenamiento}: el usuario al introducir su correo y contraseña en la pantalla de Login envía estos datos a la API al verificar que son correctas se genera un Token de acceso (que es una clave única y temporal) y se devuelve a la aplicación. El usuario para que no tenga que introducir la contraseña cada vez que abre la aplicación el token tiene que estar guardado en el móvil. Por lo que se ha integrado la librería "expo-secure-store" que permite almacenar el token en una zona restringida del móvil, que es portegida por el propio sistema operativo.
+    \item \textbf{Comunicación Protegida de la APP con la API}: al tener guardado el token en el dispositivo cada vez que se realice una petición que contenga datos del usuario la aplicación necesita identificarse ante la API. Para no enviar el envío en cada pantalla del Token, con la librería "Axios" 
+    \item \textbf{Cierre de Sesión}: El token generado ya no existe cuando el usuario decide cerrar sesión y envía al usuario de nuevo a la pantalla de inicio de sesión.
+\end{enumerate}
 
 \subsection{Creación de la Marca y Prototipado de la Interfaz (UX/UI)}
 Antes de la realización del prototipado en Figma se ha diseñado una identidad básica de marca que incluye: un \textbf{logotipo, slogan, isotipo, tipografías, paleta de colores (una primaria y algunos colores secundarios) y elementos gráficos} considerados.
@@ -390,8 +397,15 @@ Para la creación de la aplicación Kivaa por un lado hay que construir el lado 
 
 \subsection{Implementación del Frontend}
 
+--- Explicar mapa de navegación entre vistas para justificar la arquitectura de la app
+--- Analizar las vistas clave (captura de la pantalla, propósito de la vista, componentes destacados (flatlist, scrollview, dashdown))
+
 \subsection{Integración con la API y Base de Datos}
 
+--- Librerías de conexión (como axios para react native)
+--- Persistencia local
+--- Si funciona sin internet explicar porque y como
+--- Inicio de sesión seguro mediante tokens
 
 \section{Estudio de Viabilidad y Utilización Empresarial}
 
@@ -413,17 +427,16 @@ El proyecto no puede ser viable solo porque sea útil, \textbf{tiene que ser via
     \item \textbf{Acuerdos con Asociaciones}: por el ejemplo con el FACE (Federación de Asociaciones de Celíacos de España) donde los de la asociación podrían usar el panel de administador para \textbf{validar los datos de los locales} y \textbf{generar informes de datos sobre la necesidad de más demanada de locales por zonas}.
 \end{itemize}
 
-
-
 \section{Pruebas y Validación}
 \subsection{Pruebas Unitarias y de Integración}
 \subsection{Pruebas de Usuario}
+
+\section{Escalabilidad de Kivaa}
 
 \section{Manual de Instalación y Configuración}
 Cómo levantar el servidor Node, cómo conectar MongoDB y cómo ejecutar Expo
 
 \section{Conclusiones}
-
 
 \section{Bibliografía}
 
