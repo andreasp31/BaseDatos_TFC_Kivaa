@@ -24,6 +24,24 @@
 \hypersetup{
     pdfborder={0 0 0}
 }
+
+\lstdefinestyle{javascript}{
+    language=python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    frame=single,
+    showspaces=false,
+    showstringspaces=false,
+    tabsize=2,
+    upquote=true,
+    columns=fixed,
+    basewidth=0.5em
+}
 \setlength{\cftbeforesecskip}{12pt}
 \setlength{\cftbeforesubsecskip}{3pt}
 \renewcommand{\contentsname}{Índice}
@@ -272,15 +290,15 @@ Para la realización del proyecto en este apartado se definen las herramientas y
 \subsection{Frontend : Móvil}
 Para el desarrollo del Frontend se va a utilizar React Native + Expo. 
 \begin{itemize}
-    \item \textbf{React Native} va a permitir crear la aplicación móvil usando JavaScript y React. Que a diferencia de las aplicaciones web, React Native renderiza componentes nativos por lo que ofrece una experiencia de usuario más fluida. 
-    \item \textbf{Expo}  se compone por un conjunto de herramientas y servicios construidos alrededor de React Native. Esto facilita el acceso al GPS, la cámara y el despliegue. Expo Go o Android Studio para ir viendo en tiempo real los cambios que se van realizando y para los testeos. 
+    \item \textbf{React Native} va a permitir crear la aplicación móvil usando JavaScript y React. Que a diferencia de las aplicaciones web, React Native renderiza componentes nativos por lo que ofrece una experiencia de usuario más fluida. \cite{2}
+    \item \textbf{Expo}  se compone por un conjunto de herramientas y servicios construidos alrededor de React Native. Esto facilita el acceso al GPS, la cámara y el despliegue. Expo Go o Android Studio para ir viendo en tiempo real los cambios que se van realizando y para los testeos. \cite{3}
 \end{itemize}
 
 \subsection{Backend}
 
-Para el desarrollo de Backend se va a implementar Node.js + Express. Esta combinación va a permiter crear una API REST eficiente y robusta. Se escogieron porque así se unifica el lenguaje usando solamente JAvaScript tanto en el Frontend como en el Backend por lo que es más fácil int4ercambiar modelo de datos mediante JSON.
+Para el desarrollo de Backend se va a implementar Node.js + Express. Esta combinación va a permiter crear una API REST eficiente y robusta.\cite{4} Se escogieron porque así se unifica el lenguaje usando solamente JAvaScript tanto en el Frontend como en el Backend por lo que es más fácil intercambiar modelo de datos mediante JSON.
 \subsection{Base de Datos}
-Parar su desarrollo se utilizará un modelo de base de datos no relacional por si en algún comento se quiere añadir más atributos, se puedan añadir fácilmente, en este caso se usará MongoDB. 
+Parar su desarrollo se utilizará un modelo de base de datos no relacional por si en algún comento se quiere añadir más atributos, se puedan añadir fácilmente, en este caso se usará MongoDB.
 
 Por lo que en resumen el stack tecnológico será el siguente:
 \begin{itemize}
@@ -335,7 +353,7 @@ El diseño se compone de tres colecciones principales que están conectadas entr
 \end{itemize}
 
 \subsection{Diseño de la API REST}
-Para la comunicación entre la aplicación móvil (cliente) y el servidor se realizar mediante el diseño de una interfaz de programación de aplicaciones basada en la arquitectura API REST. El paso de datos se realizar bajo el protocolo HTTP/HTTPS utilizando verbos estandarizados para definir las operaciones:
+Para la comunicación entre la aplicación móvil (cliente) y el servidor se realizar mediante el diseño de una interfaz de programación de aplicaciones basada en la arquitectura API REST. \cite{5} El paso de datos se realizar bajo el protocolo HTTP/HTTPS utilizando verbos estandarizados para definir las operaciones:
 \begin{itemize}
     \item \textbf{POST /api/login}: Para acceder a la aplicación y tras crear un usuario propio a través del registro, se introduce el correo y la contraseña creada y si esos datos son validos al compararlos con los datos de la base de datos se accede a la aplicación.
     \item \textbf{POST /api/registro}: El usuario a través de un formulario, rellena con sus datos y se guardan de forma segura creando un nuevo usuario que podrá iniciar sesión luego de que todos los datos esén bien validados.
@@ -354,7 +372,7 @@ Para la comunicación entre la aplicación móvil (cliente) y el servidor se rea
     \item \textbf{DELETE ADMIN BORRA UN LOCAL}:
 \end{itemize}
 
-\subsubsection{Seguridad (JWT)}
+\subsubsection{Seguridad (JWT, validación Zod y bcrypt)}
 
 La arquitectura de la API REST se ha diseñado de manera híbrida en la que los endpoints orientados a la consulta de los locales e información general son públicos para optimizar el rendimiento, mientras que los endpoints que manejan los datos sensibles del usuario se encuentran protegidos mediante Tokens JWT. Lo que garantiza al usuario poder acceder a sus propios datos de manera segura sin riesgos a tener filtaciones de ids.
 
@@ -362,8 +380,105 @@ En Kivaa el ciclo de vida del token es el siguiente:
 \begin{enumerate}
     \item \textbf{Inicio de Sesión y almacenamiento}: el usuario al introducir su correo y contraseña en la pantalla de Login envía estos datos a la API al verificar que son correctas se genera un Token de acceso (que es una clave única y temporal) y se devuelve a la aplicación. El usuario para que no tenga que introducir la contraseña cada vez que abre la aplicación el token tiene que estar guardado en el móvil. Por lo que se ha integrado la librería "expo-secure-store" que permite almacenar el token en una zona restringida del móvil, que es portegida por el propio sistema operativo.
     \item \textbf{Comunicación Protegida de la APP con la API}: al tener guardado el token en el dispositivo cada vez que se realice una petición que contenga datos del usuario la aplicación necesita identificarse ante la API. Para no enviar el envío en cada pantalla del Token, con la librería "Axios" 
-    \item \textbf{Cierre de Sesión}: El token generado ya no existe cuando el usuario decide cerrar sesión y envía al usuario de nuevo a la pantalla de inicio de sesión.
+    \item \textbf{Cierre de Sesión}: El token generado ya no existe cuando el usuario decide cerrar sesión y envía al usuario de nuevo a la pantalla de inicio de sesión. \cite{6}
 \end{enumerate}
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Generar Token al iniciar sesión el usuario.}]
+
+    app.post("/api/login", async (req, res) => {
+    try {
+        ...
+        // JWT,generar Token
+        const token = jwt.sign(
+            { id: usuario._id,nombre: usuario.nombre, role: usuario.role, apellidos: usuario.apellidos, clave: usuario.clave},
+            JWT_SECRET,
+            { expiresIn: '2h' }
+        );
+
+        res.json({
+            token,
+            usuario: {
+                id: usuario._id,
+                nombre: usuario.nombre,
+                apellidos: usuario.apellidos,
+                email: usuario.email,
+                role: usuario.role,
+                clave: usuario.clave
+            }
+        });
+    } catch(error) {
+        res.status(500).json({ message: "Error del servidor" });
+    }
+});
+
+\end{lstlisting}
+
+
+Para seguir mejorando la seguridad de los datos en la API se implementa un sistema de validación de datos y del cliente (Zod) y el encriptado de las contraseñas de los usuarios (Bcrypt).
+
+La \textbf{librería Zod} se encarga en tiempo real de que los campos cumplan los requisitos (por ejemplo: que el correo tenga el formato correo con @, o que los nombres y apellidos tengan una longitud mínima). Si los campos no cumplen con los requisitos la app bloquea la petición HTTP y enseña un mensaje de error al usuario en la aplicación. Esto aporta que el cliente sabe que contenido tiene que insertar y cuando se está equivocando, haciendo la experiencia de usuario más fácil. \cite{7}
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Ejemplo de validación de datos al registrarse un nuevo usuario.}]
+
+    const { z } = require('zod');
+
+    const RegistroSchema = z.object({
+        nombre: z.string().min(2,"Nombre demasiado corto"),
+        apellidos: z.string().min(2,"Apellidos obligatorios"),
+        email: z.string().email("Email invalido"),
+        clave: z.string().min(6, "La clave debe tener al menos 6 caracteres"),
+        clave2: z.string()
+    }).refine((data) => data.clave === data.clave2, {
+        message: "Las contrasenas no coinciden",
+        path: ["clave2"],
+    });
+
+\end{lstlisting}
+
+Al tener los datos ya validados y llegan a la API lo importante es mejorar la seguridad de las contraseñas de los usuarios y no guardarlas en texto plano. El backend utiliza el algoritmo de función has \textbf{Bcrypt} para encriptar la contraseña antes de guardarla. Esto aplica un proceso de haseo ubilateral junto con una técnica de "saltin" que añade caracteres aleatorios a la contraseña. Por lo que significa que:
+
+\begin{itemize}
+    \item Aunque la base de datos sea atacada de forma externa es imposible descifrar las contraseñas de los usuarios.
+    \item Al iniciar sesión, Bcrypt \textbf{no desencripta la contraseña, sino que coge la que introduce el usuario y aplica el mismo algoritmo matemático y la compara con la que está en la base de datos.} \cite{8}
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Hasheo de la contraseña en el registro del usuario.}]
+
+    const bcrypt = require('bcrypt');
+    //nivel de seguridad
+    const saltRounds = 10;
+
+    //Registrarse con los datos y validando que los datos esten correctos
+    app.post("/api/registro", async (req, res) => {
+        try {
+            // Validar con zod
+            const validacion = RegistroSchema.safeParse(req.body);
+            if (!validacion.success) {
+                const erroresFormateados = validacion.error.format();
+                return res.status(400).json({ 
+                    message: "Error de validacion",
+                    detalles: erroresFormateados 
+                });
+            }
+            const { nombre, apellidos, email, clave } = validacion.data;
+
+            const existeUsuario = await Usuario.findOne({ email });
+            if (existeUsuario) {
+                return res.status(400).json({ message: "El correo ya esta registrado" });
+            }
+
+            //Hashear la contrasena y se guarda en el nuevo usuario todos los datos
+            const passwordHash = await bcrypt.hash(clave, saltRounds);
+            ...
+    });
+
+\end{lstlisting}
 
 \subsection{Creación de la Marca y Prototipado de la Interfaz (UX/UI)}
 Antes de la realización del prototipado en Figma se ha diseñado una identidad básica de marca que incluye: un \textbf{logotipo, slogan, isotipo, tipografías, paleta de colores (una primaria y algunos colores secundarios) y elementos gráficos} considerados.
@@ -384,7 +499,7 @@ Para reflejar esa estética en la aplicación se diseñaron los primeros element
 
 Al tener la base estética se empezó a desarrollar las vistas principales en Figma. Se realizaron las siguientes propuestas de diseño: \textbf{inicio, inicio de sesión, registrarse, página principal, ficha de local, favoritos, mis reseñas y perfil}. Se intento mantener la misma línea estética en todas las vistas y siempre teniendo en cuenta la mejor usabilidad y facilidad para el usuario. 
 
-A través del enlace a figma \cite{2} se puede probar el prototipado básico de navegación y ver todas las vistas y elementos de la marca creados. Aquí vemos las vistas y que la línea estética sigue en todas ellas. Se diseñaron las vistas del Usuario principalmente porque las vistas del Administrador son la mayoría formularios básicos por lo que al ya tener el de inicio y registro se basaran en ese estilo por lo que se enfocó en detallar el estilo de la versión del usuario.
+A través del enlace a figma \cite{9} se puede probar el prototipado básico de navegación y ver todas las vistas y elementos de la marca creados. Aquí vemos las vistas y que la línea estética sigue en todas ellas. Se diseñaron las vistas del Usuario principalmente porque las vistas del Administrador son la mayoría formularios básicos por lo que al ya tener el de inicio y registro se basaran en ese estilo por lo que se enfocó en detallar el estilo de la versión del usuario.
 
 \begin{center}
     \includegraphics[height=13cm]{images/VistasApp.png}
@@ -445,15 +560,74 @@ Cómo levantar el servidor Node, cómo conectar MongoDB y cómo ejecutar Expo
 \begin{thebibliography}{9}
 
     \bibitem{1}
-    Información sobre la enfermedad Celíaca
+    Celicidad (s.f.). \textit{Las cifras de la celiaquía.}
 
     \url{https://celicidad.net/las-cifras-la-celiaquia/#:~:text=%2DEntre%20un%201%20y%20un,los%20celiacos%20no%20est%C3%A1n%20diagnosticados.}
 
+    \vspace{0.3cm}
+
     \bibitem{2}
-    Archivo Figma, diseño de Vistas e Identidad
+    Urian Viera. (s.f.). \textit{Introducción a React Native: Crea Apps Móviles Nativas en iOS y Android}. Web Developer.
+
+    \url{https://urianviera.com/react-native/introduccion-a-react-native}
+
+    \vspace{0.3cm}
+
+    \bibitem{3}
+    Reboot. (2026, 23 de mayo). \textit{Introducción al enrutador Expo}. Expo Documents.
+
+    \url{https://docs.expo.dev/router/introduction/}
+
+    \vspace{0.3cm}
+
+    \bibitem{4}
+    GitBooks. (s.f.). \textit{Creación de una API con node.js}.
+
+    \url{https://juanda.gitbooks.io/webapps/content/api/creacion_de_una_api_con_nodejs.html}
+    
+
+    \vspace{0.3cm}
+
+    \bibitem{5}
+    Castillo Lacruz, L.J. (2023, 14 de agosto). \textit{Construyendo una API con Node + Express + MongoDB}. Medium.
+
+    \url{https://ljcl79.medium.com/construyendo-una-api-con-node-express-mongodb-f5c9ec86b908}
+
+    \vspace{0.3cm}
+
+    \bibitem{6}
+    López Magaña, L.M. (2020, 17 de enero). \textit{Qué es Json Web Token y cómo funciona}. OpenWebinars.
+
+    \url{https://openwebinars.net/blog/que-es-json-web-token-y-como-funciona/}
+
+    \vspace{0.3cm}
+
+    \bibitem{7}
+    Gao, J. (2026, 21 de marzo). \textit{Creación de una API REST con tipado seguro mediante Zod, Express y TypeScript (Guía 2026)}. Dev Community.
+
+    \url{https://dev.to/young_gao/building-a-type-safe-rest-api-with-zod-express-and-typescript-from-validation-to-openapi-docs-3agj}
+
+    \vspace{0.3cm}
+
+    \bibitem{8}
+    NPM. \textit{node.bcrypt.js}.
+
+    \url{https://www.npmjs.com/package/bcrypt}
+
+    \vspace{0.3cm}
+
+    \bibitem{9}
+    Pais Dos Santos, A. (s.f.). \textit{Diseño de Vistas e Identidad}. Figma.
 
     \url{https://www.figma.com/design/G1i1CM2kr6SKkXYXdm5spK/IdeaTFC?node-id=60-478&t=raRFfJIM19F4k75G-1}
-    
+
+    \vspace{0.3cm}
+
+    \bibitem{10}
+    Reboot. (s.f.). \textit{React Native Maps: Cómo instalar y usar la librería de mapas en iOS y Android [2020]}. 
+
+    \url{https://reboot.studio/blog/es/react-native-maps-2020}
+
 \end{thebibliography}
 
 
