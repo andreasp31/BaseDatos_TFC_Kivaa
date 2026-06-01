@@ -543,8 +543,34 @@ El proyecto no puede ser viable solo porque sea útil, \textbf{tiene que ser via
 \end{itemize}
 
 \section{Pruebas y Validación}
+
+
 \subsection{Pruebas Unitarias y de Integración}
+
+
 \subsection{Pruebas de Usuario}
+
+Estas pruebas demuestran que la app es fácil de usar y cumple los requisitos del cliente. Todos los pasos se tienen en cuentra desde el punto de vista del usuario final a través de los botones, textos, modales informativos, etc.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{1.3cm}|p{1.5cm}|p{3.5cm}|p{3.5cm}|p{3cm}|p{1.5cm}|}
+    \hline
+    ID & Acción & Lo que hace el Usuario & Resultado Esperado & Resultado Real & Estado \\ \hline
+    PU-01 & Registro de Usuario & Introduce los datos válidos y pulsa "Regístrate" & El usuario se crea y se guarda en la Base de Datos y lleva a iniciar Sesión. & Funciona correctamente & Correcto \\ \hline
+    PU-02 & Registro Erróneo & Introduce email sin "@" & Zod frena la petición y muestra en pantalla un mensaje de error en rojo. & Se tiene que introduce el dato correcto para registrarse & Correcto \\ \hline
+    PU-03 & Inicio de Sesión & Introduce los datos válidos, al pulsar "Iniciar Sesión" lo lleva a la pantalla principal guardando sus datos. & Los datos del usuario se guardan y lleva al usuario a la pantalla principal & Funciona correctamente & Correcto \\ \hline
+    PU-04 & Buscador de Locales & Escribe "algo" en el buscador & Enseña la lista según lo buscado (tipo,nombre del local o cercanía). & Filtra los locales según lo esperado & Correcto  \\ \hline
+    PU-05 & Buscador de Locales & Al buscar "cualquiercosa" si no encuentra coincidencias enseñar al usuario un mensaje de "No se ha encontrado locales que coincidan con la búsqueda" &  Buscar en la BD y al no encontrar coincidencias enseñar un mensaje & No aparecía el mensaje tuve que corregirlo, pero luego aparecía & Corregido  \\ \hline
+    PU-06 & Vista Detallada de Local & Pulsa sobre la tarjetade un local específico de la lista o del mapa & La app navega a una nueva vista pasando el ID del local y enseña toda su información & Carga la información del local seleccionado & Correcto \\ \hline
+    PU-07 & Añadir y ver locales Favoritos & Pulsa en el corazón de la tarjeta del local que interese & Al dar a favorito salta una alerta de "añadido a favoritos". El usuario tiene un apartado donde se visualiza. & Se guarda el id del local y se añade a la lista personal de favoritos, se puede enseñar y editar & Correcto \\ \hline
+    PU-08 & Añadir una Reseña & Dentro de la ficha del local, el usuario pulsa en "+ Reseña" se abre un formulario que pide nota y comentario y le da al botón de guardar & Se guarda la información del formulario y se añade una reseña & Se añade a las reseñas del local y en el apartado de reseñas lista las reseñas escritas por ese usuario & Correcto \\ \hline
+    PU-09 & Editar Datos Perfil & En el perfil le da a editar y le abre un formulario con el dato actual y al cambiarlo y al guardarlo se cambia automáticamente en la ficha principal & Cambio automático de los datos si el contenido del formulario es diferente al original & Al tener el id del usuario, el mismo puede editar sus datos facilmente en el menú y al guardar cambiarlo en la base de datos & Correcto \\ \hline
+    PU-10 & Cerrar Sesión & En el perfil le da a salir, sale un modal que al confirmar redirige a la página de inicio & Cierre de sesión a través de doble confirmación no deja acceder a ningún tipo de contenido  & Al cerrar sesión, el token expira y hay que volver a iniciar sesión  & Correcto \\ \hline
+    \end{tabular}
+\end{table}
+
+Tras la ejecución de las pruebas unitarias y de integración por parte de los usuarios, se concluye que la aplicación funciona correctamente, se mantiene estable y alienada a los objetivos principales del proyecto, habiendo corregidos pequeños errores durante la fase de pruebas con usuarios.
 
 \section{Escalabilidad de Kivaa}
 

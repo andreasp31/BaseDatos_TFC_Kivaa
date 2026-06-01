@@ -29,7 +29,7 @@
 \contentsline {section}{\numberline {7}Pruebas y Validación}{18}{section.7}%
 \contentsline {subsection}{\numberline {7.1}Pruebas Unitarias y de Integración}{18}{subsection.7.1}%
 \contentsline {subsection}{\numberline {7.2}Pruebas de Usuario}{18}{subsection.7.2}%
-\contentsline {section}{\numberline {8}Escalabilidad de Kivaa}{18}{section.8}%
-\contentsline {section}{\numberline {9}Manual de Instalación y Configuración}{18}{section.9}%
+\contentsline {section}{\numberline {8}Escalabilidad de Kivaa}{19}{section.8}%
+\contentsline {section}{\numberline {9}Manual de Instalación y Configuración}{19}{section.9}%
 \contentsline {section}{\numberline {10}Conclusiones}{19}{section.10}%
 \contentsline {section}{\numberline {11}Bibliografía}{19}{section.11}%

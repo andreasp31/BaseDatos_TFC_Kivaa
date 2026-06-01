@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.11)  29 MAY 2026 11:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.11)  1 JUN 2026 16:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1210,33 +1210,189 @@ LaTeX Font Info:    Faking \texteuro for font family ntxtlf
 (Font)              in TS1 encoding on input line 533.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
 (Font)              in TS1 encoding on input line 536.
- [18]
-Underfull \hbox (badness 10000) in paragraph at lines 565--566
+
+Underfull \hbox (badness 10000) in paragraph at lines 560--560
+[]|\T1/ntxtlf/m/n/10.95 Registro
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 560--560
+\T1/ntxtlf/m/n/10.95 de
+ []
+
+
+Underfull \hbox (badness 5105) in paragraph at lines 560--560
+[]|\T1/ntxtlf/m/n/10.95 Introduce los datos
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 561--561
+[]|\T1/ntxtlf/m/n/10.95 Registro
+ []
+
+
+Underfull \hbox (badness 4036) in paragraph at lines 561--561
+[]|\T1/ntxtlf/m/n/10.95 Introduce email sin
+ []
+
+
+Underfull \hbox (badness 3407) in paragraph at lines 561--561
+\T1/ntxtlf/m/n/10.95 recto para reg-is-
+ []
+
+
+Underfull \hbox (badness 5105) in paragraph at lines 562--562
+[]|\T1/ntxtlf/m/n/10.95 Introduce los datos
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 563--563
+[]|\T1/ntxtlf/m/n/10.95 Buscador
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 563--563
+\T1/ntxtlf/m/n/10.95 de Lo-
+ []
+
+
+Underfull \hbox (badness 2689) in paragraph at lines 563--563
+[]|\T1/ntxtlf/m/n/10.95 Filtra los lo-cales
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 564--564
+[]|\T1/ntxtlf/m/n/10.95 Buscador
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 564--564
+\T1/ntxtlf/m/n/10.95 de Lo-
+ []
+
+
+Underfull \hbox (badness 1067) in paragraph at lines 564--564
+[]|\T1/ntxtlf/m/n/10.95 Buscar en la BD y
+ []
+
+
+Overfull \hbox (1.9968pt too wide) in paragraph at lines 564--564
+[]|\T1/ntxtlf/m/n/10.95 Corregido| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 566--566
+[]|\T1/ntxtlf/m/n/10.95 Añadir
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 566--566
+\T1/ntxtlf/m/n/10.95 y ver
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 566--566
+\T1/ntxtlf/m/n/10.95 lo-cales
+ []
+
+
+Underfull \hbox (badness 7468) in paragraph at lines 566--566
+[]|\T1/ntxtlf/m/n/10.95 Al dar a fa-vorito
+ []
+
+
+Underfull \hbox (badness 3058) in paragraph at lines 566--566
+\T1/ntxtlf/m/n/10.95 salta una alerta de
+ []
+
+
+Underfull \hbox (badness 1715) in paragraph at lines 566--566
+\T1/ntxtlf/m/n/10.95 El usuario tiene un
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 567--567
+[]|\T1/ntxtlf/m/n/10.95 Añadir
+ []
+
+
+Underfull \hbox (badness 6032) in paragraph at lines 567--567
+\T1/ntxtlf/m/n/10.95 una Re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 568--568
+[]|\T1/ntxtlf/m/n/10.95 Editar
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 568--568
+\T1/ntxtlf/m/n/10.95 Datos
+ []
+
+
+Underfull \hbox (badness 3861) in paragraph at lines 568--568
+\T1/ntxtlf/m/n/10.95 puede ed-i-tar sus
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 568--568
+\T1/ntxtlf/m/n/10.95 datos facil-mente
+ []
+
+
+Underfull \hbox (badness 1675) in paragraph at lines 568--568
+\T1/ntxtlf/m/n/10.95 guardar cam-biarlo
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 569--569
+[]|\T1/ntxtlf/m/n/10.95 Cerrar
+ []
+
+
+Underfull \hbox (badness 3333) in paragraph at lines 569--569
+[]|\T1/ntxtlf/m/n/10.95 Cierre de sesión a
+ []
+
+
+Overfull \hbox (26.4303pt too wide) in paragraph at lines 557--571
+ [][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 9.217pt on input line 571.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 591--592
 [][]$\T1/ntxtt/m/n/10.95 https : / / celicidad . net / las-[]cifras-[]la-[]celiaquia / # : ~ : text = %2DEntre % 20un % 201 %
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 586--587
+Underfull \hbox (badness 10000) in paragraph at lines 612--613
 [][]$\T1/ntxtt/m/n/10.95 https : / / juanda . gitbooks . io / webapps / content / api / creacion _ de _ una _ api _ con _
  []
 
 
-Overfull \hbox (49.3922pt too wide) in paragraph at lines 594--595
+Overfull \hbox (49.3922pt too wide) in paragraph at lines 620--621
 [][]$\T1/ntxtt/m/n/10.95 https : / / ljcl79 . medium . com / construyendo-[]una-[]api-[]con-[]node-[]express-[]mongodb-[]f5c9ec86b908$[] 
  []
 
 
-Overfull \hbox (278.0928pt too wide) in paragraph at lines 608--609
+Overfull \hbox (278.0928pt too wide) in paragraph at lines 634--635
 [][]$\T1/ntxtt/m/n/10.95 https : / / dev . to / young _ gao / building-[]a-[]type-[]safe-[]rest-[]api-[]with-[]zod-[]express-[]and-[]typescript-[]from-[]validation-[]to-[]openapi-[]docs-[]3agj$[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 622--623
+Underfull \hbox (badness 10000) in paragraph at lines 648--649
 [][]$\T1/ntxtt/m/n/10.95 https : / / www . figma . com / design / G1i1CM2kr6SKkXYXdm5spK / IdeaTFC ? node-[]id = 60-[]478 &
  []
 
-[19]
-runsystem(latexminted cleantemp  --timestamp 20260529113815 5C60F027BF9113601515E5D1E359D8C2)...disabled (restricted).
+[19] [20] [21]
+runsystem(latexminted cleantemp  --timestamp 20260601164224 5C60F027BF9113601515E5D1E359D8C2)...disabled (restricted).
 
  (documentacionTFC.aux)
  ***********
@@ -1259,17 +1415,17 @@ Package logreq Info: Writing requests to 'documentacionTFC.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 28802 strings out of 467871
- 528664 string characters out of 5414988
+ 28804 strings out of 467871
+ 528678 string characters out of 5414988
  1663496 words of memory out of 5000000
  57173 multiletter control sequences out of 15000+600000
  684984 words of font info for 104 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,11n,97p,802b,2200s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/tex-gyre/qtmr.pfb><C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/tcxtt.pfb><C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmb.pfb><C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmr.pfb><C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmri.pfb>
-Output written on documentacionTFC.pdf (19 pages, 6632654 bytes).
+Output written on documentacionTFC.pdf (21 pages, 6637741 bytes).
 PDF statistics:
- 454 PDF objects out of 1000 (max. 8388607)
- 150 named destinations out of 1000 (max. 500000)
+ 463 PDF objects out of 1000 (max. 8388607)
+ 152 named destinations out of 1000 (max. 500000)
  331 words of extra memory for PDF output out of 10000 (max. 10000000)
 
