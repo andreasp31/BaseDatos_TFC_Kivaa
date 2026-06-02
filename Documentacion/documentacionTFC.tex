@@ -364,12 +364,12 @@ Para la comunicación entre la aplicación móvil (cliente) y el servidor se rea
     \item \textbf{GET /api/locales}: Obtener todos los locales para luego enseñarlos al usuario según la cercanía, el tipo de local o el nombre. 
     \item \textbf{GET /api/locales/buscar}: Para encontrar un local, el usuario tiene que buscarlo por el nombre del local o por palabras clave que busca por cercanía para luego enseñarlo en la lista del buscador de google maps. 
     \item \textbf{GET /api/locales/favoritos/:usuarioId}: Para enseñar las reseñas de un local se necesita obtener el id de los usuarios para enseñar tanto el comentario como a la nota.
-    \item \textbf{POST USUARIOS AÑADEN RESEÑAS}:
-    \item \textbf{POST ADMIN AÑADEN LOCAL}:
-    \item \textbf{PUT USUARIO EDITA RESEÑA}:
-    \item \textbf{PUT USUARIO EDITA DATOS PERFIL}:
-    \item \textbf{PUT /api/locales/actualizar/:id}:
-    \item \textbf{DELETE ADMIN BORRA UN LOCAL}:
+    \item \textbf{POST USUARIOS AÑADEN RESEÑAS}: EL usuario a través de un formulario que encuentra dentro de cada local en el que tiene que añadir un comentario y del 0 al 5 las estrellas que considere, esos datos se guardan y se pasan a la API que los almacena como nueva reseña.
+    \item \textbf{POST /api/locales/crear}: Los datos que rellena el admin a través del formulario se recoge y se envia a la API que los junta para crear un nuevo local que se añadir al resto ya creados.
+    \item \textbf{PUT USUARIO EDITA RESEÑA}: El usuario va a tener un formulario por cada reseña que tenga que le permita modificar su reseña, esos datos se guardan y la api los sustituye por los anteriores datos.
+    \item \textbf{PUT USUARIO EDITA DATOS PERFIL}: Por cada elemento del perfil del usuario va a poder editar, esos datos se guardan y se sobrescriben sobre los originales de la base de datos.
+    \item \textbf{PUT /api/locales/actualizar/:id}: El admin al escoger un local se guarda el id y nos enseña el mismo formulario que para crear local pero con los datos actuales del establecimiento, el admin los puede modificar y actualizar, los nuevos datos de mandan a la api y se sobrescriben sobre los datos anteriores.
+    \item \textbf{DELETE ADMIN BORRA UN LOCAL}: El admin escoge un local, se guarda el id y tiene un botón que le permite eliminar ese local mediante un modal para una doble confirmación, esa petición de borrado se manda a la api y ese local queda eliminado de la base de datos.
 \end{itemize}
 
 \subsubsection{Seguridad (JWT, validación Zod y bcrypt)}
