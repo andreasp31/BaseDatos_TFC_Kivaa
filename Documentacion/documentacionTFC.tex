@@ -575,9 +575,82 @@ Tras la ejecución de las pruebas unitarias y de integración por parte de los u
 \section{Escalabilidad de Kivaa}
 
 \section{Manual de Instalación y Configuración}
-Cómo levantar el servidor Node, cómo conectar MongoDB y cómo ejecutar Expo
+Antes de iniciar la instalación del proyecto hay que tener instaladas las siguientes herramientas globales:
+\begin{itemize}
+    \item \textbf{Node.js}: Versión LTS
+    \item \textbf{NPM}: Gestor de paquetes integrados con Node.js
+    \item \textbf{Git}: Para el control de versiones y la clonación del proyecto
+    \item \textbf{Expo Go}: Que no es obligatoria, es por si se quiere hacer las pruebas en un dispositivo físico, en este proyecto se usó para pruebas un emulador de Android Studio 
+\end{itemize}
+
+Por un lado tenemos que \textbf{configurar la base de datos} en este caso MongoDB. Se puede optar por una instalación local o en la nube.
+\begin{itemize}
+    \item \textbf{MongoDB Atlas (Nube)}
+    \subitem Hay que registrarse en MongoDB Altas.
+    \subitem Crear un nuevo Cluster gratuito.
+    \subitem En la sección \textbf{Database Access} crear un usuario y contraseña.
+    \subitem En \textbf{Network Acces} hay que añadir la direción IP 0.0.0.0/0 para permitir conexiones desde cualquier entorno.
+    \subitem Copiar la cadena de conexión que genera Atlas y pegarla en el archivo .env.
+    \item \textbf{MongoDB Local}
+    \subitem Descargar e instalar \textbf{MongoDB Community Server}.
+    \subitem El servicio esté corriendo en el puerto por defecto en este caso: "mongodb://localhost:27017/nombreBD".
+\end{itemize}
+
+Tras configurar la base de datos, clonamos el proyecto del primer repositorio (lo tengo separado en 2 repositorios: el primero contiene el server y la documentación y el otro todo el front). Navegamos a la carpeta donde está el servidor y ejecutamos en la terminal la instalación de las dependencias: 
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Comando para instalación de dependencias}]
+    npm install
+\end{lstlisting}
+
+Luego creamos las \textbf{variables de entorno} en un archivo .env que va a tener que contener lo siguiente: 
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Variables de entorno necesarias para este proyecto}]
+    MONGO_DB=mongodb://localhost:27017/nombreDB
+    PORT=3000
+    JWT_SECRET=clave_para_tokens
+\end{lstlisting}
+
+Para el \textbf{despliegue del servidor} iniciando la API REST con el siguiente comando:
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Comando poara inicializar la API REST}]
+   node ./server.js 
+\end{lstlisting}
+
+Por otro lado tenemos la \textbf{configuración del Frontend} (React Native con Expo). Primero clonamos el proyecto que está en el segundo repositorio y ejecutamos al estar en de la aplicación el siguiente comando para las dependencias:
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Comando para instalación de dependencias}]
+   npm install
+\end{lstlisting}
+
+Hay que tener en cuenta que si se intenta hacer pruebas con un dispositivo físico hay que \textbf{configurar la conexión de Red}. No se podría usar localhost ni 127.0.0.1 en las peticiones HTTP del frontend porque el móvil no reconocería el servidor del ordenador.
+
+Por lo que hay que obtener la \textbf{ip del ordenador} y en el archivo .env apuntar a esa IP: 
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Configuración para dispositvos de pruebas físicos}]
+   export const API_URL = "http://192.168.1";
+\end{lstlisting}
+
+Para ejecutar la aplicación usamos el siguiente comando:
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Comando de ejecución de Frontend}]
+   npx expo start
+\end{lstlisting}
+
+En mi caso, al usar un emulador de android tengo que abrirlo primero, y tras ejecutar la app darle a la "a" para que lo ejecute en el emulador que tengo abierto. Si se quiere probar en dispositivos físicos se tendría que tener la aplicación Expo Go y escanear el código que aparece por terminal.
 
 \section{Conclusiones}
+
+
 
 \section{Bibliografía}
 
