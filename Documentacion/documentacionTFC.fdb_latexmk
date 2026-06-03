@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber documentacionTFC"] 0 "documentacionTFC.bcf" "documentacionTFC.bbl" "documentacionTFC" 1780394125.07095 0
+["biber documentacionTFC"] 0 "documentacionTFC.bcf" "documentacionTFC.bbl" "documentacionTFC" 1780477861.57365 0
   "bibliografia.bib" 0 -1 0 ""
   "documentacionTFC.bcf" 0 -1 0 "pdflatex"
   (generated)
   "documentacionTFC.bbl"
   "documentacionTFC.blg"
   (rewritten before read)
-["pdflatex"] 1780394119.0456 "c:/Users/andrea.sofia/OneDrive - GRUPO HOTUSA/Documentos/TFC/BaseDatos_TFC_Kivaa/Documentacion/documentacionTFC.tex" "documentacionTFC.pdf" "documentacionTFC" 1780394125.07226 0
+["pdflatex"] 1780477855.59033 "c:/Users/andrea.sofia/OneDrive - GRUPO HOTUSA/Documentos/TFC/BaseDatos_TFC_Kivaa/Documentacion/documentacionTFC.tex" "documentacionTFC.pdf" "documentacionTFC" 1780477861.57492 0
   "C:/Users/andrea.sofia/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1773242650 164858 1926c8d7bd1823f0c8393a5c0272d2d9 ""
   "C:/Users/andrea.sofia/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1773215918 13336875 9a1e580bea59932e9ce038c38d8813db ""
   "C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ec-tlf.enc" 1736607166 2914 fdbc4a54b9bc76f4551b5303f2737d33 ""
@@ -157,13 +157,13 @@
   "C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
   "C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/tex/latex/xpatch/xpatch.sty" 1585221260 8510 7803f78066c4f9d008405191a4b43073 ""
   "C:/Users/andrea.sofia/AppData/Local/Programs/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
-  "c:/Users/andrea.sofia/OneDrive - GRUPO HOTUSA/Documentos/TFC/BaseDatos_TFC_Kivaa/Documentacion/documentacionTFC.tex" 1780394106 48724 a081dc51c2eaf347903c01cbcf493c80 ""
-  "documentacionTFC.aux" 1780394124 7187 41bf88dab0da6fe5f664609851fe466e "pdflatex"
+  "c:/Users/andrea.sofia/OneDrive - GRUPO HOTUSA/Documentos/TFC/BaseDatos_TFC_Kivaa/Documentacion/documentacionTFC.tex" 1780477848 51398 94df7505ccf65ed45aaec658aee94c41 ""
+  "documentacionTFC.aux" 1780477860 7206 b1b47a3d4383beefcf4432e86bf3e1cf "pdflatex"
   "documentacionTFC.bbl" 0 -1 0 "biber documentacionTFC"
-  "documentacionTFC.out" 1780394124 6566 b60ee9716d96a226b8a2f654135978ac "pdflatex"
-  "documentacionTFC.run.xml" 1780394124 2391 521e5f4b72a5a73f314cd83c0082672a "pdflatex"
-  "documentacionTFC.tex" 1780394106 48724 a081dc51c2eaf347903c01cbcf493c80 ""
-  "documentacionTFC.toc" 1780394124 3138 96af4a5df13824f6e98e0a3e4f4f5f9d "pdflatex"
+  "documentacionTFC.out" 1780477860 6566 b60ee9716d96a226b8a2f654135978ac "pdflatex"
+  "documentacionTFC.run.xml" 1780477860 2391 521e5f4b72a5a73f314cd83c0082672a "pdflatex"
+  "documentacionTFC.tex" 1780477848 51398 94df7505ccf65ed45aaec658aee94c41 ""
+  "documentacionTFC.toc" 1780477860 3138 425623dda7c951eaab6dbd6a928def6a "pdflatex"
   "images/Branding.png" 1773221696 2107445 07599e27b513398d74e547aad2d1d2da ""
   "images/DiagramaClases.drawio.png" 1773306689 97119 8c0c8df8466cc48d3c952e0d808558a6 ""
   "images/DiagramaEntidadRelacion.drawio.png" 1773313320 172121 f91bfa978361654514677c762b52438b ""

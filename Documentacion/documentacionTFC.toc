@@ -24,12 +24,12 @@
 \contentsline {subsection}{\numberline {4.4}Creación de la Marca y Prototipado de la Interfaz (UX/UI)}{15}{subsection.4.4}%
 \contentsline {section}{\numberline {5}Desarrollo de la Aplicación Móvil}{17}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Implementación del Frontend}{17}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Integración con la API y Base de Datos}{17}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.2}Integración con la API y Base de Datos}{18}{subsection.5.2}%
 \contentsline {section}{\numberline {6}Estudio de Viabilidad y Utilización Empresarial}{18}{section.6}%
-\contentsline {section}{\numberline {7}Pruebas y Validación}{18}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Pruebas Unitarias y de Integración}{18}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Pruebas de Usuario}{18}{subsection.7.2}%
+\contentsline {section}{\numberline {7}Pruebas y Validación}{19}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Pruebas Unitarias y de Integración}{19}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Pruebas de Usuario}{19}{subsection.7.2}%
 \contentsline {section}{\numberline {8}Escalabilidad de Kivaa}{19}{section.8}%
 \contentsline {section}{\numberline {9}Manual de Instalación y Configuración}{19}{section.9}%
-\contentsline {section}{\numberline {10}Conclusiones}{20}{section.10}%
-\contentsline {section}{\numberline {11}Bibliografía}{20}{section.11}%
+\contentsline {section}{\numberline {10}Conclusiones}{21}{section.10}%
+\contentsline {section}{\numberline {11}Bibliografía}{21}{section.11}%

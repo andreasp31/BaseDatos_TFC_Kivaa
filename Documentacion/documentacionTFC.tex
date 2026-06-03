@@ -512,6 +512,28 @@ Para la creación de la aplicación Kivaa por un lado hay que construir el lado 
 
 \subsection{Implementación del Frontend}
 
+El Frontend se divide en dos bloques según el rol del usuario: por un lado el cliente y por otro el administrador que gestiona el contenido que tendrá acceso el usuario. Antes de acceder a cada rol hay que \textbf{iniciar sesión} con el corrreo y contraseñas o \textbf{registrarse} con nombre, apellidos, correo y contraseña repetida 2 veces. Al registrar el usuario hay que iniciar sesión otra vez. 
+
+Con el rol de usuario se tendrá acceso:
+\begin{itemize}
+    \item \textbf{Pantalla Principal} en la que podrá buscar los locales e interactuar con ellos.
+    \item \textbf{Pantalla de Locales Favoritos} almacena en una lista los establecimientos el cual el usuario haya interactuado con ellos dándole al icono del corazón.
+    \item \textbf{Pantalla Ficha de Local} a través de la pantalla principal o de la de los favoritos se accede a la ficha del local con sus datos detallados en el que se pinche.
+    \item \textbf{Pantalla de Reseñas} almacena la lista de comentarios que crea ese usuario de todos los locales y permite editar esos comentarios en cualquier momento.
+    \item \textbf{Pantalla de Datos del Usuario} le permite actualizar los datos y cerrar sesión cuando quiera.
+\end{itemize}
+
+El lado del administrador cuenta con las siguientes vistas: 
+
+\begin{itemize}
+    \item \textbf{Pantalla Principal} tiene unas estádisticas básicas de cuantos locales hay en total y cuantos usuarios hay. Luego cuenta con un menú con varios apartados:
+        \subitem \textbf{Crear un Nuevo Local} se crea a través de un formulario que se encuentra en un modal al seleccionar la opción de "Añadir local".
+        \subitem \textbf{Editar un Local} se accede a través de la \textbf{Pantalla de Locales} donde primero buscamos el local que queremos modificar. El administrador le da la icono de editar y le abre el mismo modal que el de crear local pero con los datos ya introducidos para cambiarlos y actualizarlos si se necesita.
+        \subitem \textbf{Borrar un Local} se accede también a través de la \textbf{Pantalla de Locales} donde se escoge el local y al darle el icono de borrar, tiene que volver a confirmar para eliminarlo.
+        \subitem \textbf{Borrar Reseñas}  tiene que navegar a la \textbf{Pantalla de Locales} seleccionar el local y dentro la ficha del local va a ver todos los comentarios. El administrador selecciona el comentario y el icono de borrar tiene que volver a confirmar para elminarlo.
+    \item \textbf{Pantalla de Locales} es el puente entre las opciones y las funcionalidades de que se busca. Se muestra el listado de locales y a través del buscador también se pueden buscar.
+\end{itemize}
+
 --- Explicar mapa de navegación entre vistas para justificar la arquitectura de la app
 --- Analizar las vistas clave (captura de la pantalla, propósito de la vista, componentes destacados (flatlist, scrollview, dashdown))
 
