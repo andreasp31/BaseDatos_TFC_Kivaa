@@ -5,10 +5,26 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { z } = require('zod');
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+// Configuración de almacenamiento para Multer
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/'); // Las fotos se guardarán en la carpeta 'uploads'
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+app.use('/uploads', express.static('uploads'));
 
 //nivel de seguridad
 const SALT_ROUNDS = 10
@@ -50,7 +66,7 @@ const localesEsquema = new mongoose.Schema({
     // coordenadas mapa
     latitud: { type: Number, required: true },
     longitud: { type: Number, required: true },
-    cualificacion: { type: Number, default: 0 },
+    calificacion: { type: Number, default: 0 },
     horario: { type: String, required: true },
     enlace: { type: String },
     foto: { type: String },
@@ -164,9 +180,29 @@ app.post("/api/registro", async (req, res) => {
 });
 
 //Como crear un nuevo local
-app.post("/api/locales/crear", async (req, res) => {
+app.post("/api/locales/crear", upload.single('foto'), async (req, res) => {
     try {
-        const nuevoLocal = new Locales(req.body);
+        const { nombre, tipo, direccion, web, enlace, latitud, longitud, horarios, horario, calificacion } = req.body;
+        if (!nombre || !tipo || !direccion || !latitud || !longitud) {
+            return res.status(400).json({ message: "Faltan campos obligatorios" });
+        }
+        const datosLocal = {
+            nombre: nombre.trim(),
+            tipo,
+            direccion: direccion.trim(),
+            latitud: parseFloat(latitud),
+            longitud: parseFloat(longitud),
+            enlace: web ? web.trim() : (enlace ? enlace.trim() : ""),
+            horario: horarios ? horarios : (horario ? horario : ""),
+            calificacion: calificacion ? parseInt(calificacion) : 0
+        };
+        if (req.file) {
+            datosLocal.foto = `http://10.0.2.2:3000/uploads/${req.file.filename}`;
+        } else if (req.body.foto) {
+            // Si pasan directamente una URL 
+            datosLocal.foto = req.body.foto;
+        }
+        const nuevoLocal = new Locales(datosLocal);
         await nuevoLocal.save();
         res.status(201).json({ message: "Local creado con éxito", local: nuevoLocal });
     } catch (error) {
@@ -190,7 +226,7 @@ app.get("/api/locales/:id", async (req, res) =>{
 
 //Permite al administrador cambiar los datos de las locales
 app.put("/api/locales/actualizar/:id", async (req, res) => {
-    const { nombre, tipo, ubicacion, cualificacion, horario, enlace, foto } = req.body;
+    const { nombre, tipo, ubicacion, calificacion, horario, enlace, foto } = req.body;
     try {
         const actualizado = await Locales.findByIdAndUpdate(
             req.params.id,
@@ -198,7 +234,7 @@ app.put("/api/locales/actualizar/:id", async (req, res) => {
                 nombre, 
                 tipo, 
                 ubicacion, 
-                cualificacion,
+                calificacion,
                 horario,
                 enlace,
                 foto 
@@ -208,16 +244,6 @@ app.put("/api/locales/actualizar/:id", async (req, res) => {
         res.json(actualizado);
     } catch (error) {
         res.status(500).json({ message: "Error al actualizar el establecimiento" });
-    }
-});
-
-app.post("/api/locales/resena", async (req, res) => {
-    try {
-        const nuevaReseña = new Reseña(req.body);
-        await nuevaReseña.save();
-        res.status(201).json({ message: "Reseña añadida" });
-    } catch (error) {
-        res.status(500).json({ message: "Error al comentar" });
     }
 });
 
@@ -236,7 +262,7 @@ app.get("/api/locales/buscar", async (req, res) => {
 //Consultar la lista de todas los locales
 app.get("/api/locales", async (req, res) => {
     try {
-        const lista = await Locales.find();
+        const lista = await Locales.find().sort({ calificacion: -1 });
         res.json(lista);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener locales" });
@@ -258,12 +284,12 @@ app.post("/api/locales/favorito", async(req, res)=>{
         //si ya está en favoritos se quita al dar al icono
         if(estaFavorito){
             await Locales.findByIdAndUpdate(localId, {$pull: { favoritos: usuarioId}});
-            res.json({favorito: false, message: "Quitando de favoritos"});
+            res.json({favorito: false, message: "Quitando local de mis favoritos"});
         }
         else{
             //addToSet para evitar duplicados y añadirlo a favoritos
             await Locales.findByIdAndUpdate(localId, {$addToSet: { favoritos: usuarioId}});
-            res.json({favorito: true, message: "Añadiendo de favoritos"});
+            res.json({favorito: true, message: "Añadiendo local a mis favoritos"});
         }
     }
     catch(error){
@@ -293,17 +319,19 @@ app.post("/api/locales/resena", async(req, res)=>{
             usuarioId,
             usuarioNombre,
             comentario,
-            estrellas
+            estrellas,
+            fecha: new Date()
         });
         await nuevaResena.save();
+        //recalcular la media de estrellas
         const todasResenas = await Comentarios.find({localId: localId});
         let sumarEstrellas = 0;
         for (let i=0; i<todasResenas.length; i++){
             sumarEstrellas = sumarEstrellas + todasResenas[i].estrellas;
         }
         const mediaNota = Number((sumarEstrellas/todasResenas.length).toFixed(1));
-        await Locales.findByIdAndUpdate(localId, {cualificacion: mediaNota})
-        res.status(201).json({ message: "Reseña añadida con éxito" });
+        await Locales.findByIdAndUpdate(localId, {calificacion: mediaNota})
+        res.status(201).json(nuevaResena);
     }
     catch(error){
         res.status(500).json({message: "Error al comentar"})
@@ -335,14 +363,82 @@ app.get("/api/:usuarioId/resenas", async(req, res)=>{
     }
 });
 //Para editar las reseñas manualmente
-app.get("/api/resenas/actualizar/", async(req, res)=>{
+app.put("/api/resenas/actualizar/:id", async(req, res)=>{
     try{
-       
+        const { id } = req.params;
+        const { comentario, estrellas } = req.body;
+        const resenaOriginal = await Comentarios.findById(id);
+        if (!resenaOriginal) {
+            return res.status(404).json({ message: "Reseña no encontrada" });
+        }
+        const localId = resenaOriginal.localId;
+        const resenaActualizada = await Comentarios.findByIdAndUpdate(
+            id,
+            { 
+                comentario, 
+                estrellas, 
+                fecha: new Date()
+            },
+            //devuelve la reseña ya modificada
+            { new: true }
+        );
+        const todasResenas = await Comentarios.find({ localId: localId });
+        
+        let sumarEstrellas = 0;
+        for (let i = 0; i < todasResenas.length; i++) {
+            sumarEstrellas = sumarEstrellas + todasResenas[i].estrellas;
+        }
+        const mediaNota = Number((sumarEstrellas / todasResenas.length).toFixed(1));
+        await Locales.findByIdAndUpdate(localId, { calificacion: mediaNota });
+        res.status(200).json(resenaActualizada);
     }
     catch(error){
+        console.error("Error al editar la reseña:", error);
         res.status(500).json({message: "Error al obtener mis reseñas"});
     }
 });
+
+app.delete("/api/resenas/eliminar/:id", async(req, res) =>{
+    try{
+        const {id} = req.params;
+        const resenaEliminada = await Comentarios.findByIdAndDelete(id);
+        if(!resenaEliminada){
+            return res.status(404).json({ message: "La reseña no existe" });
+        }
+        res.json({message: "Reseña eliminada correctamente"});
+    }
+    catch(error){
+        console.error("Error al eliminar la reseña:", error);
+        res.status(500).json({ message: "Error interno del servidor" });
+    }
+})
+
+//Ruta para estádisticas
+app.get('/api/admin/estadisticas', async(req, res)=>{
+    try{
+        const totalLocales = await Locales.countDocuments();
+        const totalUsuarios = await Usuario.countDocuments({ role: 'user' });
+        res.json({
+            locales: totalLocales,
+            usuarios: totalUsuarios
+        })
+    }
+    catch(Error){
+        res.status(500).json({message: "Error al obtener las estadísticas"});
+    }
+})
+
+//Ruta para obtener locales recomendados
+app.get("/api/locales/sugeridos", async (req, res) => {
+    try{
+        const localesSugeridos = await Locales.find().sort({ calificacion: -1 }).limit(4);
+        res.status(200).json(localesSugeridos || []);
+    }
+    catch(error){
+        console.error("Error al obtener locales sugeridos:" ,error);
+        res.status(500).json({message: "Error al obtener las sugerencias"});
+    }
+})
 
 // Iniciamos todo
 app.listen(PORT, '0.0.0.0', () => {
@@ -359,7 +455,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Rúa do Paseo, Ourense",
             latitud: 42.3414,
             longitud: -7.8638,
-            cualificacion: 7,
+            calificacion: 7,
             horario: "09:00 - 21:00",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1509042239860-f550ce710b93"
@@ -370,7 +466,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Rúa de Rosalía de Castro, Vigo",
             latitud: 42.2365,
             longitud: -8.7145,
-            cualificacion: 8,
+            calificacion: 8,
             horario: "13:00 - 23:00",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
@@ -381,7 +477,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Praza de España, Pontevedra",
             latitud: 42.4310,
             longitud: -8.6444,
-            cualificacion: 9.5,
+            calificacion: 9.5,
             horario: "08:00 - 15:00",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1555507036-ab1f4038808a"
@@ -392,7 +488,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Rúa do Príncipe, Vigo",
             latitud: 42.2380,
             longitud: -8.7210,
-            cualificacion: 7,
+            calificacion: 7,
             horario: "09:00 - 21:30",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1542838132-92c53300491e"
@@ -414,19 +510,21 @@ const insertarDatosPrueba = async () => {
                 usuarioId: ejemploUsuario._id,
                 usuarioNombre: ejemploUsuario.nombre,
                 comentario: "Las mejores tartas sin gluten, el trato es espectacular!",
-                estrellas: 5
+                estrellas: 5,
+                fecha: new Date("2026-02-14")
             });
             const comentarioPrueba2 = new Comentarios({
                 localId: localComentar._id,
                 usuarioId: new mongoose.Types.ObjectId(),
                 usuarioNombre: "Claudia",
                 comentario: "Todo muy rico y el personal muy amable",
-                estrellas: 4
+                estrellas: 4,
+                fecha: new Date("2026-04-29")
             });
             await comentarioPrueba.save();
             await comentarioPrueba2.save();
             const mediaInicial = Number(((5 + 4) / 2).toFixed(1));
-            await Locales.findByIdAndUpdate(localComentar._id, { cualificacion: mediaInicial });
+            await Locales.findByIdAndUpdate(localComentar._id, { calificacion: mediaInicial });
         }
     } catch (error) {
         console.error("Error insertando datos:", error);
