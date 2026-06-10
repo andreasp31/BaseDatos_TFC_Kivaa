@@ -102,21 +102,24 @@ const Comentarios = mongoose.model("Comentarios", reseñaEsquema);
 
 //Middleware para proteger rutas con jwt
 const verificarToken = (req, res, next) =>{
+    //Extrae la cabecera de los headers enviados
     const authCabecera = req.headers["authorization"];
-    //Formato 
+    //Formato estandar "Bearer <TOKEN>" 
     const token = authCabecera && authCabecera.split(' ')[1];
+    //Si no hay token, devuelve error
     if (!token) {
-        return res.status(401).json({ message: "Acceso denegado. No se proporcionó un token." });
+        return res.status(401).json({ message: "Acceso denegado. No se proporciono un token." });
     }
     try{
+        //El token tiene que ser veridico y que no haya caducado
         const verificado = jwt.verify(token, JWT_SECRET);
+        // Meten los datos decodificados del usuario en el objeto "req"
         req.usuario = verificado;
+        //Y ahora se va a la ruta 
         next();
     }
     catch(error){
-        console.error("ERROR EN EL MIDDLEWARE DE TOKEN:", error.message);
-        return res.status(403).json({ message: "Token inválido o caducado." });
-        
+        return res.status(403).json({ message: "Token invalido o caducado." }); 
     }
 }
 

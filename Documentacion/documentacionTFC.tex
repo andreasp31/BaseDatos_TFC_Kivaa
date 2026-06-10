@@ -412,9 +412,97 @@ En Kivaa el ciclo de vida del token es el siguiente:
         res.status(500).json({ message: "Error del servidor" });
     }
 });
+\end{lstlisting}
+
+El token generado se va a tener que verificar a través de una función que se ejecuta antes de que la petición llegue a la ruta. Si el token no existe o es inválido, corta la comunicación y devuelde un error. 
+
+\vspace{0.8cm}
+
+\begin{lstlisting}[style=javascript, caption={Middleware para proteger rutas con jwt}]
+
+const verificarToken = (req, res, next) =>{
+    //Extrae la cabecera de los headers enviados
+    const authCabecera = req.headers["authorization"];
+    //Formato estandar "Bearer <TOKEN>" 
+    const token = authCabecera && authCabecera.split(' ')[1];
+    //Si no hay token, devuelve error
+    if (!token) {
+        return res.status(401).json({ message: "Acceso denegado. No se proporciono un token." });
+    }
+    try{
+        //El token tiene que ser veridico y que no haya caducado
+        const verificado = jwt.verify(token, JWT_SECRET);
+        // Meten los datos decodificados del usuario en el objeto "req"
+        req.usuario = verificado;
+        //Y ahora se va a la ruta 
+        next();
+    }
+    catch(error){
+        return res.status(403).json({ message: "Token invalido o caducado." });
+    }
+}
+\end{lstlisting}
+
+Para proteger a los endpoints, por ejemplo el del filtrado de los locales favoritos de un usuario, se inyecta el middleware después de la ruta. Gracias a "req.usuario" se sabe que usuario está pidiendo los datos: 
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Ejemplo de ruta con middleware}]
+
+app.get("/api/locales/favoritos", verificarToken, async (req, res) => {
+    // Al pasar el middleware, req.usuario ya existe y contiene el ID extraido de forma segura
+    const usuarioId = req.usuario.id;
+    const listaFavoritos = await Locales.find({ favoritos: usuarioId });
+    return res.json(listaFavoritos);
+});
 
 \end{lstlisting}
 
+En el front, se inicia sesión, el token se almacena en el almacenamiento persistente del dispositivo mediante "AsyncStorage". Cuando el usuario navega a una pantalla en la que la petición tenga que ver con información del usuario (como ver los locales favoritos), se extrae el token del almacenamiento local y lo adjunta en los Headers de la petición HTTP utilizando Axios.
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=javascript, caption={Funcionamiento en el Frontend}]
+
+useFocusEffect(
+  useCallback(()=>{
+    const datosUsuario = async () => {
+      try {
+        const nombre = await AsyncStorage.getItem("nombreUsuario");
+        const usuarioId = await AsyncStorage.getItem("idUsuario");
+        const fotoGuardada = await AsyncStorage.getItem("fotoUsuario");
+        // Se recupera el token guardado fisicamente en el dispositivo
+        const token = await AsyncStorage.getItem("token");
+        if(nombre){
+          setNombreUsuario(nombre);
+        }
+        // Si el token existe, configuramos la peticion HTTP
+        if(token){
+          const resultado = await axios.get(`http://10.0.2.2:3000/api/locales/favoritos`,{
+            // Cumplimos con el estandar pasando el token en las cabeceras de autorizacion
+            headers:{
+              Authorization: `Bearer ${token}`
+            }
+          });
+          // Procesamos los datos devueltos de forma segura por el servidor
+          const idsFavoritos = resultado.data.map((fav: any) => fav._id);
+          setFavoritos(idsFavoritos);
+        }
+        if (fotoGuardada) {
+          setFotoUsuario(fotoGuardada);
+        } else {
+          setFotoUsuario(null);
+        }
+      }
+      catch(error){
+        console.error("Error al cargar los datos", error);
+      }
+    };
+    datosUsuario();
+  }, [])
+)
+
+\end{lstlisting}
 
 Para seguir mejorando la seguridad de los datos en la API se implementa un sistema de validación de datos y del cliente (Zod) y el encriptado de las contraseñas de los usuarios (Bcrypt).
 
@@ -574,7 +662,7 @@ El proyecto no puede ser viable solo porque sea útil, \textbf{tiene que ser via
 
 Estas pruebas demuestran que la app es fácil de usar y cumple los requisitos del cliente. Todos los pasos se tienen en cuentra desde el punto de vista del usuario final a través de los botones, textos, modales informativos, etc.
 
-\begin{table}[h]
+\begin{table}[H]
     \centering
     \begin{tabular}{|p{1.3cm}|p{1.5cm}|p{3.5cm}|p{3.5cm}|p{3cm}|p{1.5cm}|}
     \hline

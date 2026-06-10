@@ -1,24 +1,24 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'documentacionTFC.blg'
-[164] biber-MSWIN64:342> INFO - === 
-[212] Biber.pm:421> INFO - Reading 'documentacionTFC.bcf'
-[346] Biber.pm:1002> INFO - Found 9 citekeys in bib section 0
-[362] Biber.pm:4487> INFO - Processing section 0
-[374] Biber.pm:4678> INFO - Looking for bibtex file 'bibliografia.bib' for section 0
-[431] bibtex.pm:1713> INFO - LaTeX decoding ...
-[442] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliografia.bib'
-[481] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[481] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[481] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[482] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
-[483] bbl.pm:676> INFO - Writing 'documentacionTFC.bbl' with encoding 'UTF-8'
-[484] bbl.pm:779> INFO - Output to documentacionTFC.bbl
-[485] Biber.pm:132> WARN - I didn't find a database entry for '2' (section 0)
-[485] Biber.pm:132> WARN - I didn't find a database entry for '3' (section 0)
-[485] Biber.pm:132> WARN - I didn't find a database entry for '4' (section 0)
-[485] Biber.pm:132> WARN - I didn't find a database entry for '5' (section 0)
-[485] Biber.pm:132> WARN - I didn't find a database entry for '6' (section 0)
-[485] Biber.pm:132> WARN - I didn't find a database entry for '7' (section 0)
-[485] Biber.pm:132> WARN - I didn't find a database entry for '8' (section 0)
-[485] Biber.pm:132> WARN - I didn't find a database entry for '9' (section 0)
-[485] Biber.pm:134> INFO - WARNINGS: 8
+[134] biber-MSWIN64:342> INFO - === 
+[174] Biber.pm:421> INFO - Reading 'documentacionTFC.bcf'
+[309] Biber.pm:1002> INFO - Found 9 citekeys in bib section 0
+[325] Biber.pm:4487> INFO - Processing section 0
+[337] Biber.pm:4678> INFO - Looking for bibtex file 'bibliografia.bib' for section 0
+[406] bibtex.pm:1713> INFO - LaTeX decoding ...
+[412] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliografia.bib'
+[456] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[457] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[457] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[457] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[459] bbl.pm:676> INFO - Writing 'documentacionTFC.bbl' with encoding 'UTF-8'
+[460] bbl.pm:779> INFO - Output to documentacionTFC.bbl
+[460] Biber.pm:132> WARN - I didn't find a database entry for '2' (section 0)
+[460] Biber.pm:132> WARN - I didn't find a database entry for '3' (section 0)
+[460] Biber.pm:132> WARN - I didn't find a database entry for '4' (section 0)
+[460] Biber.pm:132> WARN - I didn't find a database entry for '5' (section 0)
+[460] Biber.pm:132> WARN - I didn't find a database entry for '6' (section 0)
+[460] Biber.pm:132> WARN - I didn't find a database entry for '7' (section 0)
+[460] Biber.pm:132> WARN - I didn't find a database entry for '8' (section 0)
+[460] Biber.pm:132> WARN - I didn't find a database entry for '9' (section 0)
+[461] Biber.pm:134> INFO - WARNINGS: 8

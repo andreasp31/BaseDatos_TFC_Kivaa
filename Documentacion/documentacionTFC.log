@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.26)  5 JUN 2026 11:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.26)  10 JUN 2026 11:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1237,259 +1237,274 @@ LaTeX Font Info:    Trying to load font information for TS1+ntxtt on input line 
 File: ts1ntxtt.fd 2012/04/20 v3.1
 )
 
-LaTeX Warning: Citation '7' on page 13 undefined on input line 421.
-
-
-
 [13]
-
-LaTeX Warning: Citation '8' on page 14 undefined on input line 446.
-
+LaTeX Info: Symbol \textasciigrave not provided by
+            font family ntxtt in TS1 encoding.
+            Default family used instead on input line 481.
+LaTeX Info: Symbol \textasciigrave not provided by
+            font family ntxtt in TS1 encoding.
+            Default family used instead on input line 481.
 
 
 [14]
-<images/Branding.png, id=339, 1932.21875pt x 2919.90875pt>
+LaTeX Info: Symbol \textasciigrave not provided by
+            font family ntxtt in TS1 encoding.
+            Default family used instead on input line 484.
+LaTeX Info: Symbol \textasciigrave not provided by
+            font family ntxtt in TS1 encoding.
+            Default family used instead on input line 484.
+
+
+LaTeX Warning: Citation '7' on page 15 undefined on input line 509.
+
+
+LaTeX Warning: Citation '8' on page 15 undefined on input line 534.
+
+
+
+[15]
+<images/Branding.png, id=385, 1932.21875pt x 2919.90875pt>
 File: images/Branding.png Graphic file (type png)
 <use images/Branding.png>
-Package pdftex.def Info: images/Branding.png  used on input line 491.
+Package pdftex.def Info: images/Branding.png  used on input line 579.
 (pdftex.def)             Requested size: 338.90991pt x 512.1496pt.
-<images/Iconografia.png, id=340, 2169.10374pt x 2396.955pt>
+
+
+[16]
+<images/Iconografia.png, id=419, 2169.10374pt x 2396.955pt>
 File: images/Iconografia.png Graphic file (type png)
 <use images/Iconografia.png>
-Package pdftex.def Info: images/Iconografia.png  used on input line 497.
+Package pdftex.def Info: images/Iconografia.png  used on input line 585.
 (pdftex.def)             Requested size: 386.21841pt x 426.79134pt.
 
 
-[15 <./images/Branding.png>]
+[17 <./images/Branding.png>]
 
-LaTeX Warning: Citation '9' on page 16 undefined on input line 502.
+LaTeX Warning: Citation '9' on page 18 undefined on input line 590.
 
-<images/VistasApp.png, id=346, 4854.135pt x 4226.79124pt>
+<images/VistasApp.png, id=425, 4854.135pt x 4226.79124pt>
 File: images/VistasApp.png Graphic file (type png)
 <use images/VistasApp.png>
-Package pdftex.def Info: images/VistasApp.png  used on input line 505.
+Package pdftex.def Info: images/VistasApp.png  used on input line 593.
 (pdftex.def)             Requested size: 424.78021pt x 369.88582pt.
 
 
-[16 <./images/Iconografia.png>]
+[18 <./images/Iconografia.png>]
 
-[17 <./images/VistasApp.png>]
+[19 <./images/VistasApp.png>]
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 552.
+(Font)              in TS1 encoding on input line 640.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 554.
+(Font)              in TS1 encoding on input line 642.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 554.
+(Font)              in TS1 encoding on input line 642.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 554.
+(Font)              in TS1 encoding on input line 642.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 554.
+(Font)              in TS1 encoding on input line 642.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 555.
+(Font)              in TS1 encoding on input line 643.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 555.
+(Font)              in TS1 encoding on input line 643.
 LaTeX Font Info:    Faking \texteuro for font family ntxtlf
-(Font)              in TS1 encoding on input line 558.
+(Font)              in TS1 encoding on input line 646.
 
 
-[18]
-Underfull \hbox (badness 10000) in paragraph at lines 582--582
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 670--670
 []|\T1/ntxtlf/m/n/10.95 Registro
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 582--582
+Underfull \hbox (badness 10000) in paragraph at lines 670--670
 \T1/ntxtlf/m/n/10.95 de
  []
 
 
-Underfull \hbox (badness 5105) in paragraph at lines 582--582
+Underfull \hbox (badness 5105) in paragraph at lines 670--670
 []|\T1/ntxtlf/m/n/10.95 Introduce los datos
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 583--583
+Underfull \hbox (badness 10000) in paragraph at lines 671--671
 []|\T1/ntxtlf/m/n/10.95 Registro
  []
 
 
-Underfull \hbox (badness 4036) in paragraph at lines 583--583
+Underfull \hbox (badness 4036) in paragraph at lines 671--671
 []|\T1/ntxtlf/m/n/10.95 Introduce email sin
  []
 
 
-Underfull \hbox (badness 3407) in paragraph at lines 583--583
+Underfull \hbox (badness 3407) in paragraph at lines 671--671
 \T1/ntxtlf/m/n/10.95 recto para reg-is-
  []
 
 
-Underfull \hbox (badness 5105) in paragraph at lines 584--584
+Underfull \hbox (badness 5105) in paragraph at lines 672--672
 []|\T1/ntxtlf/m/n/10.95 Introduce los datos
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 585--585
+Underfull \hbox (badness 10000) in paragraph at lines 673--673
 []|\T1/ntxtlf/m/n/10.95 Buscador
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 585--585
+Underfull \hbox (badness 10000) in paragraph at lines 673--673
 \T1/ntxtlf/m/n/10.95 de Lo-
  []
 
 
-Underfull \hbox (badness 2689) in paragraph at lines 585--585
+Underfull \hbox (badness 2689) in paragraph at lines 673--673
 []|\T1/ntxtlf/m/n/10.95 Filtra los lo-cales
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 586--586
+Underfull \hbox (badness 10000) in paragraph at lines 674--674
 []|\T1/ntxtlf/m/n/10.95 Buscador
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 586--586
+Underfull \hbox (badness 10000) in paragraph at lines 674--674
 \T1/ntxtlf/m/n/10.95 de Lo-
  []
 
 
-Underfull \hbox (badness 1067) in paragraph at lines 586--586
+Underfull \hbox (badness 1067) in paragraph at lines 674--674
 []|\T1/ntxtlf/m/n/10.95 Buscar en la BD y
  []
 
 
-Overfull \hbox (1.9968pt too wide) in paragraph at lines 586--586
+Overfull \hbox (1.9968pt too wide) in paragraph at lines 674--674
 []|\T1/ntxtlf/m/n/10.95 Corregido| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 588--588
+Underfull \hbox (badness 10000) in paragraph at lines 676--676
 []|\T1/ntxtlf/m/n/10.95 Añadir
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 588--588
+Underfull \hbox (badness 10000) in paragraph at lines 676--676
 \T1/ntxtlf/m/n/10.95 y ver
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 588--588
+Underfull \hbox (badness 10000) in paragraph at lines 676--676
 \T1/ntxtlf/m/n/10.95 lo-cales
  []
 
 
-Underfull \hbox (badness 7468) in paragraph at lines 588--588
+Underfull \hbox (badness 7468) in paragraph at lines 676--676
 []|\T1/ntxtlf/m/n/10.95 Al dar a fa-vorito
  []
 
 
-Underfull \hbox (badness 3058) in paragraph at lines 588--588
+Underfull \hbox (badness 3058) in paragraph at lines 676--676
 \T1/ntxtlf/m/n/10.95 salta una alerta de
  []
 
 
-Underfull \hbox (badness 1715) in paragraph at lines 588--588
+Underfull \hbox (badness 1715) in paragraph at lines 676--676
 \T1/ntxtlf/m/n/10.95 El usuario tiene un
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 589--589
+Underfull \hbox (badness 10000) in paragraph at lines 677--677
 []|\T1/ntxtlf/m/n/10.95 Añadir
  []
 
 
-Underfull \hbox (badness 6032) in paragraph at lines 589--589
+Underfull \hbox (badness 6032) in paragraph at lines 677--677
 \T1/ntxtlf/m/n/10.95 una Re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 590--590
+Underfull \hbox (badness 10000) in paragraph at lines 678--678
 []|\T1/ntxtlf/m/n/10.95 Editar
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 590--590
+Underfull \hbox (badness 10000) in paragraph at lines 678--678
 \T1/ntxtlf/m/n/10.95 Datos
  []
 
 
-Underfull \hbox (badness 3861) in paragraph at lines 590--590
+Underfull \hbox (badness 3861) in paragraph at lines 678--678
 \T1/ntxtlf/m/n/10.95 puede ed-i-tar sus
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 590--590
+Underfull \hbox (badness 10000) in paragraph at lines 678--678
 \T1/ntxtlf/m/n/10.95 datos facil-mente
  []
 
 
-Underfull \hbox (badness 1675) in paragraph at lines 590--590
+Underfull \hbox (badness 1675) in paragraph at lines 678--678
 \T1/ntxtlf/m/n/10.95 guardar cam-biarlo
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 591--591
+Underfull \hbox (badness 10000) in paragraph at lines 679--679
 []|\T1/ntxtlf/m/n/10.95 Cerrar
  []
 
 
-Underfull \hbox (badness 3333) in paragraph at lines 591--591
+Underfull \hbox (badness 3333) in paragraph at lines 679--679
 []|\T1/ntxtlf/m/n/10.95 Cierre de sesión a
  []
 
 
-Overfull \hbox (26.4303pt too wide) in paragraph at lines 579--593
+Overfull \hbox (26.4303pt too wide) in paragraph at lines 667--681
  [][] 
- []
-
-
-LaTeX Warning: Float too large for page by 9.217pt on input line 593.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-
-[19]
-Overfull \hbox (43.84961pt too wide) in paragraph at lines 618--619
-[]| \T1/ntxtlf/m/n/10.95 El ser-vi-cio esté cor-riendo en el puerto por de-fecto en este caso: "mon-godb://localhost:27017/nombreBD". 
- []
-
-
-
-[20]
-Underfull \hbox (badness 10000) in paragraph at lines 686--687
-[][]$\T1/ntxtt/m/n/10.95 https : / / celicidad . net / las-[]cifras-[]la-[]celiaquia / # : ~ : text = %2DEntre % 20un % 201 %
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 707--708
-[][]$\T1/ntxtt/m/n/10.95 https : / / juanda . gitbooks . io / webapps / content / api / creacion _ de _ una _ api _ con _
- []
-
-
-Overfull \hbox (49.3922pt too wide) in paragraph at lines 715--716
-[][]$\T1/ntxtt/m/n/10.95 https : / / ljcl79 . medium . com / construyendo-[]una-[]api-[]con-[]node-[]express-[]mongodb-[]f5c9ec86b908$[] 
- []
-
-
-Overfull \hbox (278.0928pt too wide) in paragraph at lines 729--730
-[][]$\T1/ntxtt/m/n/10.95 https : / / dev . to / young _ gao / building-[]a-[]type-[]safe-[]rest-[]api-[]with-[]zod-[]express-[]and-[]typescript-[]from-[]validation-[]to-[]openapi-[]docs-[]3agj$[] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 743--744
-[][]$\T1/ntxtt/m/n/10.95 https : / / www . figma . com / design / G1i1CM2kr6SKkXYXdm5spK / IdeaTFC ? node-[]id = 60-[]478 &
  []
 
 
 
 [21]
+Overfull \vbox (9.217pt too high) has occurred while \output is active []
+
+
 
 [22]
+Overfull \hbox (43.84961pt too wide) in paragraph at lines 706--707
+[]| \T1/ntxtlf/m/n/10.95 El ser-vi-cio esté cor-riendo en el puerto por de-fecto en este caso: "mon-godb://localhost:27017/nombreBD". 
+ []
+
+
 
 [23]
-runsystem(latexminted cleantemp  --timestamp 20260605115930 5C60F027BF9113601515E5D1E359D8C2)...disabled (restricted).
+Underfull \hbox (badness 10000) in paragraph at lines 774--775
+[][]$\T1/ntxtt/m/n/10.95 https : / / celicidad . net / las-[]cifras-[]la-[]celiaquia / # : ~ : text = %2DEntre % 20un % 201 %
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 795--796
+[][]$\T1/ntxtt/m/n/10.95 https : / / juanda . gitbooks . io / webapps / content / api / creacion _ de _ una _ api _ con _
+ []
+
+
+
+[24]
+Overfull \hbox (49.3922pt too wide) in paragraph at lines 803--804
+[][]$\T1/ntxtt/m/n/10.95 https : / / ljcl79 . medium . com / construyendo-[]una-[]api-[]con-[]node-[]express-[]mongodb-[]f5c9ec86b908$[] 
+ []
+
+
+Overfull \hbox (278.0928pt too wide) in paragraph at lines 817--818
+[][]$\T1/ntxtt/m/n/10.95 https : / / dev . to / young _ gao / building-[]a-[]type-[]safe-[]rest-[]api-[]with-[]zod-[]express-[]and-[]typescript-[]from-[]validation-[]to-[]openapi-[]docs-[]3agj$[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 831--832
+[][]$\T1/ntxtt/m/n/10.95 https : / / www . figma . com / design / G1i1CM2kr6SKkXYXdm5spK / IdeaTFC ? node-[]id = 60-[]478 &
+ []
+
+
+
+[25]
+runsystem(latexminted cleantemp  --timestamp 20260610115617 5C60F027BF9113601515E5D1E359D8C2)...disabled (restricted).
 
  (documentacionTFC.aux)
  ***********
@@ -1503,20 +1518,20 @@ Package logreq Info: Writing requests to 'documentacionTFC.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 28873 strings out of 468130
- 527666 string characters out of 5430633
- 1736377 words of memory out of 5000000
- 56965 multiletter control sequences out of 15000+600000
- 684088 words of font info for 104 fonts, out of 8000000 for 9000
+ 29035 strings out of 468130
+ 529719 string characters out of 5430633
+ 1804378 words of memory out of 5000000
+ 57053 multiletter control sequences out of 15000+600000
+ 684698 words of font info for 106 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,97p,788b,1667s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,97p,788b,2195s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{cite.0@1} has been referenced but does not exist, replaced by a fixed one
 
-<C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/tex-gyre/qtmr.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/tcxtt.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmb.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmr.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmri.pfb>
-Output written on documentacionTFC.pdf (23 pages, 6647148 bytes).
+ <C:\Users\andre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tctt0900.pk><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/tex-gyre/qtmr.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/tcxtt.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmb.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmr.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/ztmri.pfb>
+Output written on documentacionTFC.pdf (25 pages, 6664275 bytes).
 PDF statistics:
- 490 PDF objects out of 1000 (max. 8388607)
- 169 named destinations out of 1000 (max. 500000)
+ 590 PDF objects out of 1000 (max. 8388607)
+ 241 named destinations out of 1000 (max. 500000)
  331 words of extra memory for PDF output out of 10000 (max. 10000000)
 

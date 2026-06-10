@@ -408,6 +408,8 @@ INPUT C:\Users\andre\AppData\Local\Programs\MiKTeX\tex\latex\newtx\ts1ntxtt.fd
 INPUT C:\Users\andre\AppData\Local\Programs\MiKTeX\tex\latex\newtx\ts1ntxtt.fd
 INPUT C:\Users\andre\AppData\Local\Programs\MiKTeX\tex\latex\newtx\ts1ntxtt.fd
 INPUT C:\Users\andre\AppData\Local\Programs\MiKTeX\fonts\tfm\public\txfonts\tcxtt.tfm
+INPUT C:\Users\andre\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt0900.tfm
+INPUT C:\Users\andre\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\tctt0900.tfm
 INPUT .\images\Branding.png
 INPUT .\images\Branding.png
 INPUT .\images\Branding.png
@@ -437,6 +439,8 @@ INPUT .\documentacionTFC.out
 INPUT .\documentacionTFC.out
 INPUT documentacionTFC.run.xml
 OUTPUT documentacionTFC.run.xml
+INPUT C:\Users\andre\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tctt0900.pk
+INPUT C:\Users\andre\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tctt0900.pk
 INPUT C:\Users\andre\AppData\Local\Programs\MiKTeX\fonts\type1\public\tex-gyre\qtmr.pfb
 INPUT C:\Users\andre\AppData\Local\Programs\MiKTeX\fonts\type1\public\tex-gyre\qtmr.pfb
 INPUT C:\Users\andre\AppData\Local\Programs\MiKTeX\fonts\type1\public\txfonts\t1xtt.pfb
