@@ -7,15 +7,27 @@ const jwt = require('jsonwebtoken');
 const { z } = require('zod');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const { dir } = require('console');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+//Para el guardado de imágenes
+const dirUploads = path.join(__dirname, 'uploads');
+
+// Comprobamos si existe si no la creamos a la fuerza
+if (!fs.existsSync(dirUploads)) {
+    fs.mkdirSync(dirUploads, { recursive: true });
+    console.log("Carpeta 'uploads' creada correctamente en:", dirUploads);
+}
+
+
 // Configuración de almacenamiento para Multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // Las fotos se guardarán en la carpeta 'uploads'
+        cb(null, dirUploads);
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -39,7 +51,8 @@ const usuarioEsquema = new mongoose.Schema({
     apellidos: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     role: { type: String, enum: ["user", "admin"], default: "user" },
-    clave: { type: String, required: true }
+    clave: { type: String, required: true },
+    fotoPerfil: { type: String, default: null }
 });
 
 //Esquemas de validacion
@@ -87,18 +100,23 @@ const Usuario = mongoose.model("Usuario", usuarioEsquema);
 const Locales = mongoose.model("Locales",localesEsquema);
 const Comentarios = mongoose.model("Comentarios", reseñaEsquema);
 
-// Función de conexión mejorada
-async function connectarBd() {
-    try {
-        console.log("Iniciando conexión a MongoDB...");
+//Middleware para proteger rutas con jwt
+const verificarToken = (req, res, next) =>{
+    const authCabecera = req.headers["authorization"];
+    //Formato 
+    const token = authCabecera && authCabecera.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ message: "Acceso denegado. No se proporcionó un token." });
+    }
+    try{
+        const verificado = jwt.verify(token, JWT_SECRET);
+        req.usuario = verificado;
+        next();
+    }
+    catch(error){
+        console.error("ERROR EN EL MIDDLEWARE DE TOKEN:", error.message);
+        return res.status(403).json({ message: "Token inválido o caducado." });
         
-        // Usamos la URI directamente o desde el env
-        await mongoose.connect(process.env.MONGO_DB);
-        insertarDatosPrueba();
-        console.log("¡Conectado a MongoDB con éxito!");
-
-    } catch(error) {
-        console.error("Error en conexión a MongoDB: ", error.message);
     }
 }
 
@@ -133,7 +151,8 @@ app.post("/api/login", async (req, res) => {
                 apellidos: usuario.apellidos,
                 email: usuario.email,
                 role: usuario.role,
-                clave: usuario.clave
+                clave: usuario.clave,
+                fotoPerfil: usuario.fotoPerfil
             }
         });
     } catch(error) {
@@ -152,7 +171,6 @@ app.post("/api/registro", async (req, res) => {
                 detalles: erroresFormateados 
             });
         }
-
         const { nombre, apellidos, email, clave } = validacion.data;
 
         const existeUsuario = await Usuario.findOne({ email });
@@ -176,6 +194,114 @@ app.post("/api/registro", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error interno" });
+    }
+});
+
+//ruta para actualizar los datos del usuario
+app.put('/api/usuarios/actualizar',verificarToken, upload.single('fotoPerfil'), async (req, res) => {
+  try {
+    const usuarioId = req.usuario.id;
+    const { nombre, apellidos } = req.body;
+
+    let datosActualizar = {
+      nombre: nombre,
+      apellidos: apellidos
+    };
+
+    if (req.file) {
+      const urlFotoPublica = `http://10.0.2.2:3000/uploads/${req.file.filename}`;
+      datosActualizar.fotoPerfil = urlFotoPublica;
+    }
+    const usuarioActualizado = await Usuario.findByIdAndUpdate(
+      usuarioId,
+      datosActualizar,
+      { returnDocument: "after" }
+    );
+
+    if (!usuarioActualizado) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+    res.status(200).json(usuarioActualizado);
+
+  } catch (error) {
+    console.error("Error al actualizar usuario en el backend:", error);
+    res.status(500).json({ mensaje: "Error interno del servidor", error: error.message });
+  }
+});
+
+//Ruta para eliminar la cuenta de un usuario por el ID
+app.delete("/api/usuarios/eliminar/:id",verificarToken, async(req,res)=>{
+    try{
+        const usuarioId = req.params.id;
+        if (!usuarioId) {
+            return res.status(400).json({ message: "El ID de usuario es requerido." });
+        }
+        const usuarioEliminado = await Usuario.findByIdAndDelete(usuarioId);
+        if (!usuarioEliminado) {
+            return res.status(404).json({ message: "El usuario no existe o ya ha sido eliminado." });
+        }
+        return res.status(200).json({ 
+            success: true,
+            message: "Usuario eliminado correctamente" 
+        });
+    }
+    catch(error){
+        console.error("Error en el servidor al eliminar usuario:", error);
+        return res.status(500).json({ 
+            message: "Error interno del servidor al procesar la solicitud." 
+        });
+    }
+})
+
+//Consultar la lista de todas los locales
+app.get("/api/locales", async (req, res) => {
+    try {
+        const lista = await Locales.find().sort({ calificacion: -1 });
+        res.json(lista);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener locales" });
+    }
+});
+
+app.get("/api/locales/buscar", async (req, res) => {
+    const { nombre } = req.query;
+    try {
+        const resultados = await Locales.find({
+            nombre: { $regex: nombre, $options: "i" } 
+        });
+        res.json(resultados);
+    } catch (error) {
+        res.status(500).json({ message: "Error en la búsqueda" });
+    }
+});
+
+//Ruta para obtener locales recomendados
+app.get("/api/locales/sugeridos", async (req, res) => {
+    try{
+        const localesSugeridos = await Locales.find().sort({ calificacion: -1 }).limit(4);
+        res.status(200).json(localesSugeridos || []);
+    }
+    catch(error){
+        console.error("Error al obtener locales sugeridos:" ,error);
+        res.status(500).json({message: "Error al obtener las sugerencias"});
+    }
+});
+
+//Ruta para coger todos los favoritos del usuario que está iniciado
+app.get("/api/locales/favoritos",verificarToken, async(req, res)=>{
+    try{
+        console.log("Usuario decodificado del token:", req.usuario);
+        const usuarioId = req.usuario.id; 
+        if (!usuarioId) {
+            return res.status(400).json({ message: "No se encontró el ID de usuario en el token" });
+        }
+        console.log("Buscando favoritos para el usuario ID:", usuarioId);
+        const listaFavoritos = await Locales.find({favoritos: usuarioId});
+        return res.json(listaFavoritos);
+    }
+    catch(error){
+        console.error("Error:", error);
+        res.status(500).json({message:"Error al obtener la lista de favoritos"})
     }
 });
 
@@ -210,17 +336,33 @@ app.post("/api/locales/crear", upload.single('foto'), async (req, res) => {
     }
 });
 
-//Para buscar un local según el id
-app.get("/api/locales/:id", async (req, res) =>{
+//Ruta para añadir local favoritos
+app.post("/api/locales/favorito",verificarToken, async(req, res)=>{
     try{
-        const local = await Locales.findById(req.params.id);
-        if(!local) {
-            return res.status(404).json({mensaje: "Local no encontrado."})
+        const {localId} = req.body;
+        const usuarioId = req.usuario.id || req.usuario._id;
+        if (!usuarioId) {
+            return res.status(400).json({ message: "El ID de usuario no es válido o llegó vacío" });
         }
-        res.json(local);
+        const local = await Locales.findById(localId);
+        if(!local){
+            return res.status(404).json({ message: "Local no encontrado"});
+        }
+        const estaFavorito = local.favoritos.includes(usuarioId);
+        //si ya está en favoritos se quita al dar al icono
+        if(estaFavorito){
+            await Locales.findByIdAndUpdate(localId, {$pull: { favoritos: usuarioId}});
+            res.json({favorito: false, message: "Quitando local de mis favoritos"});
+        }
+        else{
+            //addToSet para evitar duplicados y añadirlo a favoritos
+            await Locales.findByIdAndUpdate(localId, {$addToSet: { favoritos: usuarioId}});
+            res.json({favorito: true, message: "Añadiendo local a mis favoritos"});
+        }
     }
     catch(error){
-        res.status(500).json({ error: "Error al encontrar local" });
+        console.error("Error en favoritos: ", error);
+        res.status(500).json({message: "Error al procesar el favorito"});
     }
 });
 
@@ -247,73 +389,37 @@ app.put("/api/locales/actualizar/:id", async (req, res) => {
     }
 });
 
-app.get("/api/locales/buscar", async (req, res) => {
-    const { nombre } = req.query;
-    try {
-        const resultados = await Locales.find({
-            nombre: { $regex: nombre, $options: "i" } 
-        });
-        res.json(resultados);
-    } catch (error) {
-        res.status(500).json({ message: "Error en la búsqueda" });
-    }
-});
-
-//Consultar la lista de todas los locales
-app.get("/api/locales", async (req, res) => {
-    try {
-        const lista = await Locales.find().sort({ calificacion: -1 });
-        res.json(lista);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener locales" });
-    }
-});
-
-//Ruta para añadir local favoritos
-app.post("/api/locales/favorito", async(req, res)=>{
+//Para buscar un local según el id
+app.get("/api/locales/:id", async (req, res) =>{
     try{
-        const {localId, usuarioId } = req.body;
-        const local = await Locales.findById(localId);
-        if (!usuarioId || !mongoose.Types.ObjectId.isValid(usuarioId)) {
-            return res.status(400).json({ message: "Error: El ID de usuario no es válido o llegó vacío" });
+        const local = await Locales.findById(req.params.id);
+        if(!local) {
+            return res.status(404).json({mensaje: "Local no encontrado."})
         }
-        if(!local){
-            return res.status(404).json({ message: "Local no encontrado"});
-        }
-        const estaFavorito = local.favoritos.includes(usuarioId);
-        //si ya está en favoritos se quita al dar al icono
-        if(estaFavorito){
-            await Locales.findByIdAndUpdate(localId, {$pull: { favoritos: usuarioId}});
-            res.json({favorito: false, message: "Quitando local de mis favoritos"});
-        }
-        else{
-            //addToSet para evitar duplicados y añadirlo a favoritos
-            await Locales.findByIdAndUpdate(localId, {$addToSet: { favoritos: usuarioId}});
-            res.json({favorito: true, message: "Añadiendo local a mis favoritos"});
-        }
+        res.json(local);
     }
     catch(error){
-        console.error("Error en favoritos: ", error);
-        res.status(500).json({message: "Error al procesar el favorito"});
+        res.status(500).json({ error: "Error al encontrar local" });
     }
 });
 
-//Ruta para coger todos los favoritos del usuario que está iniciado
-app.get("/api/locales/favoritos/:usuarioId", async(req, res)=>{
+//Obtener los comentarios de un usuario
+app.get("/api/misResenas",verificarToken, async(req, res)=>{
     try{
-        const { usuarioId } = req.params;
-        const listaFavoritos = await Locales.find({favoritos: usuarioId});
-        res.json(listaFavoritos);
+        const usuarioId = req.usuario.id;
+        const misComentarios = await Comentarios.find({ usuarioId }).populate('localId', 'nombre').sort({ fecha: -1 });
+        res.json(misComentarios);
     }
     catch(error){
-        res.status(500).json({message:"Error al obtener la lista de favoritos"})
+        res.status(500).json({message: "Error al obtener mis reseñas"});
     }
 });
 
 //Ruta para crear las reseñas
-app.post("/api/locales/resena", async(req, res)=>{
+app.post("/api/locales/resena", verificarToken, async(req, res)=>{
     try{
-        const { localId, usuarioId, usuarioNombre, comentario, estrellas} = req.body;
+        const { localId, usuarioNombre, comentario, estrellas} = req.body;
+        const usuarioId = req.usuario.id;
         const nuevaResena = new Comentarios({
             localId,
             usuarioId,
@@ -352,18 +458,8 @@ app.get("/api/locales/:id/resenas", async(req,res)=>{
     }
 });
 
-//Obtener los comentarios de un usuario
-app.get("/api/:usuarioId/resenas", async(req, res)=>{
-    try{
-        const misComentarios = await Comentarios.find({ usuarioId: req.params.usuarioId}).populate('localId', 'nombre').sort({ fecha: -1 });
-        res.json(misComentarios);
-    }
-    catch(error){
-        res.status(500).json({message: "Error al obtener mis reseñas"});
-    }
-});
 //Para editar las reseñas manualmente
-app.put("/api/resenas/actualizar/:id", async(req, res)=>{
+app.put("/api/resenas/actualizar/:id", verificarToken, async(req, res)=>{
     try{
         const { id } = req.params;
         const { comentario, estrellas } = req.body;
@@ -400,8 +496,7 @@ app.put("/api/resenas/actualizar/:id", async(req, res)=>{
 
 app.delete("/api/resenas/eliminar/:id", async(req, res) =>{
     try{
-        const {id} = req.params;
-        const resenaEliminada = await Comentarios.findByIdAndDelete(id);
+        const resenaEliminada = await Comentarios.findByIdAndDelete(req.params.id);
         if(!resenaEliminada){
             return res.status(404).json({ message: "La reseña no existe" });
         }
@@ -426,19 +521,23 @@ app.get('/api/admin/estadisticas', async(req, res)=>{
     catch(Error){
         res.status(500).json({message: "Error al obtener las estadísticas"});
     }
-})
+});
 
-//Ruta para obtener locales recomendados
-app.get("/api/locales/sugeridos", async (req, res) => {
-    try{
-        const localesSugeridos = await Locales.find().sort({ calificacion: -1 }).limit(4);
-        res.status(200).json(localesSugeridos || []);
+// Función de conexión mejorada
+async function connectarBd() {
+    try {
+        console.log("Iniciando conexión a MongoDB...");
+        
+        // Usamos la URI directamente o desde el env
+        await mongoose.connect(process.env.MONGO_DB);
+        insertarDatosPrueba();
+        console.log("¡Conectado a MongoDB con éxito!");
+
+    } catch(error) {
+        console.error("Error en conexión a MongoDB: ", error.message);
     }
-    catch(error){
-        console.error("Error al obtener locales sugeridos:" ,error);
-        res.status(500).json({message: "Error al obtener las sugerencias"});
-    }
-})
+}
+
 
 // Iniciamos todo
 app.listen(PORT, '0.0.0.0', () => {
@@ -477,7 +576,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Praza de España, Pontevedra",
             latitud: 42.4310,
             longitud: -8.6444,
-            calificacion: 9.5,
+            calificacion: 5,
             horario: "08:00 - 15:00",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1555507036-ab1f4038808a"
@@ -488,7 +587,7 @@ const insertarDatosPrueba = async () => {
             direccion: "Rúa do Príncipe, Vigo",
             latitud: 42.2380,
             longitud: -8.7210,
-            calificacion: 7,
+            calificacion: 4,
             horario: "09:00 - 21:30",
             enlace: "https://kivaa.app",
             foto: "https://images.unsplash.com/photo-1542838132-92c53300491e"
