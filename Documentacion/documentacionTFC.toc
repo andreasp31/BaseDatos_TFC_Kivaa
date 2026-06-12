@@ -22,14 +22,13 @@
 \contentsline {subsection}{\numberline {4.3}Diseño de la API REST}{11}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}Seguridad (JWT, validación Zod y bcrypt)}{13}{subsubsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.4}Creación de la Marca y Prototipado de la Interfaz (UX/UI)}{16}{subsection.4.4}%
-\contentsline {section}{\numberline {5}Desarrollo de la Aplicación Móvil}{19}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Implementación del Frontend}{19}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Integración con la API y Base de Datos}{20}{subsection.5.2}%
-\contentsline {section}{\numberline {6}Estudio de Viabilidad y Utilización Empresarial}{20}{section.6}%
-\contentsline {section}{\numberline {7}Pruebas y Validación}{21}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Pruebas Unitarias y de Integración}{21}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Pruebas de Usuario}{21}{subsection.7.2}%
-\contentsline {section}{\numberline {8}Escalabilidad de Kivaa}{23}{section.8}%
-\contentsline {section}{\numberline {9}Manual de Instalación y Configuración}{23}{section.9}%
-\contentsline {section}{\numberline {10}Conclusiones}{24}{section.10}%
-\contentsline {section}{\numberline {11}Bibliografía}{24}{section.11}%
+\contentsline {section}{\numberline {5}Desarrollo de la Aplicación Móvil}{20}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Implementación del Frontend}{20}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Integración con la API y Base de Datos}{26}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Estudio de Viabilidad y Utilización Empresarial}{27}{section.6}%
+\contentsline {section}{\numberline {7}Pruebas y Validación}{27}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Pruebas de Usuario}{27}{subsection.7.1}%
+\contentsline {section}{\numberline {8}Escalabilidad de Kivaa}{29}{section.8}%
+\contentsline {section}{\numberline {9}Manual de Instalación y Configuración}{29}{section.9}%
+\contentsline {section}{\numberline {10}Conclusiones}{31}{section.10}%
+\contentsline {section}{\numberline {11}Bibliografía}{32}{section.11}%

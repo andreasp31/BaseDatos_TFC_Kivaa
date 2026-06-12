@@ -370,19 +370,20 @@ app.post("/api/locales/favorito",verificarToken, async(req, res)=>{
 });
 
 //Permite al administrador cambiar los datos de las locales
-app.put("/api/locales/actualizar/:id", async (req, res) => {
-    const { nombre, tipo, ubicacion, calificacion, horario, enlace, foto } = req.body;
+app.put("/api/locales/actualizar/:id", upload.single('foto'), async (req, res) => {
+    const {  nombre, tipo, direccion, web, enlace, latitud, longitud, horarios, horario, calificacion } = req.body;
     try {
         const actualizado = await Locales.findByIdAndUpdate(
             req.params.id,
             { 
-                nombre, 
-                tipo, 
-                ubicacion, 
-                calificacion,
-                horario,
-                enlace,
-                foto 
+                nombre: nombre.trim(),
+                tipo,
+                direccion: direccion.trim(),
+                latitud: parseFloat(latitud),
+                longitud: parseFloat(longitud),
+                enlace: web ? web.trim() : (enlace ? enlace.trim() : ""),
+                horario: horarios ? horarios : (horario ? horario : ""),
+                calificacion: calificacion ? parseInt(calificacion) : 0
             },
             { new: true }
         );
@@ -404,6 +405,32 @@ app.get("/api/locales/:id", async (req, res) =>{
     catch(error){
         res.status(500).json({ error: "Error al encontrar local" });
     }
+});
+
+app.delete("/api/local/eliminar/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const localEliminado = await Locales.findByIdAndDelete(id);
+    if (!localEliminado) {
+        return res.status(404).json({ 
+          success: false, 
+          mensaje: "El local no existe o ya ha sido eliminado." 
+        });
+    }
+    console.log("Local eliminado correctamente:", localEliminado.nombre);
+    return res.status(200).json({
+        mensaje: "Local eliminado con éxito",
+        local: localEliminado
+    });
+
+  } 
+  catch (error) {
+    console.error("Error en el servidor al borrar local:", error);
+    return res.status(500).json({ 
+      success: false, 
+      message: "Hubo un error interno en el servidor." 
+    });
+  }
 });
 
 //Obtener los comentarios de un usuario
@@ -550,7 +577,46 @@ app.listen(PORT, '0.0.0.0', () => {
 
 //Datos de prueba
 const insertarDatosPrueba = async () => {
-    const localesPrueba = [
+    try {
+        const contarLocales = await Locales.countDocuments();
+         if(contarLocales === 0){
+            const localesAnadidos = await Locales.insertMany(localesPrueba);
+            console.log("Locales insertados correctamente");
+            const ejemploUsuario = await Usuario.findOne({ email: "andrea@gmail.com"});
+            if(ejemploUsuario){
+                const localComentar = localesAnadidos[0];
+                const comentarioPrueba = new Comentarios({
+                    localId: localComentar._id,
+                    usuarioId: ejemploUsuario._id,
+                    usuarioNombre: ejemploUsuario.nombre,
+                    comentario: "Las mejores tartas sin gluten, el trato es espectacular!",
+                    estrellas: 5,
+                    fecha: new Date("2026-02-14")
+                });
+                const comentarioPrueba2 = new Comentarios({
+                    localId: localComentar._id,
+                    usuarioId: new mongoose.Types.ObjectId(),
+                    usuarioNombre: "Claudia",
+                    comentario: "Todo muy rico y el personal muy amable",
+                    estrellas: 4,
+                    fecha: new Date("2026-04-29")
+                });
+                await comentarioPrueba.save();
+                await comentarioPrueba2.save();
+                const mediaInicial = Number(((5 + 4) / 2).toFixed(1));
+                await Locales.findByIdAndUpdate(localComentar._id, { calificacion: mediaInicial });
+            }
+            else{
+                console.log("La base de datos ya está cargada")
+            }
+         }
+        
+    } catch (error) {
+        console.error("Error insertando datos:", error);
+    }
+};
+
+const localesPrueba = [
         {
             nombre: "Celicioso Ourense",
             tipo: "Cafetería",
@@ -596,39 +662,3 @@ const insertarDatosPrueba = async () => {
             foto: "https://images.unsplash.com/photo-1542838132-92c53300491e"
         }
     ];
-
-    try {
-        // Borramos lo que haya antes para no duplicar cada vez que reinicies
-        await Locales.deleteMany({}); 
-        // Insertamos los nuevos
-        const localesAnadidos = await Locales.insertMany(localesPrueba);
-        console.log("Locales insertados correctamente");
-        await Comentarios.deleteMany({});
-        const ejemploUsuario = await Usuario.findOne({ email: "andrea@gmail.com"});
-        if(ejemploUsuario){
-            const localComentar = localesAnadidos[0];
-            const comentarioPrueba = new Comentarios({
-                localId: localComentar._id,
-                usuarioId: ejemploUsuario._id,
-                usuarioNombre: ejemploUsuario.nombre,
-                comentario: "Las mejores tartas sin gluten, el trato es espectacular!",
-                estrellas: 5,
-                fecha: new Date("2026-02-14")
-            });
-            const comentarioPrueba2 = new Comentarios({
-                localId: localComentar._id,
-                usuarioId: new mongoose.Types.ObjectId(),
-                usuarioNombre: "Claudia",
-                comentario: "Todo muy rico y el personal muy amable",
-                estrellas: 4,
-                fecha: new Date("2026-04-29")
-            });
-            await comentarioPrueba.save();
-            await comentarioPrueba2.save();
-            const mediaInicial = Number(((5 + 4) / 2).toFixed(1));
-            await Locales.findByIdAndUpdate(localComentar._id, { calificacion: mediaInicial });
-        }
-    } catch (error) {
-        console.error("Error insertando datos:", error);
-    }
-};

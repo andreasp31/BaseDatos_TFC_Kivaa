@@ -355,21 +355,25 @@ El diseño se compone de tres colecciones principales que están conectadas entr
 \subsection{Diseño de la API REST}
 Para la comunicación entre la aplicación móvil (cliente) y el servidor se realizar mediante el diseño de una interfaz de programación de aplicaciones basada en la arquitectura API REST. \cite{5} El paso de datos se realizar bajo el protocolo HTTP/HTTPS utilizando verbos estandarizados para definir las operaciones:
 \begin{itemize}
-    \item \textbf{POST /api/login}: Para acceder a la aplicación y tras crear un usuario propio a través del registro, se introduce el correo y la contraseña creada y si esos datos son validos al compararlos con los datos de la base de datos se accede a la aplicación.
-    \item \textbf{POST /api/registro}: El usuario a través de un formulario, rellena con sus datos y se guardan de forma segura creando un nuevo usuario que podrá iniciar sesión luego de que todos los datos esén bien validados.
+    \item \textbf{POST /api/login}: Para acceder a la aplicación y tras crear un usuario propio a través del registro, se introduce el correo y la contraseña creada y si esos datos son válidos al compararlos con los datos de la base de datos, se accede a la aplicación.
+    \item \textbf{POST /api/registro}: El usuario a través de un formulario, rellena con sus datos y se guardan de forma segura creando un nuevo usuario que podrá iniciar sesión luego de que todos los datos estén bien validados.
+    \item \textbf{PUT /api/usuarios/actualizar}: Por cada elemento del perfil del usuario va a poder editar, esos datos se guardan y se sobrescriben sobre los originales de la base de datos.
+    \item \textbf{DELETE /api/usuarios/eliminar/:id}: Elimina de la base de datos la cuenta del usuario que corresponda el id pasado por parámetro y teniendo que realizar na doble confirmación para borrar.
     \item \textbf{POST /api/locales/crear}: A través de un formulario que rellena el administrador, se cogen esos datos y se va a poder crear un nuevo local que se añadirá a la lista de los demás locales.
     \item \textbf{POST /api/locales/resena}: Un usuario a través de un pequeño formulario que encuentra dentro de las fichas individuales de los locales, esos datos se recogen para crear una nueva reseña que se añade a la lista de comentarios que tiene ese establecimiento.
     \item \textbf{POST /api/locales/favorito}: Dentro de la ficha de un local hay un botón de un corazón donde el usuario al pinchar sobre él. Esta ruta coge el id del usuario y lo añade a la lista de favoritos de ese local. Luego el usuario tiene su propia lista con todos los comentarios que ha creado.
     \item \textbf{GET /api/locales/:id}: Para enseñar una ficha detallada de un local se necesita recuperar un id del local seleccionado para poder mostrar los datos que contiene.
     \item \textbf{GET /api/locales}: Obtener todos los locales para luego enseñarlos al usuario según la cercanía, el tipo de local o el nombre. 
     \item \textbf{GET /api/locales/buscar}: Para encontrar un local, el usuario tiene que buscarlo por el nombre del local o por palabras clave que busca por cercanía para luego enseñarlo en la lista del buscador de google maps. 
-    \item \textbf{GET /api/locales/favoritos/:usuarioId}: Para enseñar las reseñas de un local se necesita obtener el id de los usuarios para enseñar tanto el comentario como a la nota.
-    \item \textbf{POST USUARIOS AÑADEN RESEÑAS}: EL usuario a través de un formulario que encuentra dentro de cada local en el que tiene que añadir un comentario y del 0 al 5 las estrellas que considere, esos datos se guardan y se pasan a la API que los almacena como nueva reseña.
-    \item \textbf{POST /api/locales/crear}: Los datos que rellena el admin a través del formulario se recoge y se envia a la API que los junta para crear un nuevo local que se añadir al resto ya creados.
-    \item \textbf{PUT USUARIO EDITA RESEÑA}: El usuario va a tener un formulario por cada reseña que tenga que le permita modificar su reseña, esos datos se guardan y la api los sustituye por los anteriores datos.
-    \item \textbf{PUT USUARIO EDITA DATOS PERFIL}: Por cada elemento del perfil del usuario va a poder editar, esos datos se guardan y se sobrescriben sobre los originales de la base de datos.
-    \item \textbf{PUT /api/locales/actualizar/:id}: El admin al escoger un local se guarda el id y nos enseña el mismo formulario que para crear local pero con los datos actuales del establecimiento, el admin los puede modificar y actualizar, los nuevos datos de mandan a la api y se sobrescriben sobre los datos anteriores.
-    \item \textbf{DELETE ADMIN BORRA UN LOCAL}: El admin escoge un local, se guarda el id y tiene un botón que le permite eliminar ese local mediante un modal para una doble confirmación, esa petición de borrado se manda a la api y ese local queda eliminado de la base de datos.
+    \item \textbf{GET /api/locales/sugeridos}: Devuelve los 4 locales con mejor calificación como sugerencias en el apartado de favoritos, si está vacío.
+    \item \textbf{GET /api/locales/favoritos}: Para enseñar las reseñas de un local se necesita obtener el id de los usuarios para enseñar tanto el comentario como a la nota.
+    \item \textbf{POST /api/locales/resena}: EL usuario a través de un formulario que encuentra dentro de cada local en el que tiene que añadir un comentario y del 0 al 5 las estrellas que considere, esos datos se guardan y se pasan a la API que los almacena como nueva reseña.
+    \item \textbf{PUT /api/locales/actualizar/:id}: El usuario va a tener un formulario por cada reseña que tenga que le permita modificar su reseña, esos datos se guardan y la api los sustituye por los anteriores datos.
+    \item \textbf{DELETE /api/locales/eliminar/:id}: El admin al escoger un local se guarda el id y nos enseña el mismo formulario que para crear local pero con los datos actuales del establecimiento, el admin los puede modificar y actualizar, los nuevos datos de mandan a la api y se sobrescriben sobre los datos anteriores.
+    \item \textbf{DELETE /api/resenas/eliminar/:id}: El administrador elimina un comentario que no considera apropiado seleccionando primero el local al que pertenece y mediante doble confirmación la elimina.
+    \item \textbf{PUT /api/resenas/actualizar/:id}: Permite al usuario cambiar la información de las reseñas mediente un formulario que permite modificar los datos originales.
+    \item \textbf{PUT /api/misResenas}: Se obtiene en la vista de reseñas el historial de comentarios escritos por el usuario incluyendo el nombre del local al que pertenece la reseña.
+    \item \textbf{PUT /api/admin/estadisticas}: ofrece unos cálculos al administrador de cuantos locales y usuarios hay registrados.
 \end{itemize}
 
 \subsubsection{Seguridad (JWT, validación Zod y bcrypt)}
@@ -595,12 +599,14 @@ A través del enlace a figma \cite{9} se puede probar el prototipado básico de 
 
 Ahora a partir del diseño de las vistas se van a implementar en el frontend de la aplicación.  
 
+\vspace{10cm}
+
 \section{Desarrollo de la Aplicación Móvil}
 Para la creación de la aplicación Kivaa por un lado hay que construir el lado del cliente que es el frontend y luego implementar la conexión a la base de datos a través de la API REST. El desarrollo se ha guiado bajo la reutilización de código, modularidad y optimización a través del framework React Native y las herramientas de despliegue de Expo.
 
 \subsection{Implementación del Frontend}
 
-El Frontend se divide en dos bloques según el rol del usuario: por un lado el cliente y por otro el administrador que gestiona el contenido que tendrá acceso el usuario. Antes de acceder a cada rol hay que \textbf{iniciar sesión} con el corrreo y contraseñas o \textbf{registrarse} con nombre, apellidos, correo y contraseña repetida 2 veces. Al registrar el usuario hay que iniciar sesión otra vez. 
+El Frontend se divide en dos bloques según el rol del usuario: por un lado el cliente y por otro el administrador que gestiona el contenido que tendrá acceso el usuario. Antes de acceder a cada rol hay que \textbf{iniciar sesión} con el corrreo y contraseñas o \textbf{registrarse} con nombre, apellidos, correo y contraseña repetida 2 veces. Al registrar, el usuario hay que iniciar sesión otra vez. 
 
 Con el rol de usuario se tendrá acceso:
 \begin{itemize}
@@ -622,15 +628,241 @@ El lado del administrador cuenta con las siguientes vistas:
     \item \textbf{Pantalla de Locales} es el puente entre las opciones y las funcionalidades de que se busca. Se muestra el listado de locales y a través del buscador también se pueden buscar.
 \end{itemize}
 
---- Explicar mapa de navegación entre vistas para justificar la arquitectura de la app
---- Analizar las vistas clave (captura de la pantalla, propósito de la vista, componentes destacados (flatlist, scrollview, dashdown))
+Para una fácil visualización de la navegación entre vistas se representa mediante un mapa con las diferentes pantallas para tener una idea general de la arquitectura de la aplicación. Además de que sea lo más sencillo posible para el usuario.
+
+Por cada rol de usuario, el diseño y la funcionalidad va acorde a lo que necesita donde todas las vistas intentan mantener una estética sencilla y contrastada. 
+
+\begin{center}
+    \includegraphics[height=22cm]{images/mapaVistas.png}
+\end{center}
+
+\vspace{5cm}
+
+\noindent
+\begin{minipage}{0.40\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/formularios.png}
+\end{minipage}
+\hspace{0.8cm}
+\begin{minipage}{0.60\textwidth} 
+    Las primeras pantallas constan de unos formularios básicos que tienen en cuenta el tipo de dato de cada input. Por ejemplo, para el correo, el teclado cambia e implementa la utilización de "@". Otro ejemplo sería para los input de contraseña que las oculta para mayor seguridad. 
+    
+    Por otro lado, en el backend se \textbf{validan todos los input con Zod}, ya mencionado anteriormente, que nos avisa de cualquier tipo de error en los campos mandando un mensaje de error al front, denegando la petición, esperando a que el usuario rellene los campos correctamente para volver a lanzarla. 
+\end{minipage}
+
+\noindent
+\begin{minipage}{0.60\textwidth} 
+    \vspace{1cm}
+    La pantalla principal reúne más elementos gráficos para ir guiando al usuario desde el principio ofreciéndole diferentes caminos. Por un lado tenemos \textbf{un buscador}, permite al usuario escribir tanto el nombre del local, como nombre de las categorías y buscar por cercanías. 
+    \begin{itemize}
+        \item \textbf{El buscador} imprime los resultados en una lista flotante que al pinchar en una opción el mapa te lleva a la ubicación del local. Y también imprime los resultados en una lista abajo de todo para una vista general del local. 
+        \item \textbf{El menú de iconos} consta de las 4 categorías a las que pueden pertenecer los locales: (Cafetería, Panadería, Supermercado y Restaurante). Cada categoría muestra una lista de los locales de ese tipo y mostrando si está cerca o lejos de ti.
+        \item \textbf{Las listas} se componen de tarjetas con el mismo diseño que se imprime en función de cuantos locales tiene cada lista.
+        \item \textbf{El mapa} se encarga de mostrar visualmente donde se ubica cada local de se busque. 
+        \item \textbf{Barra de navegación} entre vistas solo es visible después de iniciar sesión. Esta barra contiene la pantalla de inicio, junto a la pantalla de favoritos y la de reseñas, para que al usuario le sea más cómodo a la hora de navegar entre ellas.
+    \end{itemize}
+\end{minipage}
+\hspace{0.8cm}
+\begin{minipage}{0.33\textwidth} 
+    \centering
+    \includegraphics[width=\linewidth]{images/pantPrincipal.png}
+\end{minipage}
+
+Es importante mencionar como ha sido el proceso de la \textbf{implementación de mapas y geolocalización} utilizando la librería "react-native-maps". Permite renderizar un mapa interactivo que se comunica con la API REST y la base de datos de MongoDB. La arquitectura de búsqueda se divide en: 
+\begin{itemize}
+    \item \textbf{Almacenar las Coordenadas en el Backend}: en el modelo de datos de la base de datos, cada local tiene definidos obligatoriamente los campos "latitud" y "longitud" de tipo (Number). 
+    \item \textbf{Permisos y centrado de la posición del usuario}: al iniciar la pantalla principal, la aplicación solicita al usuario permisos de ubicación. Si el acceso es concedido, el sistema coge las coordenadas GPS del dispositivo (latitud y longitud) y actualizar el estado de la región del mapa (setRegion) moviendo la camara del mapa a la ubicación real del usuario. Y para marcar el punto azul en el mapa de ubicación se usar (showsUserLocatio={true}).
+     \vspace{0.2cm}
+    \begin{lstlisting}[style=javascript, caption={Permisos y ubicación del usuario.}]
+
+        useEffect(() => {
+            const datosIniciales = async () => {
+                // Pedir permiso de ubicacion al dispositivo movil
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== "granted") {
+                    console.log("Permiso denegado");
+                    return;
+                }
+                // Obtener la ubicacion GPS actual
+                let ubicacion = await Location.getCurrentPositionAsync({});
+                
+                // Actualizar la region del mapa con tu posicion real
+                setRegion({
+                    latitude: ubicacion.coords.latitude,
+                    longitude: ubicacion.coords.longitude,
+                    latitudeDelta: 0.05,
+                    longitudeDelta: 0.05,
+                });
+                
+                // Carga de locales desde la API REST
+                try {
+                    const res = await axios.get("http://10.0.2.2:3000/api/locales");
+                    setLocales(res.data);
+                } catch (error) {
+                    console.error("Error cargando locales:", error);
+                }
+            }
+            datosIniciales();
+            }, []);
+        
+    \end{lstlisting}
+    \item \textbf{Renderizado Dinámico de Marcadores}: en el frontend se realiza una petición para obtener los locales y mediante un método iterativo ".map" dibuja un marcador sobre el mapa por cada establecimiento. Posicionando exactamente las coordenadas reales y luego tener una ventana emergente al pulsar sonre ellos con el nombre y el tipo del local.
+     \vspace{0.2cm}
+    \begin{lstlisting}[style=javascript, caption={Permisos y ubicación del usuario.}]
+
+        <MapView 
+            style={styles.mapa}
+            ref={mapRef}
+            region={region}
+            onRegionChangeComplete={setRegion} 
+            provider="google"
+            showsUserLocation={true}
+            >
+            {/* Mapeo de locales para dibujar los pines en sus coordenadas */}
+            {localesBusqueda.map((local) => (
+                <Marker
+                key={local._id}
+                coordinate={{
+                    latitude: local.latitud,
+                    longitude: local.longitud,
+                }}
+                image={require('@/assets/images/PIN.png')}
+                onPress={() => {
+                    setLocalSeleccionado(local);
+                    setModalLocal(true); // Abre el modal de la tarjeta del local
+                }}
+                />
+            ))}
+        </MapView>
+        
+    \end{lstlisting}
+    \item \textbf{Posición de la cámara con el buscador y calcular locales cercanos}: usando (mapRef.current) y (animateToRegion()) el usuario al escribir el nombre de un local en el buscador, escribiendo una categoría o buscando cercanía, la cámara se desplaza automáticamente hacia las coordenandas de destino haciendo un poco de zoom al marcador. También se implementó la \textbf{fórmula de Haversine} par acalcular los kilómetros reales en línea recta entre dos puntos por lo que así sabemos que locales están cerca de la ubicación del usuario.
+    \vspace{0.2cm}
+    \begin{lstlisting}[style=javascript, caption={Localización y búsqueda locales cercanos.}]
+
+        const irLocal = (lat: number, lng: number) => {
+            mapRef.current?.animateToRegion({
+            latitude: lat,
+            longitude: lng,
+            latitudeDelta: 0.01, // Mas zoom sobre el local elegido
+            longitudeDelta: 0.01,
+            }, 1000) // Duracion de la animacion
+        };
+
+        // Implementacion de la formula matematica para calcular distancias geograficas
+        const calcularDistancia = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+            const radio = 6371; // Radio de la Tierra en kilometros
+            const dLat = (lat2 - lat1) * (Math.PI / 180);
+            const dLon = (lon2 - lon1) * (Math.PI / 180);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(lat1*(Math.PI/180)) * Math.cos(lat2*(Math.PI/180)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return radio * c; // Devuelve la distancia exacta en kilometros
+        }
+        
+    \end{lstlisting}
+\end{itemize}
+
+
+\noindent
+\begin{center}
+    \includegraphics[height=10cm]{images/gestionListas.png}
+\end{center}
+
+Las vistas de \textbf{Mis Favoritos} y \textbf{Mis Reseñas} comparten una misma arquitectura técnica y lógica. Solicitan datos mediante endpoints de la API REST protegidos mediante autentificación (token) gestionando estados y rendireizando listas dinámicas. Los puntos más importantes de estas vistas son:
+
+\begin{itemize}
+    \item \textbf{Pantallas siempre actualizadas} mediante una función que detecta cada vez que la pantalla se pone en primer plano, volviendo a cargar los datos por si hubo modificaciones.
+    \vspace{0.2cm}
+    \begin{lstlisting}[style=javascript, caption={Ejemplo de recarga de datos en la vista Reseñas.}]
+
+     useFocusEffect(
+        useCallback(() => {
+            const obtenerDatos = async () => {
+            try {
+                const token = await AsyncStorage.getItem("token");
+                if(token){
+                // Pide al servidor las comentarios actualizadas del usuario
+                const resultado = await axios.get(`http://10.0.2.2:3000/api/misResenas`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setComentarios(resultado.data); // Guarda los comentarios en la pantalla
+                }
+            } catch(error) {
+                console.error("Error al cargar los datos", error);
+            }
+            };
+            obtenerDatos();
+        }, [])
+    );   
+        
+    \end{lstlisting}
+    \item \textbf{Gestión de listas vacías}, para enseñar los locales y comentarios se utiliza el componente "FlatList" que se ha configurado que para cuando no haya datos enseñe al usuario un mensaje o que por ejemplo enseñe una lista de locales sugeridos por mayor nota.
+    \vspace{0.2cm}
+    \begin{lstlisting}[style=javascript, caption={Ejemplo de recarga de datos en la vista Reseñas.}]
+
+     <FlatList
+        data={favoritos} // Lista de favoritos
+        keyExtractor={(item) => item._id}
+        ListEmptyComponent={
+            // Esto es lo que se dibuja si la lista de favoritos esta vacia
+            <View style={styles.contenedorOpcion}>
+            <Image source={require('@/assets/images/favorite.png')} style={styles.iconoCorazon} />
+            <Text style={styles.textoBold}>Aun no has metido ningun local a favoritos.</Text>
+            </View>
+        }
+        renderItem={({ item }) => (
+            // Esto dibuja la tarjeta del local si la lista si tiene datos
+            <TouchableOpacity style={styles.tarjeta} onPress={() => router.push({ pathname: "/PantallaLocal", params: { id: item._id } })}>
+            {/* Contenido de la tarjeta */}
+            </TouchableOpacity>
+        )}
+    />
+        
+    \end{lstlisting}
+    \item \textbf{Ventanas emergentes y avisos temporales} para ayudar al usuario se implementan "Modales". Por ejemplo para editar una reseña no hace falta cambiarse de vista, se abre una ventana emergente que permite editar el contenido y al guardar sale otro modal temporal informando si la operación se ha realizado con éxito o no.
+\end{itemize}
+
+El resto de vistas utilizan las mismas herramientas: FlatList, Modals, ScrollView, etc. La única diferencia es que se realizan peticiones diferentes dependiendo de lo que necesita el usuario pero la funcionalidad sigue siendo la misma.
+
+\vspace{1cm}
 
 \subsection{Integración con la API y Base de Datos}
+Para que la aplicación funcione en tiempo real, se comunica con un servidor y una base de datos en la nube mediante los siguentes mecanismos:
 
---- Librerías de conexión (como axios para react native)
---- Persistencia local
---- Si funciona sin internet explicar porque y como
---- Inicio de sesión seguro mediante tokens
+\begin{itemize}
+    \item \textbf{Librerías de Conexión (Axios)}: para la comunicación enter la aplicación móvil (React Native) y el servidor se realiza mediante la librería Axios. Se utiliza como mensajero encargado de enviar las peticiones del usuario y recibir las respuestas del servidor. Se utilizó esta librería porque automatiza tareas repetitivas y la gestión de errores.
+    \item \textbf{Persistencai Local}: está pensada para trabajar con conexión a internet para garantizar que lso datos estén actualizados siempre. Se utiliza el sistema de almacenamiento interno del teléfono (AsyncStorage) para guardar información como sesión iniciada para que no tenga que iniciar sesión cada vez que se abra la app. Y sSi el usuario se queda sin internet, Axios detecta el fallo de red. En lugar de cerrarse con un error, la aplicación lo gestiona de forma segura: mantiene al usuario dentro de la app gracias a los datos guardados en el teléfono y muestra un aviso visual intuitivo indicándole que necesita conectarse a la red para cargar la información
+    \item \textbf{Integración (Base de Datos)}: para enseñar como el servidor gestiona y organiza la información que recibe desde la aplicación móvil, se enseña el diseño de los modelos de datos utilizados en la base de datos:
+    \vspace{0.2cm}
+    \begin{lstlisting}[style=javascript, caption={Estructura para almacenar los locales en la Base de Datos.}]
+
+     const localesEsquema = new mongoose.Schema({
+        nombre: { type: String, required: true },
+        tipo: { type: String, required: true, enum: ["Restaurante", "Cafeteria", "Supermercado", "Panaderia"] },
+        direccion: { type: String, required: true },
+        latitud: { type: Number, required: true },
+        longitud: { type: Number, required: true },
+        calificacion: { type: Number, default: 0 },
+        horario: { type: String, required: true },
+        enlace: { type: String },
+        foto: { type: String },
+        // Lista de IDs de los usuarios que han marcado este local como favorito
+        favoritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' }]
+    });
+
+    // Estructura para almacenar los comentarios de los usuarios
+    const resenaEsquema = new mongoose.Schema({
+        localId: { type: mongoose.Schema.Types.ObjectId, ref: 'Locales', required: true },
+        usuarioId: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+        usuarioNombre: { type: String, required: true },
+        comentario: { type: String, required: true },
+        estrellas: { type: Number, required: true, min: 1, max: 5 },
+        fecha: { type: Date, default: Date.now }
+    });
+        
+    \end{lstlisting}
+\end{itemize}
 
 \section{Estudio de Viabilidad y Utilización Empresarial}
 
@@ -654,13 +886,9 @@ El proyecto no puede ser viable solo porque sea útil, \textbf{tiene que ser via
 
 \section{Pruebas y Validación}
 
-
-\subsection{Pruebas Unitarias y de Integración}
-
-
 \subsection{Pruebas de Usuario}
 
-Estas pruebas demuestran que la app es fácil de usar y cumple los requisitos del cliente. Todos los pasos se tienen en cuentra desde el punto de vista del usuario final a través de los botones, textos, modales informativos, etc.
+Estas pruebas demuestran que la app es fácil de usar y cumple los requisitos del cliente. Todos los pasos se tienen en cuenta desde el punto de vista del usuario mediante los botones, textos, modales, etc.
 
 \begin{table}[H]
     \centering
@@ -683,6 +911,15 @@ Estas pruebas demuestran que la app es fácil de usar y cumple los requisitos de
 Tras la ejecución de las pruebas unitarias y de integración por parte de los usuarios, se concluye que la aplicación funciona correctamente, se mantiene estable y alienada a los objetivos principales del proyecto, habiendo corregidos pequeños errores durante la fase de pruebas con usuarios.
 
 \section{Escalabilidad de Kivaa}
+
+Para el correcto crecimiento de la aplicación y mejorar la experiencia de los usuarios se han planificado las siguientes mejoras para próximas versiones:
+\begin{itemize}
+    \item \textbf{Implementación de Modo Oscuro}: para mejorar la accesibilidad y reducir la fatiga visual, brindando una interfaz más moderna y dar la posibilidad al usuario de escoger la que más le interese.
+    \item \textbf{Inicio de Sesión Rápido con Google}: para simplificar el proceso de registro e inicio de sesión donde los usuarios pondrán acceder a la aplicación con un solo toque sin necesidad de rellenar formularios ni recordar contraseñas. 
+    \item \textbf{Sistema para Compartir y Recomendar Locales}: implementar una función social que permita a los usuarios recomendar locales a otros usuarios a través de la aplicación o a través de otras redes sociales como WhatsApp y poder enviar mensajes entre usuarios.
+    \item \textbf{Añadir notificaciones Personalizadas}: para enviar alertas directamente a la pantalla de bloqueo de teléfono del usuario, por ejemplo si un local cambia su hora de apertura o de cierre, o si le comparte algún local otro usuario, etc.
+    \item \textbf{Sistema de Logros y Niveles}: el usuario podría ganar puntos, medallas o niveles por ejemplo por todos los comentarios hechos en locales, por compartir locales a usuarios, etc.
+\end{itemize} 
 
 \section{Manual de Instalación y Configuración}
 Antes de iniciar la instalación del proyecto hay que tener instaladas las siguientes herramientas globales:
@@ -760,11 +997,21 @@ En mi caso, al usar un emulador de android tengo que abrirlo primero, y tras eje
 
 \section{Conclusiones}
 
+Realizar este proyecto ha sido interesante porque a diferencia de otros trabajos donde las pautas y la temática están marcadas, plantear una idea propia desde cero, diseñarla desde el principio y verlo convertido en una aplicación real fue un proceso largo pero gratificante.
 
+Al acabar el trabajo he aprendido que no es lo mismo la idea que tenemos al principio a lo que acabamos realizando al final. Hay que ser realistas desde un principio ya que hay muchos diseños que al intentar llevarlos a la realidad nos traba y a veces con diseños más simples se consigue una experiencia de usuario mejor que con un diseño más cargado. También me he peleado bastante al intentar arreglar errores, ya que al empezar a tener muchas vistas era más difícil solucionar los errores simples.
 
+Desde el principio del proyecto he intentado ponerme en la piel del usuario y no pensar que la cantidad está por encima de la calidad. Buscaba que fuera cómoda de usar, fácil y amigable, por ejemplo mediante alertas que visualmente se vean agradables e intentar no marear al usuario con demasiadas pantallas.
+
+Este proyecto nació con la idea de cubrir una necesidad real, ayudar a las personas a encontrar locales deconfianza de forma sencilla y segura. Ver que conseguí crear todo lo que tenía en mente me hace sentir orgullosa del trabajo realizado.
+
+\vspace{2cm}
+\begin{center}
+    \includegraphics[height=3cm]{images/logoProyecto.png}
+\end{center}
+
+\vspace{10cm}
 \section{Bibliografía}
-
-
 \renewcommand{\refname}{Fuentes consultadas}
 \begin{thebibliography}{9}
 
